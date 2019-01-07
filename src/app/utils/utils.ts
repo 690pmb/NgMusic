@@ -47,4 +47,23 @@ export class Utils {
     }
     return result * (isAsc ? 1 : -1);
   }
+
+  static filterByFields<T>(items: T[], fields: string[], value: any): T[] {
+    if (!items || items === undefined) {
+      return [];
+    }
+    if (value === undefined || value.length === 0) {
+      return items;
+    }
+    const val = value.toLowerCase();
+    return items.filter(item => {
+      return fields.some(field => {
+        let it = item[field];
+        if (it) {
+          it = typeof it === 'string' ? it.toLowerCase() : it.toString();
+          return it.includes(val);
+        }
+      });
+    });
+  }
 }

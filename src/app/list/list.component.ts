@@ -1,10 +1,14 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { library } from '@fortawesome/fontawesome-svg-core';
 
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { MyCompositionsService } from '../services/my-compositions.service';
+
+library.add(faTimesCircle);
 
 @Component({
   selector: 'app-list',
@@ -21,6 +25,8 @@ export class ListComponent implements OnInit {
   pageSizeOptions = [10, 25, 50, 100];
   page: PageEvent;
   sort: Sort;
+  artistFilter: string;
+  titleFilter: string;
 
   constructor(
     private elemRef: ElementRef,
@@ -28,15 +34,23 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.sort = { active: 'artist', direction: 'asc' };
     this.myCompositionsService.myCompositions$.subscribe(compoList => {
-    this.compoList = compoList;
+      this.compoList = compoList;
       this.length = this.compoList.length;
       this.initPagination(this.refreshData());
     });
   }
 
   refreshData(): Composition[] {
-    const list = Utils.sortComposition(this.compoList, this.sort);
+    let list = this.compoList;
+    if (this.artistFilter) {
+      list = Utils.filterByFields(list, ['artist'], this.artistFilter);
+    }
+    if (this.titleFilter) {
+      list = Utils.filterByFields(list, ['title'], this.titleFilter);
+    }
+    list = Utils.sortComposition(list, this.sort);
     this.length = list.length;
     return list;
   }
@@ -50,6 +64,11 @@ export class ListComponent implements OnInit {
   }
 
   onSort(): void {
+    this.initPagination(this.refreshData());
+    this.onTop();
+  }
+
+  onSearch(): void {
     this.initPagination(this.refreshData());
     this.onTop();
   }
