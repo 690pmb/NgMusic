@@ -4,6 +4,7 @@ import { Sort } from '@angular/material/sort';
 
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
+import { MyCompositionsService } from '../services/my-compositions.service';
 
 @Component({
   selector: 'app-list',
@@ -23,12 +24,15 @@ export class ListComponent implements OnInit {
 
   constructor(
     private elemRef: ElementRef,
+    private myCompositionsService: MyCompositionsService
   ) { }
 
   ngOnInit() {
-    this.compoList = JSON.parse(sessionStorage.getItem('compoList'));
-    this.length = this.compoList.length;
-    this.initPagination(this.refreshData());
+    this.myCompositionsService.myCompositions$.subscribe(compoList => {
+    this.compoList = compoList;
+      this.length = this.compoList.length;
+      this.initPagination(this.refreshData());
+    });
   }
 
   refreshData(): Composition[] {
