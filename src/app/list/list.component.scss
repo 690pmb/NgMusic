@@ -1,0 +1,28 @@
+
+.paginator {
+  top: 0;
+}
+
+.paginator,
+.filters {
+  display: flex !important;
+  justify-content: center;
+}
+
+::ng-deep.mat-paginator-container {
+  justify-content: center !important;
+}
+
+.mat-table {
+  hyphens: auto;
+}
+
+.mat-cell {
+  &:first-of-type {
+    padding: 10px !important;
+  }
+
+  &:last-of-type {
+    padding-right: 0 !important;
+  }
+}
