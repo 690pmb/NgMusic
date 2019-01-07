@@ -29,15 +29,13 @@ export class Composition {
   artist: string;
   title: string;
   type: string;
-  deleted: string;
-  mergeable: string;
+  deleted: boolean;
   fileList: Fichier[];
 
   constructor(artist: string, title: string, type: string, deleted: string, mergeable: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;
-    this.deleted = deleted;
-    this.mergeable = mergeable;
+    this.deleted = JSON.parse(deleted);
   }
 }
