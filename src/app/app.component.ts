@@ -11,7 +11,6 @@ import { Composition, Fichier } from './utils/model';
 })
 export class AppComponent implements OnInit {
   title = 'app';
-  compoList: Composition[];
 
   constructor(
     private dropboxService: DropboxService
@@ -23,12 +22,9 @@ export class AppComponent implements OnInit {
 
     this.dropboxService.downloadFile('AllMusic.xml').then(file => {
       parser.parseString(file, (err, result) => {
-        // parser.parseString(file, { tagNameProcessors: [this.nameToLowerCase] }, (err, result) => {
         console.dir(result);
-        console.log('Done');
-        this.compoList = [];
+        const compoList = [];
         result.ListCompositions.compo.forEach(el => {
-          console.log(el);
           const c = new Composition(el.$.A, el.$.T, el.$.type, el.$.del, el.$.mergeable);
           const fileList = [];
           el.file.forEach((elFile: any) => {
@@ -37,9 +33,9 @@ export class AppComponent implements OnInit {
             fileList.push(fichier);
           });
           c.fileList = fileList;
-          this.compoList.push(c);
+          compoList.push(c);
         });
-        console.log('compoList', this.compoList);
+        sessionStorage.setItem('compoList', JSON.stringify(compoList));
         let t1 = performance.now();
         console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds');
       });
