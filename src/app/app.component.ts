@@ -15,11 +15,6 @@ export class AppComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const session = sessionStorage.getItem('compoList');
-    if (session === undefined || session === null || session.trim() === '') {
-      this.myCompositionsService.getAll('Fluxblog.xml');
-    } else {
-      this.myCompositionsService.myCompositions$.next(JSON.parse(sessionStorage.getItem('compoList')));
-    }
+    this.myCompositionsService.downloadCompostion('final.xml');
   }
 }

@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { skipWhile } from 'rxjs/operators';
 
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
@@ -35,10 +36,12 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.sort = { active: 'artist', direction: 'asc' };
-    this.myCompositionsService.myCompositions$.subscribe(compoList => {
-      this.compoList = compoList;
-      this.length = this.compoList.length;
-      this.initPagination(this.refreshData());
+    this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() => {
+      this.myCompositionsService.getAll().then(compoList => {
+        this.compoList = compoList;
+        this.length = this.compoList.length;
+        this.initPagination(this.refreshData());
+      });
     });
   }
 

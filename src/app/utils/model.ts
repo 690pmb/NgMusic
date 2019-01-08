@@ -26,13 +26,14 @@ export class Fichier {
 }
 
 export class Composition {
+  id: number;
   artist: string;
   title: string;
   type: string;
   deleted: boolean;
   fileList: Fichier[];
 
-  constructor(artist: string, title: string, type: string, deleted: string, mergeable: string) {
+  constructor(artist: string, title: string, type: string, deleted: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;
