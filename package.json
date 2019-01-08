@@ -6,8 +6,11 @@
     "ng": "ng",
     "start": "ng serve --port 7070",
     "build": "ng build --prod",
+    "cordova": "ng build --prod --base-href file:///android_asset/www/",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "run-p lint:**",
+    "lint:ts": "ng lint",
+    "lint:stylelint": "stylelint --syntax scss \"src/**/*.scss\" verbose",
     "e2e": "ng e2e"
   },
   "private": true,
