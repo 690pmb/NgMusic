@@ -2,16 +2,14 @@
   <div class="filters">
     <!-- Artist Filter -->
     <mat-form-field>
-      <input matInput type="search" placeholder="Rechercher un artiste" [(ngModel)]="artistFilter"
-        (keyup)="paginator.firstPage(); onSearch();" />
+      <input matInput type="search" placeholder="Rechercher un artiste" [(ngModel)]="artistFilter" (keyup)="paginator.firstPage(); onSearch();" />
       <span *ngIf="artistfilter" (click)="artistfilter=''; onSearch();" class="pointer">
         <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
       </span>
     </mat-form-field>
     <!-- Titles Filter -->
     <mat-form-field>
-      <input matInput type="search" placeholder="Rechercher un titre" [(ngModel)]="titleFilter"
-        (keyup)="paginator.firstPage(); onSearch();" />
+      <input matInput type="search" placeholder="Rechercher un titre" [(ngModel)]="titleFilter" (keyup)="paginator.firstPage(); onSearch();" />
       <span *ngIf="titleFilter" (click)="titleFilter=''; onSearch();" class="pointer">
         <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
       </span>
@@ -54,6 +52,26 @@
       </mat-header-cell>
       <mat-cell *matCellDef="let compo">
         {{compo.type}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- SIZE -->
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="mat-text">size</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let compo">
+        {{compo.size}}
+      </mat-cell>
+    </ng-container>
+
+    <!-- SCORE -->
+    <ng-container matColumnDef="score">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="mat-text">score</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let compo">
+        {{compo.score}}
       </mat-cell>
     </ng-container>
 

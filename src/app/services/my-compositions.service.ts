@@ -84,7 +84,8 @@ export class MyCompositionsService {
   }
 
   parseCompostion(compoXml: any): Composition {
-    const c = new Composition(compoXml.$.A, compoXml.$.T, compoXml.$.type, compoXml.$.del);
+    const c = new Composition(compoXml.$.A, compoXml.$.T, compoXml.$.type, compoXml.$.del,
+      compoXml.$.sA, compoXml.$.sT, compoXml.$.score, compoXml.$.size);
     // c.fileList = this.parseFichierList(compoXml.file);
     return c;
   }

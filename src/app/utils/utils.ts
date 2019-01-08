@@ -15,6 +15,10 @@ export class Utils {
             return Utils.compare(a.title, b.title, isAsc);
           case 'type':
             return Utils.compare(a.type, b.type, isAsc);
+          case 'size':
+            return Utils.compare(a.size, b.size, isAsc);
+          case 'score':
+            return Utils.compare(a.score, b.score, isAsc);
           default:
             return 0;
         }

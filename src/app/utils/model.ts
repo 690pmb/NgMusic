@@ -29,14 +29,23 @@ export class Composition {
   id: number;
   artist: string;
   title: string;
+  sArtist: string;
+  sTitle: string;
+  score: number;
+  size: number;
   type: string;
   deleted: boolean;
   fileList: Fichier[];
 
-  constructor(artist: string, title: string, type: string, deleted: string) {
+  constructor(artist: string, title: string, type: string, deleted: string,
+    sArtist: string, sTitle: string, score: string, size: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;
+    this.sArtist = sArtist;
+    this.sTitle = sTitle;
+    this.score = +score;
+    this.size = +size;
     this.deleted = JSON.parse(deleted);
   }
 }

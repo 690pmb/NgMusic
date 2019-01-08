@@ -18,7 +18,7 @@ library.add(faTimesCircle);
 })
 export class ListComponent implements OnInit {
   compoList: Composition[];
-  displayedColumns = ['artist', 'title', 'type'];
+  displayedColumns = ['artist', 'title', 'type', 'size', 'score'];
   length: number;
   displayedData: Composition[];
   pageSize = 25;
@@ -35,7 +35,7 @@ export class ListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sort = { active: 'artist', direction: 'asc' };
+    this.sort = { active: 'score', direction: 'desc' };
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() => {
       this.myCompositionsService.getAll().then(compoList => {
         this.compoList = compoList;
