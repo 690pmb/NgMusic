@@ -60,6 +60,14 @@ export class MyCompositionsService {
     return this.table.toArray();
   }
 
+  getAllByDeleted(deleted: boolean): Promise<Composition[]> {
+    if (deleted) {
+      return this.getAll();
+    } else {
+      return this.table.where('deleted').equals(0).toArray();
+    }
+  }
+
   add(data: Composition) {
     return this.table.add(data);
   }

@@ -8,6 +8,7 @@ import { skipWhile } from 'rxjs/operators';
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { MyCompositionsService } from '../services/my-compositions.service';
+import { UtilsService } from '../services/utils.service';
 
 library.add(faTimesCircle);
 
@@ -31,17 +32,18 @@ export class ListComponent implements OnInit {
 
   constructor(
     private elemRef: ElementRef,
-    private myCompositionsService: MyCompositionsService
+    private myCompositionsService: MyCompositionsService,
+    private serviceUtils: UtilsService
   ) { }
 
   ngOnInit() {
     this.sort = { active: 'score', direction: 'desc' };
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() => {
-      this.myCompositionsService.getAll().then(compoList => {
+      this.myCompositionsService.getAllByDeleted(false).then(compoList => {
         this.compoList = compoList;
         this.length = this.compoList.length;
         this.initPagination(this.refreshData());
-      });
+      }).catch(err => this.serviceUtils.handlePromiseError(err));
     });
   }
 

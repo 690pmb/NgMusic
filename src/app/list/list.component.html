@@ -76,6 +76,6 @@
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'deleted': row.deleted}"></mat-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'deleted': row.deleted === 1}"></mat-row>
   </mat-table>
 </ng-container>

@@ -34,7 +34,7 @@ export class Composition {
   score: number;
   size: number;
   type: string;
-  deleted: boolean;
+  deleted: number; // 0: false, 1: true
   fileList: Fichier[];
 
   constructor(artist: string, title: string, type: string, deleted: string,
@@ -46,6 +46,6 @@ export class Composition {
     this.sTitle = sTitle;
     this.score = +score;
     this.size = +size;
-    this.deleted = JSON.parse(deleted);
+    this.deleted = deleted === 'true' ? 1 : 0;
   }
 }
