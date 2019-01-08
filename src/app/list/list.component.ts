@@ -29,6 +29,7 @@ export class ListComponent implements OnInit {
   sort: Sort;
   artistFilter: string;
   titleFilter: string;
+  deleted = false;
 
   constructor(
     private elemRef: ElementRef,
@@ -39,25 +40,25 @@ export class ListComponent implements OnInit {
   ngOnInit() {
     this.sort = { active: 'score', direction: 'desc' };
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() => {
-      this.myCompositionsService.getAllByDeleted(false).then(compoList => {
-        this.compoList = compoList;
-        this.length = this.compoList.length;
-        this.initPagination(this.refreshData());
-      }).catch(err => this.serviceUtils.handlePromiseError(err));
+      this.refreshData().then(list => this.initPagination(list));
     });
   }
 
-  refreshData(): Composition[] {
-    let list = this.compoList;
-    if (this.artistFilter) {
-      list = Utils.filterByFields(list, ['artist'], this.artistFilter);
-    }
-    if (this.titleFilter) {
-      list = Utils.filterByFields(list, ['title'], this.titleFilter);
-    }
-    list = Utils.sortComposition(list, this.sort);
-    this.length = list.length;
-    return list;
+  refreshData(): Promise<Composition[]> {
+    return this.myCompositionsService.getAllByDeleted(this.deleted).then(compoList => {
+      this.compoList = compoList;
+      this.length = this.compoList.length;
+      let list = this.compoList;
+      if (this.artistFilter) {
+        list = Utils.filterByFields(list, ['artist'], this.artistFilter);
+      }
+      if (this.titleFilter) {
+        list = Utils.filterByFields(list, ['title'], this.titleFilter);
+      }
+      list = Utils.sortComposition(list, this.sort);
+      this.length = list.length;
+      return list;
+    }).catch(err => this.serviceUtils.handlePromiseError(err));
   }
 
   initPagination(list: Composition[]): void {
@@ -69,17 +70,17 @@ export class ListComponent implements OnInit {
   }
 
   onSort(): void {
-    this.initPagination(this.refreshData());
+    this.refreshData().then(list => this.initPagination(list));
     this.onTop();
   }
 
   onSearch(): void {
-    this.initPagination(this.refreshData());
+    this.refreshData().then(list => this.initPagination(list));
     this.onTop();
   }
 
   onPaginateChange(): void {
-    this.paginate(this.refreshData());
+    this.refreshData().then(list => this.paginate(list));
     this.onTop();
   }
 
