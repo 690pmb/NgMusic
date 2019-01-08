@@ -15,34 +15,36 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
+import { MatSnackBarModule } from '@angular/material';
 
 
 @NgModule({
-   declarations: [
-      AppComponent,
-      ListComponent
-   ],
-   imports: [
-      BrowserAnimationsModule,
-      BrowserModule,
-      FormsModule,
-      HttpClientModule,
-      HttpClientJsonpModule,
-      FontAwesomeModule,
-      MatTableModule,
-      MatInputModule,
-      MatFormFieldModule,
-      MatSortModule,
-      MatPaginatorModule,
-      MatCheckboxModule
-   ],
-   providers: [],
-   bootstrap: [
-      AppComponent
-   ]
+  declarations: [
+    AppComponent,
+    ListComponent
+  ],
+  imports: [
+    BrowserAnimationsModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    HttpClientJsonpModule,
+    FontAwesomeModule,
+    MatSnackBarModule,
+    MatTableModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatSortModule,
+    MatPaginatorModule,
+    MatCheckboxModule
+  ],
+  providers: [],
+  bootstrap: [
+    AppComponent
+  ]
 })
 export class AppModule {
   constructor() {
     registerLocaleData(localeFr);
   }
- }
+}

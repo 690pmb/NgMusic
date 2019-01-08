@@ -2,10 +2,15 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 
+import { ToastService } from './toast.service';
+
 @Injectable({ providedIn: 'root' })
 export class UtilsService {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private toast: ToastService
+  ) {
   }
 
   static getErrorMessage(error: any): string {
@@ -41,13 +46,14 @@ export class UtilsService {
   handleError(error: any): void {
     console.log('handleError');
     console.error('error', error);
-    // toast.open(UtilsService.getErrorMessage(error), Level.error);
+    this.toast.open(UtilsService.getErrorMessage(error));
+    this.toast.open(error);
   }
 
   handlePromiseError(error: any): Promise<any> {
     console.log('handlePromiseError');
     console.error('error', error);
-    // toast.open(UtilsService.getErrorMessage(error), Level.error);
+    this.toast.open(UtilsService.getErrorMessage(error));
     return new Promise<any>((resolve, reject) => {
       resolve();
     });

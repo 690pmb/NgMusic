@@ -7,6 +7,7 @@ import { DropboxService } from './dropbox.service';
 import { UtilsService } from './utils.service';
 import { Composition, Fichier } from '../utils/model';
 import { DexieService } from '../services/dexie.service';
+import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class MyCompositionsService {
   constructor(
     private dropboxService: DropboxService,
     private serviceUtils: UtilsService,
-    private dexieService: DexieService
+    private dexieService: DexieService,
+    private toast: ToastService
   ) {
     this.table = this.dexieService.table('composition');
   }
@@ -48,9 +50,11 @@ export class MyCompositionsService {
           })
           .then((compoList: Composition[]) => {
             this.addAll(compoList);
+            this.toast.open('addAll success');
             this.done$.next(true);
           }).catch(err => this.serviceUtils.handlePromiseError(err));
       } else {
+        this.toast.open('already');
         this.done$.next(true);
       }
     });
