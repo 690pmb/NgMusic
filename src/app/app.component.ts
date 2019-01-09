@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { MyCompositionsService } from './services/my-compositions.service';
+import { CompositionService } from './services/composition.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   title = 'app';
 
   constructor(
-    private myCompositionsService: MyCompositionsService
+    private myCompositionsService: CompositionService
   ) { }
 
   ngOnInit() {

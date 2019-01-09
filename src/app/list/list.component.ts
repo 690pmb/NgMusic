@@ -7,7 +7,7 @@ import { skipWhile } from 'rxjs/operators';
 
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
-import { MyCompositionsService } from '../services/my-compositions.service';
+import { CompositionService } from '../services/composition.service';
 import { UtilsService } from '../services/utils.service';
 
 library.add(faTimesCircle);
@@ -22,71 +22,77 @@ export class ListComponent implements OnInit {
   displayedColumns = ['artist', 'title', 'type', 'size', 'score'];
   length: number;
   displayedData: Composition[];
-  pageSize = 25;
-  pageIndex = 0;
   pageSizeOptions = [10, 25, 50, 100];
   page: PageEvent;
   sort: Sort;
-  artistFilter: string;
-  titleFilter: string;
+  artistFilter = '';
+  titleFilter = '';
   deleted = false;
 
   constructor(
     private elemRef: ElementRef,
-    private myCompositionsService: MyCompositionsService,
+    private myCompositionsService: CompositionService,
     private serviceUtils: UtilsService
   ) { }
 
   ngOnInit() {
     this.sort = { active: 'score', direction: 'desc' };
-    this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() => {
-      this.refreshData().then(list => this.initPagination(list));
-    });
+    this.initPagination();
+    this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
+      this.myCompositionsService.getAll().then(list => {
+        this.compoList = this.sortList(list);
+        this.length = list.length;
+        this.paginate(this.filter(this.compoList));
+      }).catch(err => this.serviceUtils.handlePromiseError(err))
+    );
   }
 
-  refreshData(): Promise<Composition[]> {
-    return this.myCompositionsService.getAllByDeleted(this.deleted).then(compoList => {
-      this.compoList = compoList;
-      this.length = this.compoList.length;
-      let list = this.compoList;
-      if (this.artistFilter) {
-        list = Utils.filterByFields(list, ['artist'], this.artistFilter);
-      }
-      if (this.titleFilter) {
-        list = Utils.filterByFields(list, ['title'], this.titleFilter);
-      }
-      list = Utils.sortComposition(list, this.sort);
-      this.length = list.length;
-      return list;
-    }).catch(err => this.serviceUtils.handlePromiseError(err));
-  }
-
-  initPagination(list: Composition[]): void {
-    if (this.page) {
-      this.page.pageIndex = 0;
-      this.page.pageSize = this.page ? this.page.pageSize : this.pageSize;
+  filter(list: Composition[]): Composition[] {
+    let result = list;
+    if (this.artistFilter) {
+      result = Utils.filterByFields(result, ['artist'], this.artistFilter);
     }
-    this.paginate(list);
+    if (this.titleFilter) {
+      result = Utils.filterByFields(result, ['title'], this.titleFilter);
+    }
+    if (!this.deleted) {
+      result = result.filter(c => !c.deleted);
+    }
+    this.length = result.length;
+    return result;
+  }
+
+  sortList(list: Composition[]): Composition[] {
+    return Utils.sortComposition(list, this.sort);
+  }
+
+  paginate(list: Composition[]): void {
+    this.displayedData = list.slice(this.page.pageIndex * this.page.pageSize, (this.page.pageIndex + 1) * this.page.pageSize);
+  }
+
+  initPagination(): void {
+    this.page = new PageEvent();
+    this.page.pageIndex = 0;
+    this.page.pageSize = 25;
   }
 
   onSort(): void {
-    this.refreshData().then(list => this.initPagination(list));
+    this.initPagination();
+    this.compoList = this.sortList(this.compoList);
+    this.paginate(this.filter(this.compoList));
     this.onTop();
   }
 
   onSearch(): void {
-    this.refreshData().then(list => this.initPagination(list));
+    this.initPagination();
+    this.compoList = this.sortList(this.compoList);
+    this.paginate(this.filter(this.compoList));
     this.onTop();
   }
 
   onPaginateChange(): void {
-    this.refreshData().then(list => this.paginate(list));
+    this.paginate(this.filter(this.compoList));
     this.onTop();
-  }
-
-  paginate(data: Composition[]): void {
-    this.displayedData = this.page ?
-      data.slice(this.page.pageIndex * this.page.pageSize, (this.page.pageIndex + 1) * this.page.pageSize) : data.slice(0, this.pageSize);
   }
 
   onTop(): void {

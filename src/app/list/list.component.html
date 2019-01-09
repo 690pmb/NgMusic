@@ -1,83 +1,82 @@
-<ng-container *ngIf="compoList">
-  <div class="filters">
-    <!-- Artist Filter -->
-    <mat-form-field>
-      <input matInput type="search" placeholder="Rechercher un artiste" [(ngModel)]="artistFilter" (keyup)="paginator.firstPage(); onSearch();" />
-      <span *ngIf="artistfilter" (click)="artistfilter=''; onSearch();" class="pointer">
-        <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-      </span>
-    </mat-form-field>
-    <!-- Titles Filter -->
-    <mat-form-field>
-      <input matInput type="search" placeholder="Rechercher un titre" [(ngModel)]="titleFilter" (keyup)="paginator.firstPage(); onSearch();" />
-      <span *ngIf="titleFilter" (click)="titleFilter=''; onSearch();" class="pointer">
-        <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-      </span>
-    </mat-form-field>
-    <mat-checkbox (change)="deleted = !deleted; onSearch()" [checked]="deleted">
-    </mat-checkbox>
-  </div>
-  <div class="paginator mat-elevation-z4">
-    <!-- Paginator -->
-    <mat-paginator #paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-      (page)="page = $event; onPaginateChange();" [showFirstLastButtons]="true">
-    </mat-paginator>
-  </div>
+<div class="filters">
+  <!-- Artist Filter -->
+  <mat-form-field>
+    <input matInput type="search" placeholder="Rechercher un artiste" [(ngModel)]="artistFilter" (keyup)="paginator.firstPage(); onSearch();" />
+    <span *ngIf="artistFilter" (click)="artistFilter=''; onSearch();" class="pointer">
+      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
+    </span>
+  </mat-form-field>
+  <!-- Titles Filter -->
+  <mat-form-field>
+    <input matInput type="search" placeholder="Rechercher un titre" [(ngModel)]="titleFilter" (keyup)="paginator.firstPage(); onSearch();" />
+    <span *ngIf="titleFilter" (click)="titleFilter=''; onSearch();" class="pointer">
+      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
+    </span>
+  </mat-form-field>
+  <!-- Delete filter -->
+  <mat-checkbox (change)="deleted = !deleted; onSearch()" [checked]="deleted">
+  </mat-checkbox>
+</div>
+<div class="paginator mat-elevation-z4">
+  <!-- Paginator -->
+  <mat-paginator #paginator [length]="length" [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="pageSizeOptions"
+    (page)="page = $event; onPaginateChange();" [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
 
-  <!-- Table -->
-  <mat-table class="mat-elevation-z4" [dataSource]="displayedData" (matSortChange)="paginator.firstPage(); sort = $event; onSort();"
-    matSort [matSortActive]="'date'" [matSortDirection]="'desc'">
-    <!-- ARTIST -->
-    <ng-container matColumnDef="artist">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span class="mat-text">Artiste</span>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let compo">
-        {{compo.artist}}
-      </mat-cell>
-    </ng-container>
+<!-- Table -->
+<mat-table class="mat-elevation-z4" [dataSource]="displayedData" (matSortChange)="paginator.firstPage(); sort = $event; onSort();"
+  matSort [matSortActive]="'score'" [matSortDirection]="'desc'">
+  <!-- ARTIST -->
+  <ng-container matColumnDef="artist">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Artiste</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      {{compo.artist}}
+    </mat-cell>
+  </ng-container>
 
-    <!-- TITLE -->
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span class="mat-text">Titre</span>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let compo">
-        {{compo.title}}
-      </mat-cell>
-    </ng-container>
+  <!-- TITLE -->
+  <ng-container matColumnDef="title">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Titre</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      {{compo.title}}
+    </mat-cell>
+  </ng-container>
 
-    <!-- TYPE -->
-    <ng-container matColumnDef="type">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span class="mat-text">Type</span>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let compo">
-        {{compo.type}}
-      </mat-cell>
-    </ng-container>
+  <!-- TYPE -->
+  <ng-container matColumnDef="type">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Type</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      {{compo.type}}
+    </mat-cell>
+  </ng-container>
 
-    <!-- SIZE -->
-    <ng-container matColumnDef="size">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span class="mat-text">Taille</span>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let compo">
-        {{compo.size}}
-      </mat-cell>
-    </ng-container>
+  <!-- SIZE -->
+  <ng-container matColumnDef="size">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Taille</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      {{compo.size}}
+    </mat-cell>
+  </ng-container>
 
-    <!-- SCORE -->
-    <ng-container matColumnDef="score">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span class="mat-text">Score</span>
-      </mat-header-cell>
-      <mat-cell *matCellDef="let compo">
-        {{compo.score | number:'1.0-0':'fr'}}
-      </mat-cell>
-    </ng-container>
+  <!-- SCORE -->
+  <ng-container matColumnDef="score">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Score</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      {{compo.score | number:'1.0-0':'fr'}}
+    </mat-cell>
+  </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'deleted': row.deleted === 1}"></mat-row>
-  </mat-table>
-</ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'deleted': row.deleted === 1}"></mat-row>
+</mat-table>

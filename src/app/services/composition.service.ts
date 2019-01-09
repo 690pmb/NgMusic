@@ -1,3 +1,4 @@
+import { Sort } from '@angular/material/sort';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as xml2js from 'xml2js';
@@ -6,13 +7,13 @@ import Dexie from 'dexie';
 import { DropboxService } from './dropbox.service';
 import { UtilsService } from './utils.service';
 import { Composition, Fichier } from '../utils/model';
-import { DexieService } from '../services/dexie.service';
+import { DexieService } from './dexie.service';
 import { ToastService } from './toast.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class MyCompositionsService {
+export class CompositionService {
   parser = new xml2js.Parser();
   table: Dexie.Table<Composition, number>;
   done$ = new BehaviorSubject(false);
@@ -62,14 +63,6 @@ export class MyCompositionsService {
 
   getAll(): Promise<Composition[]> {
     return this.table.toArray();
-  }
-
-  getAllByDeleted(deleted: boolean): Promise<Composition[]> {
-    if (deleted) {
-      return this.getAll();
-    } else {
-      return this.table.where('deleted').equals(0).toArray();
-    }
   }
 
   add(data: Composition) {
