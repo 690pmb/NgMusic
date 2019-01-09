@@ -3,12 +3,12 @@ export class Fichier {
   category: string;
   creation: string;
   name: string;
-  publish: string;
-  rangeBegin: string;
-  rangeEnd: string;
-  rank: string;
-  size: string;
-  sorted: string;
+  publish: number;
+  rangeBegin: number;
+  rangeEnd: number;
+  rank: number;
+  size: number;
+  sorted: number; // 0: false, 1: true
 
   constructor(author: string, category: string, creation: string, name: string, publish: string, rangeBegin: string, rangeEnd: string,
     rank: string, size: string, sorted: string) {
@@ -16,12 +16,12 @@ export class Fichier {
     this.category = category;
     this.creation = creation;
     this.name = name;
-    this.publish = publish;
-    this.rangeBegin = rangeBegin;
-    this.rangeEnd = rangeEnd;
-    this.rank = rank;
-    this.size = size;
-    this.sorted = sorted;
+    this.publish = +publish;
+    this.rangeBegin = +rangeBegin;
+    this.rangeEnd = +rangeEnd;
+    this.rank = +rank;
+    this.size = +size;
+    this.sorted = sorted === 'true' ? 1 : 0;;
   }
 }
 

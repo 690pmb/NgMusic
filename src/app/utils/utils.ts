@@ -1,6 +1,6 @@
 import { Sort } from '@angular/material/sort';
 
-import { Composition } from './model';
+import { Composition, Fichier } from './model';
 
 export class Utils {
   /* tslint:disable cyclomatic-complexity */
@@ -19,6 +19,40 @@ export class Utils {
             return Utils.compare(a.size, b.size, isAsc);
           case 'score':
             return Utils.compare(a.score, b.score, isAsc);
+          default:
+            return 0;
+        }
+      });
+    } else {
+      return list;
+    }
+  }
+
+  static sortFichier(list: Fichier[], sort: Sort): Fichier[] {
+    if (sort && sort.active && sort.direction !== '') {
+      return list.sort((a, b) => {
+        const isAsc: boolean = sort.direction === 'asc';
+        switch (sort.active) {
+          case 'author':
+            return Utils.compare(a.author, b.author, isAsc);
+          case 'category':
+            return Utils.compare(a.category, b.category, isAsc);
+          case 'creation':
+            return Utils.compareDate(a.creation, b.creation, isAsc);
+          case 'name':
+            return Utils.compare(a.name, b.name, isAsc);
+          case 'publish':
+            return Utils.compare(a.publish, b.publish, isAsc);
+          case 'rangeBegin':
+            return Utils.compare(a.rangeBegin, b.rangeBegin, isAsc);
+          case 'rangeEnd':
+            return Utils.compare(a.rangeEnd, b.rangeEnd, isAsc);
+          case 'rank':
+            return Utils.compare(a.rank, b.rank, isAsc);
+          case 'size':
+            return Utils.compare(a.size, b.size, isAsc);
+          case 'sorted':
+            return Utils.compare(a.sorted, b.sorted, isAsc);
           default:
             return 0;
         }

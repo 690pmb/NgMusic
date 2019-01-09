@@ -78,6 +78,9 @@ export class ListComponent implements OnInit {
 
   paginate(list: Composition[]): void {
     this.displayedData = list.slice(this.page.pageIndex * this.page.pageSize, (this.page.pageIndex + 1) * this.page.pageSize);
+    this.displayedData.forEach(c => {
+      c.fileList = Utils.sortFichier(c.fileList, { active: 'name', direction: 'asc' });
+    });
   }
 
   initPagination(): void {
