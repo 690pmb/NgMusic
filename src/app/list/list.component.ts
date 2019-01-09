@@ -4,6 +4,7 @@ import { Sort } from '@angular/material/sort';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { skipWhile } from 'rxjs/operators';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
@@ -15,7 +16,14 @@ library.add(faTimesCircle);
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class ListComponent implements OnInit {
   compoList: Composition[];
@@ -28,6 +36,8 @@ export class ListComponent implements OnInit {
   artistFilter = '';
   titleFilter = '';
   deleted = false;
+  expandedElement: Composition;
+  expandedColumn = 'details';
 
   constructor(
     private elemRef: ElementRef,
@@ -35,7 +45,7 @@ export class ListComponent implements OnInit {
     private serviceUtils: UtilsService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.sort = { active: 'score', direction: 'desc' };
     this.initPagination();
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
@@ -96,7 +106,7 @@ export class ListComponent implements OnInit {
   }
 
   onTop(): void {
-    // this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
+    this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
 
 }

@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
     private myCompositionsService: CompositionService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.myCompositionsService.downloadCompostion('final.xml');
   }
 }
