@@ -22,10 +22,15 @@
 
 .mat-table {
   hyphens: auto;
+  width: 98vw;
 }
 
 .deleted {
   background-color: $green !important;
+}
+
+.sorted {
+  background-color: $light_blue !important;
 }
 
 .mat-cell {

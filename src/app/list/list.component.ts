@@ -27,7 +27,8 @@ library.add(faTimesCircle);
 })
 export class ListComponent implements OnInit {
   compoList: Composition[];
-  displayedColumns = ['artist', 'title', 'type', 'size', 'score'];
+  displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
+  displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];
   length: number;
   displayedData: Composition[];
   pageSizeOptions = [10, 25, 50, 100];

@@ -61,7 +61,7 @@
   </ng-container>
 
   <!-- SIZE -->
-  <ng-container matColumnDef="size">
+  <ng-container matColumnDef="sizeC">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
       <span class="mat-text">Taille</span>
     </mat-header-cell>
@@ -84,11 +84,21 @@
   <ng-container matColumnDef="{{expandedColumn}}">
     <td mat-cell *matCellDef="let compo" [attr.colspan]="displayedColumns.length">
       <div class="example-element-detail" [@detailExpand]="compo == expandedElement ? 'expanded' : 'collapsed'">
-        <div *ngFor="let fichier of compo.fileList">
-          <div>{{fichier.name}} - {{fichier.publish}} - {{fichier.category}} -
-            {{fichier.rangeBegin}} - {{fichier.rangeEnd}} - {{fichier.size}} -
-            {{fichier.rank}} - {{fichier.sorted}}</div>
-        </div>
+        <mat-table [dataSource]="compo.fileList" *ngIf="compo == expandedElement">
+          <div *ngFor="let column of displayedColumnsFichier">
+            <ng-container matColumnDef="{{column}}">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <span class="mat-text">{{column}}</span>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let fichier">
+                {{fichier[column]}}
+              </mat-cell>
+            </ng-container>
+          </div>
+          <mat-header-row *matHeaderRowDef="displayedColumnsFichier"></mat-header-row>
+          <mat-row *matRowDef="let fileRow; columns: displayedColumnsFichier;" [ngClass]="{'sorted': fileRow.sorted === 1}">
+          </mat-row>
+        </mat-table>
       </div>
     </td>
   </ng-container>

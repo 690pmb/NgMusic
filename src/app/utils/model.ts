@@ -21,7 +21,7 @@ export class Fichier {
     this.rangeEnd = +rangeEnd;
     this.rank = +rank;
     this.size = +size;
-    this.sorted = sorted === 'true' ? 1 : 0;;
+    this.sorted = sorted === 'true' ? 1 : 0;
   }
 }
 
