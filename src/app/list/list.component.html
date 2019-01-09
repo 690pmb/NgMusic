@@ -14,8 +14,11 @@
     </span>
   </mat-form-field>
   <!-- Delete filter -->
-  <mat-checkbox (change)="deleted = !deleted; onSearch()" [checked]="deleted">
-  </mat-checkbox>
+  <span class="mat-form-field-wrapper">
+    Supprimé:
+    <mat-checkbox (change)="deleted = !deleted; onSearch()" [checked]="deleted">
+    </mat-checkbox>
+  </span>
 </div>
 <div class="paginator mat-elevation-z4">
   <!-- Paginator -->

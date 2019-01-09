@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@mixin media($width) {
+  @media all and (max-width: $width) {
+    @content;
+  }
+}
+
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+}
