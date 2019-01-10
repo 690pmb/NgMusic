@@ -10,6 +10,7 @@ import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { CompositionService } from '../services/composition.service';
 import { UtilsService } from '../services/utils.service';
+import { BehaviorSubject } from 'rxjs';
 
 library.add(faTimesCircle);
 
@@ -31,6 +32,7 @@ export class ListComponent implements OnInit {
   displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];
   length: number;
   displayedData: Composition[];
+  displayedFichier = new BehaviorSubject([]);
   pageSizeOptions = [10, 25, 50, 100];
   page: PageEvent;
   sort: Sort;
@@ -79,9 +81,17 @@ export class ListComponent implements OnInit {
 
   paginate(list: Composition[]): void {
     this.displayedData = list.slice(this.page.pageIndex * this.page.pageSize, (this.page.pageIndex + 1) * this.page.pageSize);
-    this.displayedData.forEach(c => {
-      c.fileList = Utils.sortFichier(c.fileList, { active: 'name', direction: 'asc' });
-    });
+  }
+
+  expand(element: Composition): void {
+    this.expandedElement = this.expandedElement === element ? undefined : element;
+    if (this.expandedElement) {
+      this.displayedFichier.next(Utils.sortFichier(this.expandedElement.fileList, { active: 'rank', direction: 'asc' }));
+    }
+  }
+
+  onSortFichier(sort: Sort): void {
+    this.displayedFichier.next(Utils.sortFichier(this.expandedElement.fileList, sort));
   }
 
   initPagination(): void {
