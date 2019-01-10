@@ -16,13 +16,14 @@
   justify-content: center !important;
 }
 
-.mat-paginator {
-  width: 100vw;
+.mat-table,
+.mat-paginator,
+.paginator {
+  width: 98vw;
 }
 
 .mat-table {
   hyphens: auto;
-  width: 98vw;
 }
 
 .deleted {
