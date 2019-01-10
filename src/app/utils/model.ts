@@ -49,3 +49,13 @@ export class Composition {
     this.deleted = deleted === 'true' ? 1 : 0;
   }
 }
+
+export class Dropdown {
+  label: string;
+  code: string;
+
+  constructor(label: string, code: string) {
+    this.label = label;
+    this.code = code;
+  }
+}

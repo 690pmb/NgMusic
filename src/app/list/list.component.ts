@@ -6,7 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { skipWhile } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
-import { Composition } from '../utils/model';
+import { Composition, Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { CompositionService } from '../services/composition.service';
 import { UtilsService } from '../services/utils.service';
@@ -38,6 +38,8 @@ export class ListComponent implements OnInit {
   sort: Sort;
   artistFilter = '';
   titleFilter = '';
+  filteredType: Dropdown;
+  types: Dropdown[];
   deleted = false;
   expandedElement: Composition;
   expandedColumn = 'details';
@@ -50,6 +52,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this.sort = { active: 'score', direction: 'desc' };
+    this.types = [new Dropdown('Chanson', 'SONG'), new Dropdown('Album', 'ALBUM')];
     this.initPagination();
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
       this.myCompositionsService.getAll().then(list => {
@@ -67,6 +70,9 @@ export class ListComponent implements OnInit {
     }
     if (this.titleFilter) {
       result = Utils.filterByFields(result, ['title'], this.titleFilter);
+    }
+    if (this.filteredType) {
+      result = Utils.filterByFields(result, ['type'], this.filteredType.code);
     }
     if (!this.deleted) {
       result = result.filter(c => !c.deleted);
