@@ -7,7 +7,9 @@
 }
 
 $green: #0ad06f;
-$light_blue: #7fbdff;
+$light_green: #d1fff7;
+$odd: #cee9f0;
+$even: #c8ddf0;
 
 * {
   font-family: Roboto, "Helvetica Neue", sans-serif !important;
@@ -21,4 +23,12 @@ $light_blue: #7fbdff;
 ::ng-deep.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background,
 ::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-ripple .mat-ripple-element {
   background-color: $green !important;
+}
+
+.odd {
+  background-color: $odd !important;
+}
+
+.even {
+  background-color: $even !important;
 }

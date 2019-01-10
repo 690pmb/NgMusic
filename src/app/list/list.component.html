@@ -104,8 +104,9 @@
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row" [ngClass]="{'deleted': element.deleted === 1}"
+  <mat-row *matRowDef="let element; let i = dataIndex; columns: displayedColumns;" class="example-element-row"
+    [ngClass]="{'deleted': element.deleted === 1, 'even': i % 2 === 0, 'odd': i % 2 === 1}"
     [class.example-expanded-row]="expandedElement === element" (click)="expandedElement = expandedElement === element ? null : element">
   </mat-row>
-  <mat-row *matRowDef="let row; columns: [expandedColumn]" class="example-detail-row" [ngClass]="{'deleted': row.deleted === 1}"></mat-row>
+  <mat-row *matRowDef="let row; let i = dataIndex; columns: [expandedColumn];" class="example-detail-row" [ngClass]="{'deleted': row.deleted === 1, 'even': i % 2 === 0, 'odd': i % 2 === 1}"></mat-row>
 </mat-table>
