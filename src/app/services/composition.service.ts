@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import * as xml2js from 'xml2js';
+import * as moment from 'moment-mini-ts';
 import Dexie from 'dexie';
 
 import { DropboxService } from './dropbox.service';
@@ -15,7 +16,9 @@ import { ToastService } from './toast.service';
 export class CompositionService {
   parser = new xml2js.Parser();
   table: Dexie.Table<Composition, number>;
+  importedFile: Dexie.Table<any, number>;
   done$ = new BehaviorSubject(false);
+  dateFormat = 'DD-MM-YYYY HH-mm';
 
   constructor(
     private dropboxService: DropboxService,
@@ -24,38 +27,30 @@ export class CompositionService {
     private toast: ToastService
   ) {
     this.table = this.dexieService.table('composition');
+    this.importedFile = this.dexieService.table('importedFile');
   }
 
-  downloadCompostion(fileName: string): void {
-    const t0 = performance.now();
-    // download file
-    this.getAll().then(all => {
-      if (all === undefined || all === null || all.length === 0) {
-        this.dropboxService.downloadFile(fileName)
-          .then((compoFromFile: string) => {
-            if (compoFromFile && compoFromFile.trim().length > 0) {
-              const compoList = [];
-              // Parse file
-              this.parser.parseString(compoFromFile, (err, result) => {
-                result.ListCompositions.compo.forEach(el => {
-                  compoList.push(this.parseCompostion(el));
-                });
-                const t1 = performance.now();
-                console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds');
-              });
-              return compoList;
-            } else {
-              return [];
-            }
-          })
-          .then((compoList: Composition[]) => {
-            this.addAll(compoList);
-            this.toast.open('addAll success');
-            this.done$.next(true);
-          }).catch(err => this.serviceUtils.handlePromiseError(err));
-      } else {
+  loadsCompositionList(): void {
+    Promise.all([
+      this.importedFile.get(1),
+      this.dropboxService.listFiles('/XML')
+    ]).then(([storedName, filesList]) => {
+      const fileNameToDownload = this.findsFileNameToDownload(filesList);
+      if (!fileNameToDownload && !storedName) {
+        this.toast.open('No file to download or load');
+        return;
+      } else if (fileNameToDownload && !storedName) {
+        this.downloadsCompositionList(fileNameToDownload);
+      } else if (!fileNameToDownload && storedName) {
         this.toast.open('already');
         this.done$.next(true);
+      } else {
+        if (this.extractDateFromFilename(fileNameToDownload).isAfter(this.extractDateFromFilename(storedName.filename))) {
+          this.downloadsCompositionList(fileNameToDownload);
+        } else {
+          this.toast.open('already');
+          this.done$.next(true);
+        }
       }
     });
   }
@@ -102,5 +97,69 @@ export class CompositionService {
       fileList.push(fichier);
     });
     return fileList;
+  }
+
+  downloadsCompositionList(fileName: string): void {
+    // download file
+    const t0 = performance.now();
+    this.dropboxService.downloadFile(fileName)
+      .then((compoFromFile: string) => {
+        if (compoFromFile && compoFromFile.trim().length > 0) {
+          const compoList = [];
+          // Parse file
+          this.parser.parseString(compoFromFile, (err, result) => {
+            result.ListCompositions.compo.forEach(el => {
+              compoList.push(this.parseCompostion(el));
+            });
+            const t1 = performance.now();
+            console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds');
+          });
+          return compoList;
+        } else {
+          return [];
+        }
+      }).then((compoList: Composition[]) => {
+        this.importedFile.get(1).then(item => {
+          if (!item) {
+            this.importedFile.add({ filename: fileName });
+          } else {
+            this.importedFile.update(1, { filename: fileName });
+          }
+        });
+        this.addAll(compoList);
+        this.toast.open('addAll success');
+        this.done$.next(true);
+      }).catch(err => this.serviceUtils.handlePromiseError(err));
+  }
+
+  findsFileNameToDownload(filesList: any): string {
+    const names = filesList.entries.map(f => f.name);
+    const count = names.filter(name => this.isCorrectFileName(name)).length;
+    if (count === 0) {
+      return undefined;
+    } else if (count === 1) {
+      return names.find(name => this.isCorrectFileName(name));
+    } else {
+      const dateArray = [];
+      names.map(name => {
+        if (this.isCorrectFileName(name)) {
+          dateArray.push(this.extractDateFromFilename(name));
+        }
+      });
+      const lastDate = dateArray.reduce((d1, d2) => d1.isAfter(d2) ? d1 : d2).toDate();
+      const fileToDownload = names.find(name => name.includes(moment(lastDate).format(this.dateFormat)));
+      console.log('fileToDownload', fileToDownload);
+      return fileToDownload;
+    }
+  }
+
+  extractDateFromFilename(filename: string): moment.Moment {
+    const ixComma = filename.indexOf(';');
+    const ixXml = filename.indexOf('.xml');
+    return moment(filename.substring(ixComma + 1, ixXml), this.dateFormat);
+  }
+
+  isCorrectFileName(name: string): boolean {
+    return name.includes('final') && name.includes('.xml');
   }
 }

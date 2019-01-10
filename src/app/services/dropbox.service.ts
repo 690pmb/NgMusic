@@ -15,10 +15,10 @@ export class DropboxService {
     return new Dropbox.Dropbox({ accessToken: DropboxConstante.DROPBOX_TOKEN });
   }
 
-  listFiles(): void {
-    this.getDbx().filesListFolder({ path: '' })
-      .then((response: Dropbox.files.ListFolderResult) => console.log(response.entries))
-      .catch((err) => this.serviceUtils.handleError(err));
+  listFiles(folder: string): Promise<Dropbox.files.ListFolderResult> {
+    return this.getDbx().filesListFolder({ path: folder })
+      .then((response: Dropbox.files.ListFolderResult) => response)
+      .catch((err) => { this.serviceUtils.handleError(err); return undefined; });
   }
 
   getPath(fileName: string): string {

@@ -35,6 +35,7 @@
     "dropbox": "^4.0.14",
     "events": "^3.0.0",
     "file-system": "^2.2.2",
+    "moment-mini-ts": "^2.20.1",
     "rxjs": "^6.3.3",
     "stream": "0.0.2",
     "timers": "^0.1.1",
