@@ -24,7 +24,7 @@
   <!-- Delete filter -->
   <span class="mat-form-field-wrapper">
     Supprimé:
-    <mat-checkbox (change)="deleted = !deleted; onSearch()" [checked]="deleted">
+    <mat-checkbox (change)="paginator.firstPage(); deleted = !deleted; onSearch()" [checked]="deleted">
     </mat-checkbox>
   </span>
 </div>
