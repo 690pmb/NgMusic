@@ -12,7 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSnackBarModule, MatSelectModule } from '@angular/material';
+import { MatSnackBarModule, MatSelectModule, MatButtonModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
@@ -35,6 +35,7 @@ import { ListComponent } from './list/list.component';
     MatFormFieldModule,
     MatSortModule,
     MatSelectModule,
+    MatButtonModule,
     MatPaginatorModule,
     MatCheckboxModule
   ],

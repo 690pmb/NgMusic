@@ -6,6 +6,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { skipWhile } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 import { Composition, Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
@@ -49,6 +50,7 @@ export class ListComponent implements OnInit {
   deleted = false;
   beginFilter: number;
   endFilter: number;
+  faAngleUp = faAngleUp;
 
   constructor(
     private elemRef: ElementRef,
@@ -73,6 +75,15 @@ export class ListComponent implements OnInit {
   }
 
   filter(list: Composition[]): Composition[] {
+    // Composition filters
+    let result = this.filterOnComposition(list);
+    // Fichier filters
+    result = this.filterOnFichier(result);
+    this.length = result.length;
+    return result;
+  }
+
+  filterOnComposition(list: Composition[]): Composition[] {
     let result = list;
     if (this.artistFilter) {
       result = Utils.filterByFields(result, ['artist'], this.artistFilter);
@@ -83,6 +94,14 @@ export class ListComponent implements OnInit {
     if (this.filteredType) {
       result = Utils.filterByFields(result, ['type'], this.filteredType.code);
     }
+    if (!this.deleted) {
+      result = result.filter(c => !c.deleted);
+    }
+    return result;
+  }
+
+  filterOnFichier(list: Composition[]): Composition[] {
+    let result = list;
     if (this.filteredCat && this.filteredCat.length > 0) {
       result = result.filter(c => c.fileList.some(f => this.filteredCat.map(filter => filter.code).includes(f.category)));
     }
@@ -95,10 +114,6 @@ export class ListComponent implements OnInit {
     if (this.endFilter) {
       result = result.filter(c => c.fileList.some(f => f.rangeEnd <= this.endFilter));
     }
-    if (!this.deleted) {
-      result = result.filter(c => !c.deleted);
-    }
-    this.length = result.length;
     return result;
   }
 
@@ -141,6 +156,10 @@ export class ListComponent implements OnInit {
 
   onPaginateChange(): void {
     this.paginate(this.filter(this.compoList));
+  }
+
+  goTop(): void {
+    this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
 
 }

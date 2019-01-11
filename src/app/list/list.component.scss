@@ -69,6 +69,15 @@ mat-row {
   border-bottom-width: 0;
 }
 
+#goTop {
+  display: flex;
+  margin: auto;
+
+  & ::ng-deep.fa-angle-up {
+    color: $blue;
+  }
+}
+
 @include media('800px') {
   .filters {
     flex-direction: column;
