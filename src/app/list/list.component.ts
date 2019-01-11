@@ -5,12 +5,12 @@ import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { skipWhile } from 'rxjs/operators';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { BehaviorSubject } from 'rxjs';
 
 import { Composition, Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { CompositionService } from '../services/composition.service';
 import { UtilsService } from '../services/utils.service';
-import { BehaviorSubject } from 'rxjs';
 
 library.add(faTimesCircle);
 
@@ -38,8 +38,11 @@ export class ListComponent implements OnInit {
   sort: Sort;
   artistFilter = '';
   titleFilter = '';
+  filenameFilter = '';
   filteredType: Dropdown;
   types: Dropdown[];
+  filteredCat: Dropdown[];
+  catList: Dropdown[];
   deleted = false;
   expandedElement: Composition;
   expandedColumn = 'details';
@@ -53,6 +56,9 @@ export class ListComponent implements OnInit {
   ngOnInit(): void {
     this.sort = { active: 'score', direction: 'desc' };
     this.types = [new Dropdown('Chanson', 'SONG'), new Dropdown('Album', 'ALBUM')];
+    this.catList = [new Dropdown('Year', 'YEAR'), new Dropdown('Decade', 'DECADE'),
+    new Dropdown('Long Period', 'LONG PERIOD'), new Dropdown('All Time', 'ALL TIME'),
+    new Dropdown('Theme', 'THEME'), new Dropdown('Genre', 'GENRE'), new Dropdown('Divers', 'MISCELLANEOUS')];
     this.initPagination();
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
       this.myCompositionsService.getAll().then(list => {
@@ -73,6 +79,12 @@ export class ListComponent implements OnInit {
     }
     if (this.filteredType) {
       result = Utils.filterByFields(result, ['type'], this.filteredType.code);
+    }
+    if (this.filteredCat && this.filteredCat.length > 0) {
+      result = result.filter(c => c.fileList.some(f => this.filteredCat.map(filter => filter.code).includes(f.category)));
+    }
+    if (this.filenameFilter) {
+      result = result.filter(c => c.fileList.some(f => f.name.toLowerCase().includes(this.filenameFilter.toLowerCase())));
     }
     if (!this.deleted) {
       result = result.filter(c => !c.deleted);
