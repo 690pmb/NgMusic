@@ -40,15 +40,15 @@ export class CompositionService {
         this.toast.open('No file to download or load');
         return;
       } else if (fileNameToDownload && !storedName) {
-        this.downloadsCompositionList(fileNameToDownload);
+        this.downloadsCompositionList(fileNameToDownload, 'Download Compositions');
       } else if (!fileNameToDownload && storedName) {
-        this.toast.open('already');
+        this.toast.open('Already loaded');
         this.done$.next(true);
       } else {
         if (this.extractDateFromFilename(fileNameToDownload).isAfter(this.extractDateFromFilename(storedName.filename))) {
-          this.downloadsCompositionList(fileNameToDownload);
+          this.downloadsCompositionList(fileNameToDownload, 'Update Composition');
         } else {
-          this.toast.open('already');
+          this.toast.open('Already loaded');
           this.done$.next(true);
         }
       }
@@ -99,7 +99,7 @@ export class CompositionService {
     return fileList;
   }
 
-  downloadsCompositionList(fileName: string): void {
+  downloadsCompositionList(fileName: string, resultMessage: string): void {
     // download file
     const t0 = performance.now();
     this.dropboxService.downloadFile(fileName)
@@ -126,8 +126,9 @@ export class CompositionService {
             this.importedFile.update(1, { filename: fileName });
           }
         });
+        this.table.clear();
         this.addAll(compoList);
-        this.toast.open('addAll success');
+        this.toast.open(resultMessage);
         this.done$.next(true);
       }).catch(err => this.serviceUtils.handlePromiseError(err));
   }
