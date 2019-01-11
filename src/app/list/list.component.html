@@ -44,6 +44,22 @@
       <mat-option *ngFor="let cat of catList" [value]="cat">{{cat.label}}</mat-option>
     </mat-select>
   </mat-form-field>
+  <!-- Begin Filter -->
+  <mat-form-field>
+    <input #begin="ngModel" name="begin" matInput type="number" placeholder="Année de début" [(ngModel)]="beginFilter"
+      (keyup)="paginator.firstPage(); onSearch();" pattern="((19)|(20))[0-9]{2}" />
+    <mat-error *ngIf="begin.errors">
+      Année de début invalide
+    </mat-error>
+  </mat-form-field>
+  <!-- End Filter -->
+  <mat-form-field>
+    <input #end="ngModel" name="end" matInput type="number" placeholder="Année de fin" [(ngModel)]="endFilter"
+      (keyup)="paginator.firstPage(); onSearch();" pattern="((19)|(20))[0-9]{2}" />
+    <mat-error *ngIf="end.errors">
+      Année de fin invalide
+    </mat-error>
+  </mat-form-field>
 </div>
 <div class="paginator mat-elevation-z4">
   <!-- Paginator -->

@@ -36,6 +36,9 @@ export class ListComponent implements OnInit {
   pageSizeOptions = [10, 25, 50, 100];
   page: PageEvent;
   sort: Sort;
+  expandedElement: Composition;
+  expandedColumn = 'details';
+  // Filters
   artistFilter = '';
   titleFilter = '';
   filenameFilter = '';
@@ -44,8 +47,8 @@ export class ListComponent implements OnInit {
   filteredCat: Dropdown[];
   catList: Dropdown[];
   deleted = false;
-  expandedElement: Composition;
-  expandedColumn = 'details';
+  beginFilter: number;
+  endFilter: number;
 
   constructor(
     private elemRef: ElementRef,
@@ -85,6 +88,12 @@ export class ListComponent implements OnInit {
     }
     if (this.filenameFilter) {
       result = result.filter(c => c.fileList.some(f => f.name.toLowerCase().includes(this.filenameFilter.toLowerCase())));
+    }
+    if (this.beginFilter) {
+      result = result.filter(c => c.fileList.some(f => f.rangeBegin >= this.beginFilter));
+    }
+    if (this.endFilter) {
+      result = result.filter(c => c.fileList.some(f => f.rangeEnd <= this.endFilter));
     }
     if (!this.deleted) {
       result = result.filter(c => !c.deleted);
