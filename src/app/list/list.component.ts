@@ -33,7 +33,7 @@ export class ListComponent implements OnInit {
   length: number;
   displayedData: Composition[];
   displayedFichier = new BehaviorSubject([]);
-  pageSizeOptions = [10, 25, 50, 100];
+  pageSizeOptions = [25, 50, 100, 200];
   page: PageEvent;
   sort: Sort;
   expandedElement: Composition;
@@ -124,30 +124,23 @@ export class ListComponent implements OnInit {
   initPagination(): void {
     this.page = new PageEvent();
     this.page.pageIndex = 0;
-    this.page.pageSize = 25;
+    this.page.pageSize = 50;
   }
 
   onSort(): void {
     this.initPagination();
     this.compoList = this.sortList(this.compoList);
     this.paginate(this.filter(this.compoList));
-    this.onTop();
   }
 
   onSearch(): void {
     this.initPagination();
     this.compoList = this.sortList(this.compoList);
     this.paginate(this.filter(this.compoList));
-    this.onTop();
   }
 
   onPaginateChange(): void {
     this.paginate(this.filter(this.compoList));
-    this.onTop();
-  }
-
-  onTop(): void {
-    this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
 
 }
