@@ -18,7 +18,7 @@ export class CompositionService {
   table: Dexie.Table<Composition, number>;
   importedFile: Dexie.Table<any, number>;
   done$ = new BehaviorSubject(false);
-  dateFormat = 'DD-MM-YYYY HH-mm';
+  dateFormat = 'YYYY-MM-DD HH-mm';
 
   constructor(
     private dropboxService: DropboxService,
