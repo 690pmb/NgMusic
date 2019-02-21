@@ -33,12 +33,13 @@ export class Composition {
   sTitle: string;
   score: number;
   size: number;
+  decile: number;
   type: string;
   deleted: number; // 0: false, 1: true
   fileList: Fichier[];
 
   constructor(artist: string, title: string, type: string, deleted: string,
-    sArtist: string, sTitle: string, score: string, size: string) {
+    sArtist: string, sTitle: string, score: string, size: string, decile: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;
@@ -46,6 +47,7 @@ export class Composition {
     this.sTitle = sTitle;
     this.score = +score;
     this.size = +size;
+    this.decile = +decile;
     this.deleted = deleted === 'true' ? 1 : 0;
   }
 }

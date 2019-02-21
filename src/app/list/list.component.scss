@@ -2,6 +2,22 @@
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
 
+@for $i from 1 through length($decile) {
+  .decile-#{$i} {
+    background-color: nth($decile, $i);
+    margin-left: 3px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+
+    @if ($i > 5) {
+      color: #fff;
+    }
+    @else {
+      color: $gray;
+    }
+  }
+}
+
 .paginator {
   top: 0;
 }
