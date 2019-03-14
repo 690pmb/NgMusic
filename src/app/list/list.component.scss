@@ -28,6 +28,17 @@
   justify-content: center;
 }
 
+.filter-item {
+  display: flex;
+  flex-direction: row;
+
+  & .clear-btn {
+    display: flex;
+    align-items: center;
+    margin: auto;
+  }
+}
+
 ::ng-deep.mat-paginator-container {
   justify-content: center !important;
 }
@@ -100,6 +111,10 @@ mat-row {
 
     & ::ng-deep.mat-form-field-flex {
       flex-direction: row;
+    }
+
+    & .filter-item .mat-form-field {
+      width: 90vw;
     }
   }
 }

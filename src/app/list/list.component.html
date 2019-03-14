@@ -1,19 +1,23 @@
 <!-- Compositions Filters -->
 <div class="filters">
   <!-- Artist Filter -->
-  <mat-form-field>
-    <input matInput type="search" placeholder="Chercher un artiste" [(ngModel)]="artistFilter" (keyup)="paginator.firstPage(); onSearch();" />
-    <span *ngIf="artistFilter" (click)="artistFilter=''; onSearch();" class="pointer">
+  <div class="filter-item">
+    <mat-form-field>
+      <input matInput type="search" placeholder="Chercher un artiste" [(ngModel)]="artistFilter" (keyup)="paginator.firstPage(); onSearch();" />
+    </mat-form-field>
+    <span *ngIf="artistFilter" (click)="artistFilter=''; onSearch();" class="pointer clear-btn">
       <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
     </span>
-  </mat-form-field>
+  </div>
   <!-- Titles Filter -->
-  <mat-form-field>
-    <input matInput type="search" placeholder="Chercher un titre" [(ngModel)]="titleFilter" (keyup)="paginator.firstPage(); onSearch();" />
-    <span *ngIf="titleFilter" (click)="titleFilter=''; onSearch();" class="pointer">
+  <div class="filter-item">
+    <mat-form-field>
+      <input matInput type="search" placeholder="Chercher un titre" [(ngModel)]="titleFilter" (keyup)="paginator.firstPage(); onSearch();" />
+    </mat-form-field>
+    <span *ngIf="titleFilter" (click)="titleFilter=''; onSearch();" class="pointer clear-btn">
       <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
     </span>
-  </mat-form-field>
+  </div>
   <!-- Type Filter -->
   <mat-form-field>
     <mat-select #select placeholder="Type" (selectionChange)="paginator.firstPage(); filteredType = $event.value; onSearch();">
@@ -31,12 +35,14 @@
 <!-- Fichier Filters -->
 <div class="filters">
   <!-- FileName Filter -->
-  <mat-form-field>
-    <input matInput type="search" placeholder="Chercher un fichier" [(ngModel)]="filenameFilter" (keyup)="paginator.firstPage(); onSearch();" />
-    <span *ngIf="filenameFilter" (click)="filenameFilter=''; onSearch();" class="pointer">
+  <div class="filter-item">
+    <mat-form-field>
+      <input matInput type="search" placeholder="Chercher un fichier" [(ngModel)]="filenameFilter" (keyup)="paginator.firstPage(); onSearch();" />
+    </mat-form-field>
+    <span *ngIf="filenameFilter" (click)="filenameFilter=''; onSearch();" class="pointer clear-btn">
       <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
     </span>
-  </mat-form-field>
+  </div>
   <!-- Category Filter -->
   <mat-form-field>
     <mat-select #select placeholder="Catégorie" (selectionChange)="paginator.firstPage(); filteredCat = $event.value; onSearch();"
