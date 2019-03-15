@@ -45,7 +45,7 @@ export class Composition {
     this.type = type;
     this.sArtist = sArtist;
     this.sTitle = sTitle;
-    this.score = +score;
+    this.score = +score / 10;
     this.size = +size;
     this.decile = +decile;
     this.deleted = deleted === 'true' ? 1 : 0;

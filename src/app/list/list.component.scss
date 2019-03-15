@@ -46,7 +46,7 @@
 .mat-table,
 .mat-paginator,
 .paginator {
-  width: 98vw;
+  width: 99vw;
 }
 
 .mat-table {
@@ -61,7 +61,8 @@
   background-color: $light_green !important;
 }
 
-.mat-cell {
+.mat-cell,
+.mat-header-cell {
   &:first-of-type {
     padding: 10px !important;
   }
@@ -69,6 +70,10 @@
   &:last-of-type {
     padding-right: 0 !important;
   }
+}
+
+.mat-row > td {
+  padding: 0 !important;
 }
 
 mat-row {
@@ -81,15 +86,6 @@ mat-row {
 
 .example-element-detail {
   overflow: hidden;
-}
-
-.example-element-diagram {
-  min-width: 80px;
-  height: 104px;
-  margin: 8px 0;
-  padding: 8px;
-  font-weight: lighter;
-  border: 2px solid black;
 }
 
 .example-element-row {
@@ -116,5 +112,23 @@ mat-row {
     & .filter-item .mat-form-field {
       width: 90vw;
     }
+  }
+
+  .mat-table,
+  .mat-paginator,
+  .paginator {
+    width: 100vw;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    &:first-of-type {
+      padding: 10px 0 !important;
+    }
+  }
+
+  .mat-cell,
+  .mat-footer-cell {
+    font-size:12px;
   }
 }
