@@ -9,6 +9,7 @@ import { UtilsService } from './utils.service';
 import { Composition, Fichier } from '../utils/model';
 import { DexieService } from './dexie.service';
 import { ToastService } from './toast.service';
+import { Dropbox } from '../utils/dropbox';
 
 @Injectable({
   providedIn: 'root'
@@ -33,11 +34,11 @@ export class CompositionService {
   loadsCompositionList(): void {
     Promise.all([
       this.importedFile.get(1),
-      this.dropboxService.listFiles('/XML')
+      this.dropboxService.listFiles(Dropbox.DROPBOX_FOLDER)
     ]).then(([storedName, filesList]) => {
       const fileNameToDownload = this.findsFileNameToDownload(filesList);
       if (!fileNameToDownload && !storedName) {
-        this.toast.open('No file to download or load');
+        this.toast.open('No file to download or loaded');
         return;
       } else if (fileNameToDownload && !storedName) {
         this.downloadsCompositionList(fileNameToDownload, 'Download Compositions');
@@ -156,11 +157,11 @@ export class CompositionService {
 
   extractDateFromFilename(filename: string): moment.Moment {
     const ixComma = filename.indexOf(';');
-    const ixXml = filename.indexOf('.xml');
+    const ixXml = filename.indexOf(Dropbox.DROPBOX_FINAL_EXTENTION);
     return moment(filename.substring(ixComma + 1, ixXml), this.dateFormat);
   }
 
   isCorrectFileName(name: string): boolean {
-    return name.includes('final') && name.includes('.xml');
+    return name.includes(Dropbox.DROPBOX_FINAL_FILE) && name.includes(Dropbox.DROPBOX_FINAL_EXTENTION);
   }
 }
