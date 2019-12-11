@@ -52,7 +52,7 @@ export class DropboxService {
           fileReader.onload = () => {
             return resolve(fileReader.result.toString());
           };
-          fileReader.readAsText(response.fileBlob);
+          fileReader.readAsBinaryString(response.fileBlob);
         });
       })
       .catch((err) => this.serviceUtils.handleError(err));

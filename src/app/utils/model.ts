@@ -1,22 +1,18 @@
 export class Fichier {
-  author: string;
   category: string;
   creation: string;
   name: string;
-  publish: number;
   rangeBegin: number;
   rangeEnd: number;
   rank: number;
   size: number;
   sorted: number; // 0: false, 1: true
 
-  constructor(author: string, category: string, creation: string, name: string, publish: string, rangeBegin: string, rangeEnd: string,
+  constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
     rank: string, size: string, sorted: string) {
-    this.author = author;
     this.category = category;
     this.creation = creation;
     this.name = name;
-    this.publish = +publish;
     this.rangeBegin = +rangeBegin;
     this.rangeEnd = +rangeEnd;
     this.rank = +rank;

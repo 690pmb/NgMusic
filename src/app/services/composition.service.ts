@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as xml2js from 'xml2js';
 import * as moment from 'moment-mini-ts';
 import Dexie from 'dexie';
+import Zip from 'jszip';
 
 import { DropboxService } from './dropbox.service';
 import { UtilsService } from './utils.service';
@@ -20,6 +21,7 @@ export class CompositionService {
   importedFile: Dexie.Table<any, number>;
   done$ = new BehaviorSubject(false);
   dateFormat = 'YYYY-MM-DD HH-mm';
+  zip = new Zip();
 
   constructor(
     private dropboxService: DropboxService,
@@ -86,15 +88,14 @@ export class CompositionService {
   parseCompostion(compoXml: any): Composition {
     const c = new Composition(compoXml.$.A, compoXml.$.T, compoXml.$.type, compoXml.$.del,
       compoXml.$.sA, compoXml.$.sT, compoXml.$.score, compoXml.$.size, compoXml.$.decile);
-    c.fileList = this.parseFichierList(compoXml.file);
+    c.fileList = this.parseFichierList(compoXml.F);
     return c;
   }
 
   parseFichierList(fichierXml: any[]): Fichier[] {
     const fileList = [];
     fichierXml.forEach((elFile: any) => {
-      const fichier = new Fichier(elFile.$.author, elFile.$.cat, elFile.$.creation, elFile.$.name,
-        elFile.$.publish, elFile.$.rangeB, elFile.$.rangeE, elFile.$.rank, elFile.$.size, elFile.$.sorted);
+      const fichier = new Fichier(elFile.$.cat, elFile.$.creation, elFile.$.name, elFile.$.rangeB, elFile.$.rangeE, elFile.$.rank, elFile.$.size, elFile.$.sorted);
       fileList.push(fichier);
     });
     return fileList;
@@ -104,16 +105,18 @@ export class CompositionService {
     // download file
     const t0 = performance.now();
     this.dropboxService.downloadFile(fileName)
+      .then((content: string) => this.zip.loadAsync(content))
+      .then(content => this.zip.file(Object.keys(content.files)[0]).async('string'))
       .then((compoFromFile: string) => {
         if (compoFromFile && compoFromFile.trim().length > 0) {
           const compoList = [];
           // Parse file
           this.parser.parseString(compoFromFile, (err, result) => {
-            result.ListCompositions.compo.forEach(el => {
+            result.Compositions.C.forEach(el => {
               compoList.push(this.parseCompostion(el));
             });
             const t1 = performance.now();
-            console.log('Call to doSomething took ' + (t1 - t0) + ' milliseconds');
+            console.log('Call to doSomething took ' + (t1 - t0) / 1000 + ' seconds');
           });
           return compoList;
         } else {

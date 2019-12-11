@@ -33,16 +33,12 @@ export class Utils {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
         switch (sort.active) {
-          case 'author':
-            return Utils.compare(a.author, b.author, isAsc);
           case 'category':
             return Utils.compare(a.category, b.category, isAsc);
           case 'creation':
             return Utils.compareDate(a.creation, b.creation, isAsc);
           case 'name':
             return Utils.compare(a.name, b.name, isAsc);
-          case 'publish':
-            return Utils.compare(a.publish, b.publish, isAsc);
           case 'rangeBegin':
             return Utils.compare(a.rangeBegin, b.rangeBegin, isAsc);
           case 'rangeEnd':
