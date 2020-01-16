@@ -9,6 +9,7 @@ import { CompositionService } from './services/composition.service';
 })
 export class AppComponent implements OnInit {
   title = 'app';
+  tabs = 'c';
 
   constructor(
     private myCompositionsService: CompositionService
