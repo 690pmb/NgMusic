@@ -138,6 +138,9 @@ export class CompositionService {
   }
 
   findsFileNameToDownload(filesList: any): string {
+    if (!filesList) {
+      return undefined;
+    }
     const names = filesList.entries.map(f => f.name);
     const count = names.filter(name => this.isCorrectFileName(name)).length;
     if (count === 0) {
