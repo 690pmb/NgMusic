@@ -18,11 +18,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { ListComponent } from './list/list.component';
+import { FichierComponent } from './fichier/fichier.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent
+    ListComponent,
+    FichierComponent
   ],
   imports: [
     BrowserAnimationsModule,
