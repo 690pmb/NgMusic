@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CompositionService } from './services/composition.service';
+import { DataService } from './services/data.service';
+import { Dropbox } from './utils/dropbox';
+import { DexieService } from './services/dexie.service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +14,12 @@ export class AppComponent implements OnInit {
   tabs = 'c';
 
   constructor(
-    private myCompositionsService: CompositionService
+    private dataService: DataService,
+    private dexieService: DexieService,
   ) { }
 
   ngOnInit(): void {
-    this.myCompositionsService.loadsCompositionList();
+    this.dataService.loadsList(this.dexieService.compositionTable, this.dexieService.fileComposition, Dropbox.DROPBOX_COMPOSITION_FILE, true);
+    this.dataService.loadsList(this.dexieService.fichierTable, this.dexieService.fileFichier, Dropbox.DROPBOX_FICHIER_FILE, false);
   }
 }

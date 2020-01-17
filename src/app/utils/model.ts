@@ -7,6 +7,7 @@ export class Fichier {
   rank: number;
   size: number;
   sorted: number; // 0: false, 1: true
+  compoList: Composition[];
 
   constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
     rank: string, size: string, sorted: string) {

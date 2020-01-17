@@ -10,7 +10,7 @@ import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 import { Composition, Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
-import { CompositionService } from '../services/composition.service';
+import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
 
 library.add(faTimesCircle);
@@ -54,7 +54,7 @@ export class ListComponent implements OnInit {
 
   constructor(
     private elemRef: ElementRef,
-    private myCompositionsService: CompositionService,
+    private myCompositionsService: DataService,
     private serviceUtils: UtilsService
   ) { }
 
@@ -66,7 +66,7 @@ export class ListComponent implements OnInit {
     new Dropdown('Theme', 'THEME'), new Dropdown('Genre', 'GENRE'), new Dropdown('Divers', 'MISCELLANEOUS')];
     this.initPagination();
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
-      this.myCompositionsService.getAll().then(list => {
+      this.myCompositionsService.getAll(this.myCompositionsService.compositionTable).then(list => {
         this.compoList = this.sortList(list);
         this.length = list.length;
         this.paginate(this.filter(this.compoList));
