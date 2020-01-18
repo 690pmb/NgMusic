@@ -12,6 +12,7 @@ import { Utils } from '../utils/utils';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
 import { ListComponent } from '../list/list.component';
+import { DexieService } from '../services/dexie.service';
 
 library.add(faTimesCircle);
 
@@ -49,6 +50,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   constructor(
     private elemRef: ElementRef,
     private myCompositionsService: DataService,
+    private dexieService: DexieService,
     private serviceUtils: UtilsService
   ) {
     super();
@@ -61,8 +63,8 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
     this.catList = [new Dropdown('Year', 'YEAR'), new Dropdown('Decade', 'DECADE'),
     new Dropdown('Long Period', 'LONG_PERIOD'), new Dropdown('All Time', 'ALL_TIME'),
     new Dropdown('Theme', 'THEME'), new Dropdown('Genre', 'GENRE'), new Dropdown('Divers', 'MISCELLANEOUS')];
-    this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
-      this.myCompositionsService.getAll(this.myCompositionsService.compositionTable).then(list => {
+    this.myCompositionsService.doneComposition$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
+      this.myCompositionsService.getAll(this.dexieService.compositionTable).then(list => {
         this.dataList = this.sortList(list);
         this.length = list.length;
         this.paginate(this.filter(this.dataList));

@@ -1,1 +1,52 @@
-<p>fichier works!</p>
+  <div class="paginator mat-elevation-z4">
+    <!-- Paginator -->
+    <mat-paginator #paginator [length]="length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="pageSizeOptions"
+      (page)="page = $event; onPaginateChange();" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+  
+  <!-- Table -->
+  <mat-table class="mat-elevation-z4" [dataSource]="displayedData" (matSortChange)="paginator.firstPage(); sort = $event; onSort();"
+    matSort [matSortActive]="'name'" [matSortDirection]="'desc'" multiTemplateDataRows>
+    <!-- NAME -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="mat-text">Nom</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let fichier">
+        {{fichier.name}}
+      </mat-cell>
+    </ng-container>
+  
+    <!-- CATEGORY -->
+    <ng-container matColumnDef="category">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="mat-text">Categorie</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let fichier">
+        {{fichier.category}}
+      </mat-cell>
+    </ng-container>
+  
+    <!-- SIZE -->
+    <ng-container matColumnDef="size">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        <span class="mat-text">Taille</span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let fichier">
+        {{fichier.size}}
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let element; let i = dataIndex; columns: displayedColumns;" class="example-element-row"
+      [ngClass]="{'deleted': element.deleted === 1, 'even': i % 2 === 0, 'odd': i % 2 === 1, 'sorted': element.sorted === 1}"
+      [class.example-expanded-row]="expandedElement === element" (click)="expand(element)">
+    </mat-row>
+    <!-- <mat-row *matRowDef="let row; let i = dataIndex; columns: [expandedColumn];" class="example-detail-row" [ngClass]="{'deleted': row.deleted === 1, 'even': i % 2 === 0, 'odd': i % 2 === 1}"></mat-row> -->
+  </mat-table>
+  
+  <button id="goTop" mat-icon-button color="primary" (click)="goTop()">
+    <fa-icon [icon]="faAngleUp" size="4x"></fa-icon>
+  </button>
+  
