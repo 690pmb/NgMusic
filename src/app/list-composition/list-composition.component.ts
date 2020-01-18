@@ -16,9 +16,9 @@ import { UtilsService } from '../services/utils.service';
 library.add(faTimesCircle);
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: 'app-list-composition',
+  templateUrl: './list-composition.component.html',
+  styleUrls: ['./list-composition.component.scss'],
   animations: [
     trigger('detailExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
@@ -27,7 +27,7 @@ library.add(faTimesCircle);
     ]),
   ]
 })
-export class ListComponent implements OnInit {
+export class ListCompositionComponent implements OnInit {
   compoList: Composition[];
   displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
   displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];

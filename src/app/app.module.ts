@@ -17,14 +17,14 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
-import { ListComponent } from './list/list.component';
-import { FichierComponent } from './fichier/fichier.component';
+import { ListCompositionComponent } from './list-composition/list-composition.component';
+import { ListFichierComponent } from './list-fichier/list-fichier.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListComponent,
-    FichierComponent
+    ListCompositionComponent,
+    ListFichierComponent
   ],
   imports: [
     BrowserAnimationsModule,
