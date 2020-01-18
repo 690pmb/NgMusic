@@ -5,7 +5,13 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './list-fichier.component.html',
   styleUrls: ['./list-fichier.component.scss']
 })
-export class ListFichierComponent implements OnInit {
+export class ListFichierComponent extends ListComponent<Fichier> implements OnInit {
+  displayedColumns = ['name', 'type', 'category', 'size'];
+  displayedColumnsComposition = ['artist', 'title', 'type', 'sizeC', 'score'];
+  displayedCompositions = new BehaviorSubject([]);
+  expandedElement: Fichier;
+  // expandedColumn = 'details';
+  faAngleUp = faAngleUp;
 
   constructor() { }
 

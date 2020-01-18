@@ -1,5 +1,4 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -12,6 +11,7 @@ import { Composition, Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
+import { ListComponent } from '../list/list.component';
 
 library.add(faTimesCircle);
 
@@ -27,16 +27,10 @@ library.add(faTimesCircle);
     ]),
   ]
 })
-export class ListCompositionComponent implements OnInit {
-  compoList: Composition[];
+export class ListCompositionComponent extends ListComponent<Composition> implements OnInit {
   displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
   displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];
-  length: number;
-  displayedData: Composition[];
   displayedFichier = new BehaviorSubject([]);
-  pageSizeOptions = [25, 50, 100, 200];
-  page: PageEvent;
-  sort: Sort;
   expandedElement: Composition;
   expandedColumn = 'details';
   // Filters
@@ -56,20 +50,22 @@ export class ListCompositionComponent implements OnInit {
     private elemRef: ElementRef,
     private myCompositionsService: DataService,
     private serviceUtils: UtilsService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
+    super.ngOnInit();
     this.sort = { active: 'score', direction: 'desc' };
     this.types = [new Dropdown('Chanson', 'SONG'), new Dropdown('Album', 'ALBUM')];
     this.catList = [new Dropdown('Year', 'YEAR'), new Dropdown('Decade', 'DECADE'),
     new Dropdown('Long Period', 'LONG_PERIOD'), new Dropdown('All Time', 'ALL_TIME'),
     new Dropdown('Theme', 'THEME'), new Dropdown('Genre', 'GENRE'), new Dropdown('Divers', 'MISCELLANEOUS')];
-    this.initPagination();
     this.myCompositionsService.done$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
       this.myCompositionsService.getAll(this.myCompositionsService.compositionTable).then(list => {
-        this.compoList = this.sortList(list);
+        this.dataList = this.sortList(list);
         this.length = list.length;
-        this.paginate(this.filter(this.compoList));
+        this.paginate(this.filter(this.dataList));
       }).catch(err => this.serviceUtils.handlePromiseError(err))
     );
   }
@@ -121,10 +117,6 @@ export class ListCompositionComponent implements OnInit {
     return Utils.sortComposition(list, this.sort);
   }
 
-  paginate(list: Composition[]): void {
-    this.displayedData = list.slice(this.page.pageIndex * this.page.pageSize, (this.page.pageIndex + 1) * this.page.pageSize);
-  }
-
   expand(element: Composition): void {
     this.expandedElement = this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
@@ -136,30 +128,7 @@ export class ListCompositionComponent implements OnInit {
     this.displayedFichier.next(Utils.sortFichier(this.expandedElement.fileList, sort));
   }
 
-  initPagination(): void {
-    this.page = new PageEvent();
-    this.page.pageIndex = 0;
-    this.page.pageSize = 50;
-  }
-
-  onSort(): void {
-    this.initPagination();
-    this.compoList = this.sortList(this.compoList);
-    this.paginate(this.filter(this.compoList));
-  }
-
-  onSearch(): void {
-    this.initPagination();
-    this.compoList = this.sortList(this.compoList);
-    this.paginate(this.filter(this.compoList));
-  }
-
-  onPaginateChange(): void {
-    this.paginate(this.filter(this.compoList));
-  }
-
   goTop(): void {
     this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
-
 }

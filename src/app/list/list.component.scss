@@ -1,0 +1,118 @@
+@import "../../styles";
+
+/* stylelint-disable selector-pseudo-element-no-unknown */
+
+.paginator {
+  top: 0;
+}
+
+.paginator,
+.filters {
+  display: flex !important;
+  justify-content: center;
+}
+
+::ng-deep.mat-paginator-container {
+  justify-content: center !important;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: row;
+
+  & .clear-btn {
+    display: flex;
+    align-items: center;
+    margin: auto;
+  }
+}
+
+.mat-table,
+.mat-paginator,
+.paginator {
+  width: 99vw;
+}
+
+.mat-table {
+  hyphens: auto;
+}
+
+.mat-cell,
+.mat-header-cell {
+  &:first-of-type {
+    padding: 10px !important;
+  }
+
+  &:last-of-type {
+    padding-right: 0 !important;
+  }
+}
+
+.mat-row > td {
+  padding: 0 !important;
+}
+
+mat-row {
+  min-height: 0 !important;
+}
+
+.example-detail-row td.mat-cell {
+  border-bottom-style: unset !important;
+}
+
+.example-element-detail {
+  overflow: hidden;
+}
+
+.example-element-row {
+  border-bottom-width: 0;
+}
+
+#goTop {
+  display: flex;
+  margin: auto;
+
+  & ::ng-deep.fa-angle-up {
+    color: $blue;
+  }
+}
+
+.deleted {
+  background-color: $green !important;
+}
+
+.sorted {
+  background-color: $light_green !important;
+}
+
+@include media('800px') {
+  .filters {
+    flex-direction: column;
+
+    & ::ng-deep.mat-form-field-flex {
+      flex-direction: row;
+    }
+
+    & .filter-item .mat-form-field {
+      width: 90vw;
+    }
+  }
+
+  .mat-table,
+  .mat-paginator,
+  .paginator {
+    width: 100vw;
+  }
+
+  .mat-cell,
+  .mat-footer-cell {
+    font-size: 12px;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    &:first-of-type {
+      padding: 10px 0 !important;
+    }
+  }
+}
