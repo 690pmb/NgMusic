@@ -3,24 +3,16 @@ import { Sort } from '@angular/material/sort';
 import { Composition, Fichier } from './model';
 
 export class Utils {
-  /* tslint:disable cyclomatic-complexity */
   static sortComposition(list: Composition[], sort: Sort): Composition[] {
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
-        switch (sort.active) {
-          case 'artist':
-            return Utils.compare(a.artist, b.artist, isAsc);
-          case 'title':
-            return Utils.compare(a.title, b.title, isAsc);
-          case 'type':
-            return Utils.compare(a.type, b.type, isAsc);
-          case 'sizeC':
-            return Utils.compare(a.size, b.size, isAsc);
-          case 'score':
-            return Utils.compare(a.score, b.score, isAsc);
-          default:
-            return 0;
+        if (['artist', 'title', 'type', 'score', 'rank'].includes(sort.active)) {
+          return Utils.compare(a[sort.active], b[sort.active], isAsc);
+        } else if (['size', 'sizeC'].includes(sort.active)) {
+          return Utils.compare(a.size, b.size, isAsc);
+        } else {
+          return 0;
         }
       });
     } else {
@@ -32,25 +24,14 @@ export class Utils {
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
-        switch (sort.active) {
-          case 'category':
-            return Utils.compare(a.category, b.category, isAsc);
-          case 'creation':
-            return Utils.compareDate(a.creation, b.creation, isAsc);
-          case 'name':
-            return Utils.compare(a.name, b.name, isAsc);
-          case 'rangeBegin':
-            return Utils.compare(a.rangeBegin, b.rangeBegin, isAsc);
-          case 'rangeEnd':
-            return Utils.compare(a.rangeEnd, b.rangeEnd, isAsc);
-          case 'rank':
-            return Utils.compare(a.rank, b.rank, isAsc);
-          case 'size':
-            return Utils.compare(a.size, b.size, isAsc);
-          case 'sorted':
-            return Utils.compare(a.sorted, b.sorted, isAsc);
-          default:
-            return 0;
+        if (['category', 'name', 'rangeBegin', 'rangeEnd', 'rank', 'type', 'sorted', 'author', 'publish'].includes(sort.active)) {
+          return Utils.compare(a[sort.active], b[sort.active], isAsc);
+        } else if (sort.active === 'creation') {
+          return Utils.compareDate(a.creation, b.creation, isAsc);
+        } else if (['size', 'sizeF'].includes(sort.active)) {
+          return Utils.compare(a.size, b.size, isAsc);
+        } else {
+          return 0;
         }
       });
     } else {

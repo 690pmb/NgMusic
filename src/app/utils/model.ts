@@ -2,15 +2,18 @@ export class Fichier {
   category: string;
   creation: string;
   name: string;
+  type: string;
   rangeBegin: number;
   rangeEnd: number;
   rank: number;
   size: number;
+  author: string;
+  publish: number;
   sorted: number; // 0: false, 1: true
   compoList: Composition[];
 
   constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
-    rank: string, size: string, sorted: string) {
+    rank: string, size: string, sorted: string, type: string) {
     this.category = category;
     this.creation = creation;
     this.name = name;
@@ -19,6 +22,7 @@ export class Fichier {
     this.rank = +rank;
     this.size = +size;
     this.sorted = sorted === 'true' ? 1 : 0;
+    this.type = type;
   }
 }
 
@@ -33,10 +37,11 @@ export class Composition {
   decile: number;
   type: string;
   deleted: number; // 0: false, 1: true
+  rank: number;
   fileList: Fichier[];
 
-  constructor(artist: string, title: string, type: string, deleted: string,
-    sArtist: string, sTitle: string, score: string, size: string, decile: string) {
+  constructor(artist: string, title: string, type: string, deleted: string, sArtist: string,
+    sTitle: string, score: string, size: string, decile: string, rank: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;
@@ -46,6 +51,7 @@ export class Composition {
     this.size = +size;
     this.decile = +decile;
     this.deleted = deleted === 'true' ? 1 : 0;
+    this.rank = +rank;
   }
 }
 

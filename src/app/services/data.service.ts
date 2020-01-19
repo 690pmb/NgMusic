@@ -142,7 +142,7 @@ export class DataService {
     const fichierList = [];
     new xml2js.Parser().parseString(fichierFromFile, (err, result) => {
       result.Fichiers.F.forEach(el => {
-        const f = this.parseFichier(el);
+        const f = this.parseFichier(el, true);
         f.compoList = el.C.map((elCompo: any) => this.parseComposition(elCompo));
         fichierList.push(f);
       });
@@ -152,12 +152,25 @@ export class DataService {
 
   private parseComposition(compoXml: any): Composition {
     return new Composition(compoXml.$.A, compoXml.$.T, compoXml.$.type, compoXml.$.del,
-      compoXml.$.sA, compoXml.$.sT, compoXml.$.score, compoXml.$.size, compoXml.$.decile);
+      compoXml.$.sA, compoXml.$.sT, compoXml.$.score, compoXml.$.size, compoXml.$.decile, compoXml.$.rank);
   }
 
-  parseFichier(fichierXml: any): Fichier {
-    return new Fichier(fichierXml.$.cat, fichierXml.$.creation, fichierXml.$.name,
-      fichierXml.$.rangeB, fichierXml.$.rangeE, fichierXml.$.rank, fichierXml.$.size, fichierXml.$.sorted);
+  private parseFichier(fichierXml: any, splitName: boolean): Fichier {
+    let name: string = fichierXml.$.name;
+    const f = new Fichier(fichierXml.$.cat, fichierXml.$.creation, name, fichierXml.$.rangeB,
+      fichierXml.$.rangeE, fichierXml.$.rank, fichierXml.$.size, fichierXml.$.sorted, fichierXml.$.type);
+    if (splitName && !name.toLowerCase().includes('divers')) {
+      const author = name.substring(0, name.indexOf('-'));
+      const publish = name.substring(name.lastIndexOf('-') + 1, name.length);
+      name = name.substring(name.indexOf('-') + 1, name.lastIndexOf('-'));
+      f.name = name;
+      f.author = author;
+      f.publish = +publish;
+    }
+    if (name.toLowerCase().includes('divers')) {
+      f.author = 'Divers';
+    }
+    return f;
   }
 
   private findsFileNameToDownload(filesList: any, dropboxFile: string): string {
@@ -194,7 +207,7 @@ export class DataService {
     return name.includes(dropboxFile) && name.includes(Dropbox.DROPBOX_EXTENTION);
   }
 
-  private done(isCompilation: boolean) {
+  private done(isCompilation: boolean): void {
     if (isCompilation) {
       this.doneComposition$.next(true);
     } else {
