@@ -31,6 +31,9 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
   expandedElement: Fichier;
   expandedColumn = 'compositions';
   faAngleUp = faAngleUp;
+  // Filters
+  authorFilter = '';
+  nameFilter = '';
 
   constructor(
     private elemRef: ElementRef,
@@ -54,12 +57,31 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
   }
 
   filter(list: Fichier[]): Fichier[] {
-    this.length = list.length;
-    return list;
+    let result = list;
+    if (this.nameFilter) {
+      result = Utils.filterByFields(result, ['name'], this.nameFilter);
+    }
+    if (this.authorFilter) {
+      result = Utils.filterByFields(result, ['author'], this.authorFilter);
+    }
+    if (this.filteredType) {
+      result = Utils.filterByFields(result, ['type'], this.filteredType.code);
+    }
+    if (this.beginFilter) {
+      result = result.filter(f => f.rangeBegin >= this.beginFilter);
+    }
+    if (this.endFilter) {
+      result = result.filter(f => f.rangeEnd <= this.endFilter);
+    }
+    if (this.filteredCat && this.filteredCat.length > 0) {
+      result = result.filter(f => this.filteredCat.map(filter => filter.code).includes(f.category));
+    }
+    this.length = result.length;
+    return result;
   }
 
   sortList(list: Fichier[]): Fichier[] {
-    return list;
+    return Utils.sortFichier(list, this.sort);
   }
 
   expand(element: Fichier): void {

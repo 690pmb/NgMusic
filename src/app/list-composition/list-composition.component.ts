@@ -7,7 +7,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { BehaviorSubject } from 'rxjs';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
-import { Composition, Dropdown } from '../utils/model';
+import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
@@ -38,13 +38,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   artistFilter = '';
   titleFilter = '';
   filenameFilter = '';
-  filteredType: Dropdown;
-  types: Dropdown[];
-  filteredCat: Dropdown[];
-  catList: Dropdown[];
   deleted = false;
-  beginFilter: number;
-  endFilter: number;
   faAngleUp = faAngleUp;
 
   constructor(
@@ -59,10 +53,6 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   ngOnInit(): void {
     super.ngOnInit();
     this.sort = { active: 'score', direction: 'desc' };
-    this.types = [new Dropdown('Chanson', 'SONG'), new Dropdown('Album', 'ALBUM')];
-    this.catList = [new Dropdown('Year', 'YEAR'), new Dropdown('Decade', 'DECADE'),
-    new Dropdown('Long Period', 'LONG_PERIOD'), new Dropdown('All Time', 'ALL_TIME'),
-    new Dropdown('Theme', 'THEME'), new Dropdown('Genre', 'GENRE'), new Dropdown('Divers', 'MISCELLANEOUS')];
     this.myCompositionsService.doneComposition$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
       this.myCompositionsService.getAll(this.dexieService.compositionTable).then(list => {
         this.dataList = this.sortList(list);
