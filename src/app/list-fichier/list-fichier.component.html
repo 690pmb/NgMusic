@@ -143,7 +143,9 @@
                   <ng-container *ngIf="column !== 'score'; else scoreBlock">
                     {{compo[column]}}
                   </ng-container>
-                  <ng-template #scoreBlock>{{compo.score | number:'1.0-0':'fr'}}</ng-template>
+                  <ng-template #scoreBlock>{{compo.score | number:'1.0-0':'fr'}}
+                    <div class="decile-{{compo.decile}}">({{compo.decile}})</div>
+                  </ng-template>
                 </mat-cell>
               </ng-container>
             </div>

@@ -1,19 +1,1 @@
 @import "../list/list.component.scss";
-
-/* stylelint-disable selector-pseudo-element-no-unknown */
-
-@for $i from 1 through length($decile) {
-  .decile-#{$i} {
-    margin-left: 3px;
-    margin-bottom: 5px;
-    background-color: nth($decile, $i);
-    border-radius: 10px;
-
-    @if ($i > 5) {
-      color: #fff;
-    }
-    @else {
-      color: $gray;
-    }
-  }
-}
