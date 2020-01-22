@@ -4,9 +4,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { BehaviorSubject } from 'rxjs';
 import { skipWhile } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
 
 import { ListComponent } from '../list/list.component';
-import { Fichier } from '../utils/model';
+import { Fichier, Composition } from '../utils/model';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
 import { DexieService } from '../services/dexie.service';
@@ -27,7 +28,9 @@ import { Utils } from '../utils/utils';
 export class ListFichierComponent extends ListComponent<Fichier> implements OnInit {
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
-  displayedCompositions = new BehaviorSubject([]);
+  expandedCompositions = new BehaviorSubject([]);
+  displayedCompositions: Composition[];
+  pageComposition: PageEvent;
   expandedElement: Fichier;
   expandedColumn = 'compositions';
   faAngleUp = faAngleUp;
@@ -51,7 +54,7 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
       this.myFichiersService.getAll(this.dexieService.fichierTable).then(list => {
         this.dataList = this.sortList(list);
         this.length = list.length;
-        this.paginate(this.filter(this.dataList));
+        this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
       }).catch(err => this.serviceUtils.handlePromiseError(err))
     );
   }
@@ -87,12 +90,19 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
   expand(element: Fichier): void {
     this.expandedElement = this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
-      this.displayedCompositions.next(Utils.sortComposition(this.expandedElement.compoList, { active: 'rank', direction: 'asc' }));
+      this.onSortComposition({ active: 'rank', direction: 'asc' });
     }
   }
 
   onSortComposition(sort: Sort): void {
-    this.displayedCompositions.next(Utils.sortComposition(this.expandedElement.compoList, sort));
+    this.pageComposition = this.initPagination() ;
+    const list = Utils.sortComposition(this.expandedElement.compoList, sort);
+    this.displayedCompositions = Utils.paginate(list, this.pageComposition);
+    this.expandedCompositions.next(list);
+  }
+
+  onPaginateCompositionChange(): void {
+    this.displayedCompositions = Utils.paginate(this.expandedCompositions.getValue(), this.pageComposition);
   }
 
   goTop(): void {

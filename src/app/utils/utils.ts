@@ -1,4 +1,5 @@
 import { Sort } from '@angular/material/sort';
+import { PageEvent } from '@angular/material/paginator';
 
 import { Composition, Fichier } from './model';
 
@@ -80,5 +81,9 @@ export class Utils {
         }
       });
     });
+  }
+
+  static paginate<T>(list: T[], page: PageEvent): T[] {
+    return list.slice(page.pageIndex * page.pageSize, (page.pageIndex + 1) * page.pageSize);
   }
 }

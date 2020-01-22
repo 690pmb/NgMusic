@@ -57,7 +57,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
       this.myCompositionsService.getAll(this.dexieService.compositionTable).then(list => {
         this.dataList = this.sortList(list);
         this.length = list.length;
-        this.paginate(this.filter(this.dataList));
+        this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
       }).catch(err => this.serviceUtils.handlePromiseError(err))
     );
   }

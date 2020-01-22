@@ -103,7 +103,7 @@
       <span class="mat-text">Type</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      {{compo.type}}
+      {{compo.type | title}}
     </mat-cell>
   </ng-container>
 
@@ -140,7 +140,7 @@
                 <span class="mat-text">{{column}}</span>
               </mat-header-cell>
               <mat-cell *matCellDef="let fichier">
-                {{fichier[column]}}
+                {{fichier[column] | title:true}}
               </mat-cell>
             </ng-container>
           </div>

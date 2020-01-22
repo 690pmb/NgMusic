@@ -19,12 +19,14 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppComponent } from './app.component';
 import { ListCompositionComponent } from './list-composition/list-composition.component';
 import { ListFichierComponent } from './list-fichier/list-fichier.component';
+import { TitlePipe } from './utils/title.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListCompositionComponent,
-    ListFichierComponent
+    ListFichierComponent,
+    TitlePipe
   ],
   imports: [
     BrowserAnimationsModule,
