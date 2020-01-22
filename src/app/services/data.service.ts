@@ -159,16 +159,16 @@ export class DataService {
     let name: string = fichierXml.$.name;
     const f = new Fichier(fichierXml.$.cat, fichierXml.$.creation, name, fichierXml.$.rangeB,
       fichierXml.$.rangeE, fichierXml.$.rank, fichierXml.$.size, fichierXml.$.sorted, fichierXml.$.type);
-    if (splitName && !name.toLowerCase().includes('divers')) {
+    if (splitName && !fichierXml.$.author) {
       const author = name.substring(0, name.indexOf('-'));
       const publish = name.substring(name.lastIndexOf('-') + 1, name.length);
       name = name.substring(name.indexOf('-') + 1, name.lastIndexOf('-'));
       f.name = name;
       f.author = author;
       f.publish = +publish;
-    }
-    if (name.toLowerCase().includes('divers')) {
-      f.author = 'Divers';
+    } else {
+      f.author = fichierXml.$.author;
+      f.publish = +fichierXml.$.publish;
     }
     return f;
   }
