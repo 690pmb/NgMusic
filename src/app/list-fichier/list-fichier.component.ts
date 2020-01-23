@@ -28,15 +28,18 @@ import { Utils } from '../utils/utils';
 export class ListFichierComponent extends ListComponent<Fichier> implements OnInit {
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
-  expandedCompositions = new BehaviorSubject([]);
-  displayedCompositions: Composition[];
+  expandedCompositions: Composition[];
+  displayedCompositions = new BehaviorSubject([]);
   pageComposition: PageEvent;
+  sortComposition: Sort;
   expandedElement: Fichier;
   expandedColumn = 'compositions';
   faAngleUp = faAngleUp;
   // Filters
   authorFilter = '';
   nameFilter = '';
+  deleted = false;
+  top = false;
 
   constructor(
     private elemRef: ElementRef,
@@ -79,8 +82,27 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
     if (this.filteredCat && this.filteredCat.length > 0) {
       result = result.filter(f => this.filteredCat.map(filter => filter.code).includes(f.category));
     }
+    result = this.filterComposition(result);
     this.length = result.length;
     return result;
+  }
+
+  filterComposition(list: Fichier[]): Fichier[] {
+    let result = list;
+    result.forEach(f => f.displayedCompoList = f.compoList);
+    if (!this.deleted) {
+      result.forEach(f => f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted));
+    }
+    if (this.top) {
+      result.forEach(f => {
+        if (f.sorted) {
+          f.displayedCompoList = f.displayedCompoList.filter(c => c.rank < 10);
+        } else {
+          f.displayedCompoList = [];
+        }
+      });
+    }
+    return result.filter(f => f.displayedCompoList && f.displayedCompoList.length > 0);
   }
 
   sortList(list: Fichier[]): Fichier[] {
@@ -90,19 +112,23 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
   expand(element: Fichier): void {
     this.expandedElement = this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
-      this.onSortComposition({ active: 'rank', direction: 'asc' });
+      this.sortComposition = { active: 'rank', direction: 'asc' };
+      this.onSortComposition(this.sortComposition);
     }
   }
 
   onSortComposition(sort: Sort): void {
-    this.pageComposition = this.initPagination() ;
-    const list = Utils.sortComposition(this.expandedElement.compoList, sort);
-    this.displayedCompositions = Utils.paginate(list, this.pageComposition);
-    this.expandedCompositions.next(list);
+    if (this.expandedElement) {
+      this.pageComposition = this.initPagination();
+      this.sortComposition = sort;
+      this.expandedElement = this.filterComposition([this.expandedElement])[0];
+      this.displayedCompositions.next(Utils.sortComposition(this.expandedElement.displayedCompoList, sort));
+      this.expandedCompositions = this.displayedCompositions.getValue();
+    }
   }
 
   onPaginateCompositionChange(): void {
-    this.displayedCompositions = Utils.paginate(this.expandedCompositions.getValue(), this.pageComposition);
+    this.displayedCompositions.next(Utils.paginate(this.expandedCompositions, this.pageComposition));
   }
 
   goTop(): void {

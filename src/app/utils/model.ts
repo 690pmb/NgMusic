@@ -11,6 +11,7 @@ export class Fichier {
   publish: number;
   sorted: number; // 0: false, 1: true
   compoList: Composition[];
+  displayedCompoList: Composition[];
 
   constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
     rank: string, size: string, sorted: string, type: string) {
@@ -39,6 +40,7 @@ export class Composition {
   deleted: number; // 0: false, 1: true
   rank: number;
   fileList: Fichier[];
+  displayedFileList: Fichier[];
 
   constructor(artist: string, title: string, type: string, deleted: string, sArtist: string,
     sTitle: string, score: string, size: string, decile: string, rank: string) {
