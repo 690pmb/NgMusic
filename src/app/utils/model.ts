@@ -24,6 +24,7 @@ export class Fichier {
     this.size = +size;
     this.sorted = sorted === 'true' ? 1 : 0;
     this.type = type;
+    this.displayedCompoList = [];
   }
 }
 
@@ -54,6 +55,7 @@ export class Composition {
     this.decile = +decile;
     this.deleted = deleted === 'true' ? 1 : 0;
     this.rank = +rank;
+    this.displayedFileList = [];
   }
 }
 

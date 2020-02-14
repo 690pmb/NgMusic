@@ -5,13 +5,19 @@ import { Composition, Fichier } from './model';
 
 export class Utils {
   static sortComposition(list: Composition[], sort: Sort): Composition[] {
+    console.log('list', list);
+    console.log('sort', sort);
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
-        if (['artist', 'title', 'type', 'score', 'rank'].includes(sort.active)) {
+        if (['artist', 'title', 'type'].includes(sort.active)) {
+          return Utils.compare(a[sort.active].trim().toLowerCase(), b[sort.active].trim().toLowerCase(), isAsc);
+        } else if (['score', 'rank'].includes(sort.active)) {
           return Utils.compare(a[sort.active], b[sort.active], isAsc);
-        } else if (['size', 'sizeC'].includes(sort.active)) {
+        } else if ('size' === sort.active) {
           return Utils.compare(a.size, b.size, isAsc);
+        } else if ('sizeC' === sort.active && a.displayedFileList && b.displayedFileList) {
+          return Utils.compare(a.displayedFileList.length, b.displayedFileList.length, isAsc);
         } else {
           return 0;
         }
@@ -25,7 +31,9 @@ export class Utils {
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
-        if (['category', 'name', 'rangeBegin', 'rangeEnd', 'rank', 'type', 'sorted', 'author', 'publish'].includes(sort.active)) {
+        if (['category', 'name', 'type', 'author'].includes(sort.active)) {
+          return Utils.compare(a[sort.active].trim().toLowerCase(), b[sort.active].trim().toLowerCase(), isAsc);
+        } else if (['rangeBegin', 'rangeEnd', 'rank', 'publish', 'sorted'].includes(sort.active)) {
           return Utils.compare(a[sort.active], b[sort.active], isAsc);
         } else if (sort.active === 'creation') {
           return Utils.compareDate(a.creation, b.creation, isAsc);

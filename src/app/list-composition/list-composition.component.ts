@@ -32,14 +32,15 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
   displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];
   displayedFichier = new BehaviorSubject([]);
+  sortFichier: Sort;
   expandedElement: Composition;
   expandedColumn = 'details';
+  faAngleUp = faAngleUp;
   // Filters
   artistFilter = '';
   titleFilter = '';
   filenameFilter = '';
   deleted = false;
-  faAngleUp = faAngleUp;
 
   constructor(
     private elemRef: ElementRef,
@@ -68,6 +69,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
     // Fichier filters
     result = this.filterOnFichier(result);
     this.length = result.length;
+    this.onSortFichier(this.sortFichier);
     return result;
   }
 
@@ -90,19 +92,25 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
 
   filterOnFichier(list: Composition[]): Composition[] {
     let result = list;
+    result.forEach(c => c.displayedFileList = c.fileList);
     if (this.filteredCat && this.filteredCat.length > 0) {
-      result = result.filter(c => c.fileList.some(f => this.filteredCat.map(filter => filter.code).includes(f.category)));
+      result.forEach(c => c.displayedFileList = c.displayedFileList.filter(f => this.filteredCat.map(filter => filter.code).includes(f.category)));
     }
     if (this.filenameFilter) {
-      result = result.filter(c => c.fileList.some(f => f.name.toLowerCase().includes(this.filenameFilter.toLowerCase())));
+      result.forEach(c => c.displayedFileList = c.displayedFileList.filter(f => f.name.toLowerCase().includes(this.filenameFilter.toLowerCase())));
     }
     if (this.beginFilter) {
-      result = result.filter(c => c.fileList.some(f => f.rangeBegin >= this.beginFilter));
+      result.forEach(c => c.displayedFileList = c.displayedFileList.filter(f => f.rangeBegin >= this.beginFilter));
     }
     if (this.endFilter) {
-      result = result.filter(c => c.fileList.some(f => f.rangeEnd <= this.endFilter));
+      result.forEach(c => c.displayedFileList = c.displayedFileList.filter(f => f.rangeEnd <= this.endFilter));
     }
-    return result;
+    return result.filter(c => c.displayedFileList && c.displayedFileList.length > 0);
+  }
+
+  onSort(): void {
+    super.onSort();
+    this.displayedData=this.sortList(this.displayedData);
   }
 
   sortList(list: Composition[]): Composition[] {
@@ -112,12 +120,17 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   expand(element: Composition): void {
     this.expandedElement = this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
-      this.displayedFichier.next(Utils.sortFichier(this.expandedElement.fileList, { active: 'rank', direction: 'asc' }));
+      this.sortFichier = { active: 'rank', direction: 'asc' };
+      this.displayedFichier.next(Utils.sortFichier(this.expandedElement.displayedFileList, this.sortFichier));
     }
   }
 
   onSortFichier(sort: Sort): void {
-    this.displayedFichier.next(Utils.sortFichier(this.expandedElement.fileList, sort));
+    if (this.expandedElement) {
+      this.sortFichier = sort;
+      this.expandedElement = this.filterOnFichier([this.expandedElement])[0];
+      this.displayedFichier.next(Utils.sortFichier(this.expandedElement.displayedFileList, sort));
+    }
   }
 
   goTop(): void {
