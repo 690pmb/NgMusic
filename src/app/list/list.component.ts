@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { OnInit } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
 import { Dropdown } from '../utils/model';

@@ -91,7 +91,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
   }
 
   filterOnFichier(list: Composition[]): Composition[] {
-    let result = list;
+    const result = list;
     result.forEach(c => c.displayedFileList = c.fileList);
     if (this.filteredCat && this.filteredCat.length > 0) {
       result.forEach(c => c.displayedFileList = c.displayedFileList.filter(f => this.filteredCat.map(filter => filter.code).includes(f.category)));
@@ -110,7 +110,7 @@ export class ListCompositionComponent extends ListComponent<Composition> impleme
 
   onSort(): void {
     super.onSort();
-    this.displayedData=this.sortList(this.displayedData);
+    this.displayedData = this.sortList(this.displayedData);
   }
 
   sortList(list: Composition[]): Composition[] {

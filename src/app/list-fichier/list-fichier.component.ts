@@ -88,18 +88,14 @@ export class ListFichierComponent extends ListComponent<Fichier> implements OnIn
   }
 
   filterComposition(list: Fichier[]): Fichier[] {
-    let result = list;
+    const result = list;
     result.forEach(f => f.displayedCompoList = f.compoList);
     if (!this.deleted) {
       result.forEach(f => f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted));
     }
     if (this.top) {
       result.forEach(f => {
-        if (f.sorted) {
-          f.displayedCompoList = f.displayedCompoList.filter(c => c.rank < 10);
-        } else {
-          f.displayedCompoList = [];
-        }
+        f.displayedCompoList = f.sorted ? f.displayedCompoList.filter(c => c.rank < 10) : [];
       });
     }
     return result.filter(f => f.displayedCompoList && f.displayedCompoList.length > 0);
