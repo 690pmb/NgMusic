@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as xml2js from 'xml2js';
 import * as moment from 'moment-mini-ts';
 import Dexie from 'dexie';
-import Zip from 'jszip';
+import * as JSZip from 'jszip';
 
 import { DropboxService } from './dropbox.service';
 import { UtilsService } from './utils.service';
@@ -42,7 +42,7 @@ export class DataService {
         this.done(isCompilation);
       } else {
         if (this.extractDateFromFilename(fileNameToDownload).isAfter(this.extractDateFromFilename(storedName.filename))) {
-         this.downloadsList(table, file, fileNameToDownload, 'Update ' + dropboxFile, isCompilation);
+          this.downloadsList(table, file, fileNameToDownload, 'Update ' + dropboxFile, isCompilation);
         } else {
           this.toast.open('Already loaded');
           this.done(isCompilation);
@@ -84,7 +84,7 @@ export class DataService {
                    fileName: string, resultMessage: string, isCompilation: boolean): Promise<any> {
     // download file
     const t0 = performance.now();
-    const zip = new Zip();
+    const zip: JSZip = new JSZip();
     return this.dropboxService.downloadFile(fileName)
       .then((content: string) => {
         this.toast.open('File downloaded: ' + fileName);
