@@ -1,9 +1,10 @@
-import { OnInit } from '@angular/core';
+import { OnInit, Directive } from '@angular/core';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
 import { Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
 
+@Directive()
 export abstract class ListComponent<T> implements OnInit {
   dataList: T[];
   length: number;

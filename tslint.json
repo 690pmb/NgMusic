@@ -8,6 +8,12 @@
       "tslint-eslint-rules"
   ],
   "rules": {
+      "align": {
+        "options": [
+          "parameters",
+          "statements"
+        ]
+      },
       "origin-ordered-imports": true,
       "arrow-return-shorthand": true,
       "callable-types": true,
@@ -65,7 +71,6 @@
       "no-construct": true,
       "no-debugger": true,
       "no-duplicate-super": true,
-      "no-unused-variable": true,
       "no-for-in-array": true,
       "no-empty": false,
       "no-empty-interface": true,
@@ -108,7 +113,6 @@
       "no-trailing-whitespace": true,
       "no-unnecessary-initializer": true,
       "no-unused-expression": true,
-      "no-use-before-declare": true,
       "no-var-keyword": true,
       "no-unnecessary-callback-wrapper": true,
       "no-duplicate-imports": true,
@@ -155,7 +159,13 @@
           }
       ],
       "unified-signatures": true,
-      "variable-name": false,
+      "variable-name": {
+        "options": [
+          "ban-keywords",
+          "check-format",
+          "allow-pascal-case"
+        ]
+      },
       "whitespace": [
           true,
           "check-branch",
