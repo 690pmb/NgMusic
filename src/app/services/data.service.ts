@@ -81,7 +81,7 @@ export class DataService {
   }
 
   downloadsList<T>(table: Dexie.Table<T, number>, fileTable: Dexie.Table<any, number>,
-    fileName: string, resultMessage: string, isCompilation: boolean): Promise<any> {
+                   fileName: string, resultMessage: string, isCompilation: boolean): Promise<any> {
     // download file
     const t0 = performance.now();
     const zip = new Zip();

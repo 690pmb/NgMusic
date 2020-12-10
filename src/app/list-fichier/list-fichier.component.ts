@@ -6,7 +6,7 @@ import { skipWhile } from 'rxjs/operators';
 import { Sort } from '@angular/material/sort';
 import { PageEvent } from '@angular/material/paginator';
 
-import { ListComponent } from '../list/list.component';
+import { ListDirective } from '../list/list.component';
 import { Fichier, Composition } from '../utils/model';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
@@ -25,7 +25,7 @@ import { Utils } from '../utils/utils';
     ])
   ]
 })
-export class ListFichierComponent extends ListComponent<Fichier> implements OnInit {
+export class ListFichierComponent extends ListDirective<Fichier> implements OnInit {
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
   expandedCompositions: Composition[];

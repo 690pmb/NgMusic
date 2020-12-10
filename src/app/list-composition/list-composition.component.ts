@@ -11,7 +11,7 @@ import { Composition } from '../utils/model';
 import { Utils } from '../utils/utils';
 import { DataService } from '../services/data.service';
 import { UtilsService } from '../services/utils.service';
-import { ListComponent } from '../list/list.component';
+import { ListDirective } from '../list/list.component';
 import { DexieService } from '../services/dexie.service';
 
 library.add(faTimesCircle);
@@ -28,7 +28,7 @@ library.add(faTimesCircle);
     ]),
   ]
 })
-export class ListCompositionComponent extends ListComponent<Composition> implements OnInit {
+export class ListCompositionComponent extends ListDirective<Composition> implements OnInit {
   displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
   displayedColumnsFichier = ['name', 'category', 'rangeBegin', 'rangeEnd', 'size', 'rank'];
   displayedFichier = new BehaviorSubject([]);

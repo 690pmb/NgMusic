@@ -14,7 +14,7 @@ export class Fichier {
   displayedCompoList: Composition[];
 
   constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
-    rank: string, size: string, sorted: string, type: string) {
+              rank: string, size: string, sorted: string, type: string) {
     this.category = category;
     this.creation = creation;
     this.name = name;
@@ -44,7 +44,7 @@ export class Composition {
   displayedFileList: Fichier[];
 
   constructor(artist: string, title: string, type: string, deleted: string, sArtist: string,
-    sTitle: string, score: string, size: string, decile: string, rank: string) {
+              sTitle: string, score: string, size: string, decile: string, rank: string) {
     this.artist = artist;
     this.title = title;
     this.type = type;

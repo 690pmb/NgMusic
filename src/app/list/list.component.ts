@@ -5,7 +5,7 @@ import { Dropdown } from '../utils/model';
 import { Utils } from '../utils/utils';
 
 @Directive()
-export abstract class ListComponent<T> implements OnInit {
+export abstract class ListDirective<T> implements OnInit {
   dataList: T[];
   length: number;
   displayedData: T[];

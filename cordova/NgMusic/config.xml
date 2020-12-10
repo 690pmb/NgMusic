@@ -8,7 +8,6 @@
         Apache Cordova Team
     </author>
     <content src="index.html" />
-    <plugin name="cordova-plugin-whitelist" spec="1" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -16,31 +15,34 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <feature name="SplashScreen">
-        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
-    </feature>
     <platform name="android">
         <allow-intent href="market:*" />
-        <icon density="ldpi" src="res/android/ldpi.png" />
-        <icon density="mdpi" src="res/android/mdpi.png" />
-        <icon density="hdpi" src="res/android/hdpi.png" />
-        <icon density="xhdpi" src="res/android/xhdpi.png" />
-        <icon density="xxhdpi" src="res/android/xxhdpi.png" />
-        <icon density="xxxhdpi" src="res/android/xxxhdpi.png" />
-        <splash density="land-hdpi" src="res/android/hdpi.png" />
-        <splash density="land-ldpi" src="res/android/ldpi.png" />
-        <splash density="land-mdpi" src="res/android/mdpi.png" />
-        <splash density="land-xhdpi" src="res/android/xhdpi.png" />
-        <splash density="port-hdpi" src="res/android/hdpi.png" />
-        <splash density="port-ldpi" src="res/android/ldpi.png" />
-        <splash density="port-mdpi" src="res/android/mdpi.png" />
-        <splash density="port-xhdpi" src="res/android/xhdpi.png" />
+        <icon density="ldpi" src="res/screen/android/ldpi.png" />
+        <icon density="mdpi" src="res/screen/android/mdpi.png" />
+        <icon density="hdpi" src="res/screen/android/hdpi.png" />
+        <icon density="xhdpi" src="res/screen/android/xhdpi.png" />
+        <icon density="xxhdpi" src="res/screen/android/xxhdpi.png" />
+        <icon density="xxxhdpi" src="res/screen/android/xxxhdpi.png" />
+		
+        <splash density="land-hdpi" src="res/screen/android/hdpi.png" />
+        <splash density="land-ldpi" src="res/screen/android/ldpi.png" />
+        <splash density="land-mdpi" src="res/screen/android/mdpi.png" />	
+        <splash density="land-xhdpi" src="res/screen/android/xhdpi.png" />
+        <splash density="land-xxhdpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="land-xxxhdpi" src="res/screen/android/xxxhdpi.png" />
+		
+        <splash density="port-hdpi" src="res/screen/android/hdpi.png" />
+        <splash density="port-ldpi" src="res/screen/android/ldpi.png" />
+        <splash density="port-mdpi" src="res/screen/android/mdpi.png" />
+        <splash density="port-xhdpi" src="res/screen/android/xhdpi.png" />
+        <splash density="port-xxhdpi" src="res/screen/android/xxhdpi.png" />
+        <splash density="port-xxxhdpi" src="res/screen/android/xxxhdpi.png" />
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <preference name="SplashScreen" value="splash" />
+	<preference name="SplashScreenDelay" value="2000" />
+    <preference name="FadeSplashScreenDuration" value="300" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <engine name="android" spec="^7.1.4" />
 </widget>

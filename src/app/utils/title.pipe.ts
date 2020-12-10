@@ -8,7 +8,7 @@ const unicodeWordMatch = /(?:[A-Za-z\xAA\xB5\xBA\xC0-\xD6\xD8-\xF6\xF8-\u02C1\u0
 })
 export class TitlePipe implements PipeTransform {
 
-  transform(value: any, replaceUnderscore: boolean): any {
+  transform(value: any, replaceUnderscore?: boolean): any {
     if (!value) {
       return value;
     }
