@@ -76,10 +76,10 @@ export class ListCompositionComponent extends ListDirective<Composition> impleme
   filterOnComposition(list: Composition[]): Composition[] {
     let result = list;
     if (this.artistFilter) {
-      result = Utils.filterByFields(result, ['artist'], this.artistFilter);
+      result = Utils.filterByFields(result, ['sArtist'], this.artistFilter);
     }
     if (this.titleFilter) {
-      result = Utils.filterByFields(result, ['title'], this.titleFilter);
+      result = Utils.filterByFields(result, ['sTitle'], this.titleFilter);
     }
     if (this.filteredType) {
       result = Utils.filterByFields(result, ['type'], this.filteredType.code);
