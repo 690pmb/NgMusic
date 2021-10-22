@@ -207,10 +207,10 @@
   resolved "https://registry.yarnpkg.com/@angular/compiler/-/compiler-9.0.0.tgz#87e0bef4c369b6cadae07e3a4295778fc93799d5"
   integrity sha512-ctjwuntPfZZT2mNj2NDIVu51t9cvbhl/16epc5xEwyzyDt76pX9UgwvY+MbXrf/C/FWwdtmNtfP698BKI+9leQ==
 
-"@angular/core@11.0.4":
-  version "11.0.4"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-11.0.4.tgz#8eebb6a550dc24e4d53f642c8a78a0da2830cd5b"
-  integrity sha512-860cTMjdCHcvEsHOsTzpg5rThxwVgtnY4yT0SgboWiphrlzX+aNoyN/cCJHxWhmOTRlrl6/+hkeRq95E2BZkKw==
+"@angular/core@11.0.5":
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-11.0.5.tgz#b8c448c3cd4f6dae7327cc1ba4ee2aa29c8dbc26"
+  integrity sha512-XAXWQi7R3ucZXQwx9QK5jSKJeQyRJ53u2dQDpr7R5stzeCy1a5hrNOkZLg9zOTTPcth/6+FrOrRZP9SMdxtw3w==
   dependencies:
     tslib "^2.0.0"
 
@@ -1388,10 +1388,10 @@
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.6.2.tgz#02f64450016f7de70f145d698be311136d7c6374"
   integrity sha512-AzfesNFLvOs6Q1mHzIsVJXSeUnqVh4ZHG8ngygKJfbkcSLwzrBVm/LKa+mR8KrOfnWtUL47112gde1MC0IXqpQ==
 
-"@types/jasminewd2@2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@types/jasminewd2/-/jasminewd2-2.0.8.tgz#67afe5098d5ef2386073a7b7384b69a840dfe93b"
-  integrity sha512-d9p31r7Nxk0ZH0U39PTH0hiDlJ+qNVGjlt1ucOoTUptxb2v+Y5VMnsxfwN+i3hK4yQnqBi3FMmoMFcd1JHDxdg==
+"@types/jasminewd2@2.0.10":
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/@types/jasminewd2/-/jasminewd2-2.0.10.tgz#ae31c237aa6421bde30f1058b1d20f4577e54443"
+  integrity sha512-J7mDz7ovjwjc+Y9rR9rY53hFWKATcIkrr9DwQWmOas4/pnIPJTXawnzjwpHm3RSxz/e3ZVUvQ7cRbd5UQLo10g==
   dependencies:
     "@types/jasmine" "*"
 
@@ -5666,10 +5666,10 @@ jasmine-core@~2.8.0:
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-2.8.0.tgz#bcc979ae1f9fd05701e45e52e65d3a5d63f1a24e"
   integrity sha1-vMl5rh+f0FcB5F5S5l06XWPxok4=
 
-jasmine-spec-reporter@6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-6.0.0.tgz#3b9c85689676a351f343ba8dd6d3957f11a4bf1d"
-  integrity sha512-MvTOVoMxDZAftQYBApIlSfKnGMzi9cj351nXeqtnZTuXffPlbONN31+Es7F+Ke4okUeQ2xISukt4U1npfzLVrQ==
+jasmine-spec-reporter@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/jasmine-spec-reporter/-/jasmine-spec-reporter-7.0.0.tgz#94b939448e63d4e2bd01668142389f20f0a8ea49"
+  integrity sha512-OtC7JRasiTcjsaCBPtMO0Tl8glCejM4J4/dNuOJdA8lBjz4PmWjYQ6pzb0uzpBNAWJMDudYuj9OdXJWqM2QTJg==
   dependencies:
     colors "1.4.0"
 
@@ -5817,10 +5817,10 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jszip@3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.5.0.tgz#b4fd1f368245346658e781fec9675802489e15f6"
-  integrity sha512-WRtu7TPCmYePR1nazfrtuF216cIVon/3GWOvHS9QR5bIwSbnxtdpma6un3jyGGNhHsKCSzn5Ypk+EkDRvTGiFA==
+jszip@3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.7.0.tgz#9b8b995a4e7c9024653ce743e902076a82fdf4e6"
+  integrity sha512-Y2OlFIzrDOPWUnpU0LORIcDn2xN7rC9yKffFM/7pGhQuhO+SUhfm2trkJ/S5amjFvem0Y+1EALz/MEPkvHXVNw==
   dependencies:
     lie "~3.3.0"
     pako "~1.0.2"
@@ -5856,10 +5856,10 @@ karma-coverage-istanbul-reporter@3.0.3:
     istanbul-reports "^3.0.2"
     minimatch "^3.0.4"
 
-karma-jasmine-html-reporter@1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.5.4.tgz#669f33d694d88fce1b0ccfda57111de716cb0192"
-  integrity sha512-PtilRLno5O6wH3lDihRnz0Ba8oSn0YUJqKjjux1peoYGwo0AQqrWRbdWk/RLzcGlb+onTyXAnHl6M+Hu3UxG/Q==
+karma-jasmine-html-reporter@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/karma-jasmine-html-reporter/-/karma-jasmine-html-reporter-1.7.0.tgz#52c489a74d760934a1089bfa5ea4a8fcb84cc28b"
+  integrity sha512-pzum1TL7j90DTE86eFt48/s12hqwQuiD+e5aXx2Dc9wDEn2LfGq6RoAxEZZjFiN0RDSCOnosEKRZWxbQ+iMpQQ==
 
 karma-jasmine@4.0.1:
   version "4.0.1"
