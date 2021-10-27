@@ -55,7 +55,7 @@ export class UtilsService {
     console.error('error', error);
     this.toast.open(UtilsService.getErrorMessage(error));
     return new Promise<any>((resolve, reject) => {
-      resolve();
+      resolve(undefined);
     });
   }
 
