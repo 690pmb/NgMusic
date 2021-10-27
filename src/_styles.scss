@@ -1,5 +1,3 @@
-@import '~@angular/material/theming';
-
 @mixin media($width) {
   @media all and (max-width: $width) {
     @content;
@@ -11,6 +9,7 @@ $light_green: #d1fff7;
 $odd: #cee9f0;
 $even: #c8ddf0;
 $blue: #007fff;
+$purple: #673ab7;
 $gray: #484848;
 
 $decile:#faedde,#f5d0c7,#f0b1b7,#ea9bbb,#e586c9,#de72df,#b45fda,#824dd4,#483bcf,#2a4cca;
@@ -30,7 +29,7 @@ body {
 ::ng-deep.mat-checkbox-checked.mat-primary .mat-checkbox-background,
 ::ng-deep.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background,
 ::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-ripple .mat-ripple-element {
-  background-color: $green !important;
+  background-color: $purple !important;
 }
 
 .odd {
