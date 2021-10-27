@@ -5,8 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --port 7070",
-    "build": "ng build --prod",
-    "cordova": "ng build --prod --base-href file:///android_asset/www/",
+    "build": "ng build --configuration production --progress false",
+    "cordova": "npm run build --base-href file:///android_asset/www/",
     "test": "ng test",
     "lint": "run-p lint:**",
     "lint:ts": "ng lint",
