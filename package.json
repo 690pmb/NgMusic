@@ -33,7 +33,7 @@
     "core-js": "3.19.0",
     "dexie": "2.0.4",
     "dropbox": "4.0.30",
-    "jszip": "3.7.0",
+    "jszip": "3.7.1",
     "moment-mini-ts": "2.20.1",
     "rxjs": "6.6.3",
     "stream": "0.0.2",
