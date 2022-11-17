@@ -24,7 +24,7 @@
     "@angular/material": "12.2.11",
     "@angular/platform-browser": "12.2.11",
     "@angular/platform-browser-dynamic": "12.2.11",
-    "@angular-devkit/build-angular": "12.2.11",
+    "@angular-devkit/build-angular": "15.0.0",
     "@fortawesome/angular-fontawesome": "0.9.0",
     "@fortawesome/fontawesome-common-types": "0.2.36",
     "@fortawesome/fontawesome-svg-core": "1.2.36",
