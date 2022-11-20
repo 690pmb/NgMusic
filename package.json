@@ -30,7 +30,7 @@
     "@fortawesome/fontawesome-svg-core": "1.2.36",
     "@fortawesome/free-regular-svg-icons": "5.15.4",
     "@fortawesome/free-solid-svg-icons": "5.15.4",
-    "core-js": "3.19.0",
+    "core-js": "3.26.1",
     "dexie": "2.0.4",
     "dropbox": "4.0.30",
     "jszip": "3.7.1",
