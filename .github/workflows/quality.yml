@@ -1,0 +1,20 @@
+name: Quality
+
+on:
+  push:
+    branches:
+      - "main"
+      - "fix/**"
+      - "feat/**"
+      - "feature/**"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: self-hosted
+    steps:
+      - uses: 69pmb/deploy/workflow/ts-quality@main
