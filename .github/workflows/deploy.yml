@@ -1,0 +1,17 @@
+name: Deploy
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - uses: 69pmb/deploy/workflow/deploy@main
+        with:
+          url: ${{ secrets.DEPLOY_URL }}
