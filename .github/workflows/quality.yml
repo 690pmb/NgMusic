@@ -3,7 +3,7 @@ name: Quality
 on:
   push:
     branches:
-      - "master"
+      - "main"
       - "fix/**"
       - "feat/**"
       - "feature/**"
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: 69pmb/deploy/workflow/ts-quality@main
   deploy:
-    if: github.ref_name == 'master'
+    if: github.ref_name == 'main'
     needs: quality
     uses: ./.github/workflows/deploy.yml
     secrets: inherit
