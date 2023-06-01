@@ -12,10 +12,11 @@ $blue: #007fff;
 $purple: #673ab7;
 $gray: #484848;
 
-$decile:#faedde,#f5d0c7,#f0b1b7,#ea9bbb,#e586c9,#de72df,#b45fda,#824dd4,#483bcf,#2a4cca;
+$decile: #faedde, #f5d0c7, #f0b1b7, #ea9bbb, #e586c9, #de72df, #b45fda, #824dd4,
+  #483bcf, #2a4cca;
 
 * {
-  font-family: Roboto, "Helvetica Neue", sans-serif !important;
+  font-family: Roboto, 'Helvetica Neue', sans-serif !important;
 }
 
 body {
@@ -25,10 +26,14 @@ body {
 /* stylelint-disable selector-pseudo-element-no-unknown */
 ::ng-deep.mat-checkbox-checked.mat-accent .mat-checkbox-background,
 ::ng-deep.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
-::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element,
+::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-accent
+.mat-checkbox-ripple
+.mat-ripple-element,
 ::ng-deep.mat-checkbox-checked.mat-primary .mat-checkbox-background,
 ::ng-deep.mat-checkbox-indeterminate.mat-primary .mat-checkbox-background,
-::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-primary .mat-checkbox-ripple .mat-ripple-element {
+::ng-deep.mat-checkbox:not(.mat-checkbox-disabled).mat-primary
+.mat-checkbox-ripple
+.mat-ripple-element {
   background-color: $purple !important;
 }
 

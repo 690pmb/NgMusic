@@ -4,13 +4,13 @@
   overflow: hidden;
 
   & button {
-    float: left;
-    padding: 14px 16px;
     background-color: inherit;
     border: none;
-    outline: none;
-    transition: 0.3s;
     cursor: pointer;
+    float: left;
+    outline: none;
+    padding: 14px 16px;
+    transition: 0.3s;
 
     &:hover {
       background-color: #ddd;

@@ -1,7 +1,7 @@
-import { Sort } from '@angular/material/sort';
-import { PageEvent } from '@angular/material/paginator';
+import {Sort} from '@angular/material/sort';
+import {PageEvent} from '@angular/material/paginator';
 
-import { Composition, Fichier } from './model';
+import {Composition, Fichier} from './model';
 
 export class Utils {
   static sortComposition(list: Composition[], sort: Sort): Composition[] {
@@ -11,13 +11,25 @@ export class Utils {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
         if (['artist', 'title', 'type'].includes(sort.active)) {
-          return Utils.compare(a[sort.active].trim().toLowerCase(), b[sort.active].trim().toLowerCase(), isAsc);
+          return Utils.compare(
+            a[sort.active].trim().toLowerCase(),
+            b[sort.active].trim().toLowerCase(),
+            isAsc
+          );
         } else if (['score', 'rank'].includes(sort.active)) {
           return Utils.compare(a[sort.active], b[sort.active], isAsc);
         } else if ('size' === sort.active) {
           return Utils.compare(a.size, b.size, isAsc);
-        } else if ('sizeC' === sort.active && a.displayedFileList && b.displayedFileList) {
-          return Utils.compare(a.displayedFileList.length, b.displayedFileList.length, isAsc);
+        } else if (
+          'sizeC' === sort.active &&
+          a.displayedFileList &&
+          b.displayedFileList
+        ) {
+          return Utils.compare(
+            a.displayedFileList.length,
+            b.displayedFileList.length,
+            isAsc
+          );
         } else {
           return 0;
         }
@@ -32,8 +44,16 @@ export class Utils {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
         if (['category', 'name', 'type', 'author'].includes(sort.active)) {
-          return Utils.compare(a[sort.active].trim().toLowerCase(), b[sort.active].trim().toLowerCase(), isAsc);
-        } else if (['rangeBegin', 'rangeEnd', 'rank', 'publish', 'sorted'].includes(sort.active)) {
+          return Utils.compare(
+            a[sort.active].trim().toLowerCase(),
+            b[sort.active].trim().toLowerCase(),
+            isAsc
+          );
+        } else if (
+          ['rangeBegin', 'rangeEnd', 'rank', 'publish', 'sorted'].includes(
+            sort.active
+          )
+        ) {
           return Utils.compare(a[sort.active], b[sort.active], isAsc);
         } else if (sort.active === 'creation') {
           return Utils.compareDate(a.creation, b.creation, isAsc);
@@ -48,7 +68,7 @@ export class Utils {
     }
   }
 
-  static compare(a: any, b: any, isAsc: boolean): number {
+  static compare<T>(a: T, b: T, isAsc: boolean): number {
     return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
@@ -92,6 +112,9 @@ export class Utils {
   }
 
   static paginate<T>(list: T[], page: PageEvent): T[] {
-    return list.slice(page.pageIndex * page.pageSize, (page.pageIndex + 1) * page.pageSize);
+    return list.slice(
+      page.pageIndex * page.pageSize,
+      (page.pageIndex + 1) * page.pageSize
+    );
   }
 }

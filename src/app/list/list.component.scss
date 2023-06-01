@@ -1,18 +1,17 @@
-@import "../../styles";
+@import '../../styles';
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
 
 @for $i from 1 through length($decile) {
   .decile-#{$i} {
-    margin-left: 3px;
-    margin-bottom: 5px;
     background-color: nth($decile, $i);
     border-radius: 10px;
+    margin-bottom: 5px;
+    margin-left: 3px;
 
     @if ($i > 5) {
       color: #fff;
-    }
-    @else {
+    } @else {
       color: $gray;
     }
   }
@@ -37,8 +36,8 @@
   flex-direction: row;
 
   & .clear-btn {
-    display: flex;
     align-items: center;
+    display: flex;
     margin: auto;
   }
 }
