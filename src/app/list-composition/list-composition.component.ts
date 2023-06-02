@@ -47,6 +47,7 @@ export class ListCompositionComponent
     'size',
     'rank',
   ];
+
   displayedFichier = new BehaviorSubject([]);
   sortFichier: Sort;
   expandedElement: Composition;
@@ -100,13 +101,13 @@ export class ListCompositionComponent
   filterOnComposition(list: Composition[]): Composition[] {
     let result = list;
     if (this.artistFilter) {
-      result = Utils.filterByFields(result, ['sArtist'], this.artistFilter);
+      result = Utils.filterByFields(result, 'sArtist', this.artistFilter);
     }
     if (this.titleFilter) {
-      result = Utils.filterByFields(result, ['sTitle'], this.titleFilter);
+      result = Utils.filterByFields(result, 'sTitle', this.titleFilter);
     }
     if (this.filteredType) {
-      result = Utils.filterByFields(result, ['type'], this.filteredType.code);
+      result = Utils.filterByFields(result, 'type', this.filteredType.code);
     }
     if (!this.deleted) {
       result = result.filter(c => !c.deleted);

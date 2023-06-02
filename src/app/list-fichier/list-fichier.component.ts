@@ -82,13 +82,13 @@ export class ListFichierComponent
   filter(list: Fichier[]): Fichier[] {
     let result = list;
     if (this.nameFilter) {
-      result = Utils.filterByFields(result, ['name'], this.nameFilter);
+      result = Utils.filterByFields(result, 'name', this.nameFilter);
     }
     if (this.authorFilter) {
-      result = Utils.filterByFields(result, ['author'], this.authorFilter);
+      result = Utils.filterByFields(result, 'author', this.authorFilter);
     }
     if (this.filteredType) {
-      result = Utils.filterByFields(result, ['type'], this.filteredType.code);
+      result = Utils.filterByFields(result, 'type', this.filteredType.code);
     }
     if (this.beginFilter) {
       result = result.filter(f => f.rangeBegin >= this.beginFilter);

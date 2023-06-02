@@ -1,21 +1,17 @@
 import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {HttpHeaders, HttpClient} from '@angular/common/http';
-
+import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from './toast.service';
+import {GlobalError} from '../utils/model';
 
 @Injectable({providedIn: 'root'})
 export class UtilsService {
   constructor(private http: HttpClient, private toast: ToastService) {}
 
-  static getErrorMessage(error: any): string {
+  static getErrorMessage(error: GlobalError): string {
     let message;
-    if (error.response) {
-      message = error.response.error;
-    } else if (error.error && error.error.errors) {
-      message = 'Status ' + error.status + ': ' + error.error.errors.join(', ');
-    } else if (error.error) {
-      message = error.error;
+    if (UtilsService.isHttpError(error)) {
+      message = `Status ${error.status}: ${error.error.errors.join(', ')}`;
     } else if (error.message) {
       message = error.message;
     } else {
@@ -24,31 +20,30 @@ export class UtilsService {
     return message;
   }
 
+  private static isHttpError(error: GlobalError): error is HttpErrorResponse {
+    return 'status' in error;
+  }
+
   static encodeQueryUrl(query: string): string {
     return encodeURIComponent(query).replace(
       /[!'()*]/g,
-      c => '%' + c.charCodeAt(0).toString(16)
+      c => `%${c.charCodeAt(0).toString(16)}`
     );
   }
 
   getHeaders(): HttpHeaders {
-    const headers = new HttpHeaders({'Content-Type': 'application/json'});
-    // headers.append('Accept', 'application/json');
-    return headers;
+    return new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  handleError(error: any): void {
-    console.log('handleError');
-    console.error('error', error);
+  handleError(error: GlobalError): void {
+    console.error('handleError', error);
     this.toast.open(UtilsService.getErrorMessage(error));
-    this.toast.open(error);
   }
 
-  handlePromiseError(error: any): Promise<any> {
-    console.log('handlePromiseError');
-    console.error('error', error);
+  handlePromiseError(error: GlobalError): Promise<void> {
+    console.error('handlePromiseError', error);
     this.toast.open(UtilsService.getErrorMessage(error));
-    return new Promise<any>(resolve => {
+    return new Promise<void>(resolve => {
       resolve(undefined);
     });
   }
@@ -61,13 +56,5 @@ export class UtilsService {
     return headers
       ? this.http.get<T>(url, {headers: headers})
       : this.http.get<T>(url);
-  }
-
-  jsonpPromise<T>(url: string, callback: any): Promise<T> {
-    return this.jsonpObservable<T>(url, callback).toPromise();
-  }
-
-  jsonpObservable<T>(url: string, callback: any): Observable<T> {
-    return this.http.jsonp<T>(url, callback);
   }
 }

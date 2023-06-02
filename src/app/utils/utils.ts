@@ -5,8 +5,6 @@ import {Composition, Fichier} from './model';
 
 export class Utils {
   static sortComposition(list: Composition[], sort: Sort): Composition[] {
-    console.log('list', list);
-    console.log('sort', sort);
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
@@ -92,22 +90,26 @@ export class Utils {
     return result * (isAsc ? 1 : -1);
   }
 
-  static filterByFields<T>(items: T[], fields: string[], value: any): T[] {
+  static filterByFields<T>(
+    items: T[],
+    field: string & keyof T,
+    value: string
+  ): T[] {
     if (!items || items === undefined) {
-      return [];
+      return [] as T[];
     }
-    if (value === undefined || value.length === 0) {
+    if (
+      value === undefined ||
+      value.trim().length === 0 ||
+      value.trim() === ''
+    ) {
       return items;
     }
-    const val = value.toLowerCase();
     return items.filter(item => {
-      return fields.some(field => {
-        let it = item[field];
-        if (it) {
-          it = typeof it === 'string' ? it.toLowerCase() : it.toString();
-          return it.includes(val);
-        }
-      });
+      const fieldItem = item[field];
+      return typeof fieldItem === 'string'
+        ? fieldItem.toLowerCase()
+        : fieldItem.toString().includes(value.toLowerCase());
     });
   }
 

@@ -6,7 +6,6 @@
   ],
   "ignoreFiles": ["./src/app/styles/font-awesome.min.scss"],
   "rules": {
-    "indentation": 2,
     "color-hex-case": "lower",
     "color-hex-length": "short",
     "max-nesting-depth": 2,

@@ -1,3 +1,5 @@
+import {HttpErrorResponse} from '@angular/common/http';
+
 export class Fichier {
   category: string;
   creation: string;
@@ -87,3 +89,10 @@ export class Dropdown {
     this.code = code;
   }
 }
+
+export class File {
+  id?: number;
+  filename: string;
+}
+
+export type GlobalError = Error | HttpErrorResponse;

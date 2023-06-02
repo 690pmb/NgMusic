@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import Dexie from 'dexie';
-import {Composition, Fichier} from '../utils/model';
+import {Composition, Fichier, File} from '../utils/model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +8,8 @@ import {Composition, Fichier} from '../utils/model';
 export class DexieService extends Dexie {
   compositionTable: Dexie.Table<Composition, number>;
   fichierTable: Dexie.Table<Fichier, number>;
-  fileComposition: Dexie.Table<any, number>;
-  fileFichier: Dexie.Table<any, number>;
+  fileComposition: Dexie.Table<File, number>;
+  fileFichier: Dexie.Table<File, number>;
 
   constructor() {
     super('NgMusic');

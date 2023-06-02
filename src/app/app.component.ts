@@ -3,6 +3,7 @@ import {Component, OnInit} from '@angular/core';
 import {DataService} from './services/data.service';
 import {Dropbox} from './utils/dropbox';
 import {DexieService} from './services/dexie.service';
+import {Composition, Fichier} from './utils/model';
 
 @Component({
   selector: 'app-root',
@@ -19,13 +20,13 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataService.loadsList(
+    this.dataService.loadsList<Composition>(
       this.dexieService.compositionTable,
       this.dexieService.fileComposition,
       Dropbox.DROPBOX_COMPOSITION_FILE,
       true
     );
-    this.dataService.loadsList(
+    this.dataService.loadsList<Fichier>(
       this.dexieService.fichierTable,
       this.dexieService.fileFichier,
       Dropbox.DROPBOX_FICHIER_FILE,
