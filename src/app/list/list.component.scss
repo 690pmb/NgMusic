@@ -1,18 +1,17 @@
-@import "../../styles";
+@import '../../styles';
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
 
 @for $i from 1 through length($decile) {
   .decile-#{$i} {
-    margin-left: 3px;
-    margin-bottom: 5px;
     background-color: nth($decile, $i);
     border-radius: 10px;
+    margin-bottom: 5px;
+    margin-left: 3px;
 
     @if ($i > 5) {
       color: #fff;
-    }
-    @else {
+    } @else {
       color: $gray;
     }
   }
@@ -36,9 +35,9 @@
   display: flex;
   flex-direction: row;
 
-  & .clear-btn {
-    display: flex;
+  .clear-btn {
     align-items: center;
+    display: flex;
     margin: auto;
   }
 }
@@ -72,7 +71,7 @@ mat-row {
   min-height: 0 !important;
 }
 
-.example-detail-row td.mat-cell {
+.example-detail-row .mat-cell {
   border-bottom-style: unset !important;
 }
 
@@ -84,11 +83,11 @@ mat-row {
   border-bottom-width: 0;
 }
 
-#goTop {
+.go-top {
   display: flex;
   margin: auto;
 
-  & ::ng-deep.fa-angle-up {
+  ::ng-deep.fa-angle-up {
     color: $blue;
   }
 }
@@ -98,18 +97,18 @@ mat-row {
 }
 
 .sorted {
-  background-color: $light_green !important;
+  background-color: $light-green !important;
 }
 
 @include media('800px') {
   .filters {
     flex-direction: column;
 
-    & ::ng-deep.mat-form-field-flex {
+    ::ng-deep.mat-form-field-flex {
       flex-direction: row;
     }
 
-    & .filter-item .mat-form-field {
+    .filter-item .mat-form-field {
       width: 90vw;
     }
   }
