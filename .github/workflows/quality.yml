@@ -3,10 +3,10 @@ name: Quality
 on:
   push:
     branches:
-      - "main"
-      - "fix/**"
-      - "feat/**"
-      - "feature/**"
+      - 'main'
+      - 'fix/**'
+      - 'feat/**'
+      - 'feature/**'
   workflow_dispatch:
 
 concurrency:

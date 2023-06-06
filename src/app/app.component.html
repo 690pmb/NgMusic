@@ -1,11 +1,15 @@
 <div class="tab">
-    <button (click)="tabs='c'" [ngClass]="{'active': tabs === 'c'}">Compositions</button>
-    <button (click)="tabs='f'" [ngClass]="{'active' : tabs === 'f'}">Fichiers</button>
+  <button (click)="tabs = 'c'" [ngClass]="{active: tabs === 'c'}">
+    Compositions
+  </button>
+  <button (click)="tabs = 'f'" [ngClass]="{active: tabs === 'f'}">
+    Fichiers
+  </button>
 </div>
 
-<div class="tabcontent" [ngClass]="{'active': tabs === 'c'}">
-    <app-list-composition></app-list-composition>
+<div class="tabcontent" [ngClass]="{active: tabs === 'c'}">
+  <app-list-composition></app-list-composition>
 </div>
-<div class="tabcontent" [ngClass]="{'active' : tabs === 'f'}">
-    <app-list-fichier></app-list-fichier>
+<div class="tabcontent" [ngClass]="{active: tabs === 'f'}">
+  <app-list-fichier></app-list-fichier>
 </div>

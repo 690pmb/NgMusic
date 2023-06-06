@@ -3,27 +3,27 @@
   border: 1px solid #ccc;
   overflow: hidden;
 
-  & button {
-    float: left;
-    padding: 14px 16px;
+  .active {
+    background-color: #ccc;
+  }
+
+  button {
     background-color: inherit;
-    border: none;
-    outline: none;
-    transition: 0.3s;
+    border: 0;
     cursor: pointer;
+    float: left;
+    outline: none;
+    padding: 14px 16px;
+    transition: 0.3s;
 
     &:hover {
       background-color: #ddd;
-    }
-
-    &.active {
-      background-color: #ccc;
     }
   }
 }
 
 .tabcontent {
-  border-top: none;
+  border-top: 0;
 }
 
 .tabcontent:not(.active) {

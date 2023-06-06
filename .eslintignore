@@ -1,0 +1,9 @@
+/src/polyfills.ts
+/src/test.ts
+build/
+dist/
+node_modules/
+cordova/
+.husky/
+*.conf.js
+.angular

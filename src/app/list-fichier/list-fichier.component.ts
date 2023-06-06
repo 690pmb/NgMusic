@@ -1,17 +1,17 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { BehaviorSubject } from 'rxjs';
-import { skipWhile } from 'rxjs/operators';
-import { Sort } from '@angular/material/sort';
-import { PageEvent } from '@angular/material/paginator';
+import {Component, OnInit, ElementRef} from '@angular/core';
+import {faAngleUp} from '@fortawesome/free-solid-svg-icons';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {BehaviorSubject} from 'rxjs';
+import {skipWhile} from 'rxjs/operators';
+import {Sort} from '@angular/material/sort';
+import {PageEvent} from '@angular/material/paginator';
 
-import { ListDirective } from '../list/list.component';
-import { Fichier, Composition } from '../utils/model';
-import { DataService } from '../services/data.service';
-import { UtilsService } from '../services/utils.service';
-import { DexieService } from '../services/dexie.service';
-import { Utils } from '../utils/utils';
+import {ListDirective} from '../list/list.component';
+import {Fichier, Composition} from '../utils/model';
+import {DataService} from '../services/data.service';
+import {UtilsService} from '../services/utils.service';
+import {DexieService} from '../services/dexie.service';
+import {Utils} from '../utils/utils';
 
 @Component({
   selector: 'app-list-fichier',
@@ -19,13 +19,22 @@ import { Utils } from '../utils/utils';
   styleUrls: ['./list-fichier.component.scss'],
   animations: [
     trigger('compositionExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ])
-  ]
+      state(
+        'collapsed',
+        style({height: '0px', minHeight: '0', display: 'none'})
+      ),
+      state('expanded', style({height: '*'})),
+      transition(
+        'expanded <=> collapsed',
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+      ),
+    ]),
+  ],
 })
-export class ListFichierComponent extends ListDirective<Fichier> implements OnInit {
+export class ListFichierComponent
+  extends ListDirective<Fichier>
+  implements OnInit
+{
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
   expandedCompositions: Composition[];
@@ -52,26 +61,34 @@ export class ListFichierComponent extends ListDirective<Fichier> implements OnIn
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.sort = { active: 'name', direction: 'desc' };
-    this.myFichiersService.doneFichier$.pipe(skipWhile(done => done !== undefined && !done)).subscribe(() =>
-      this.myFichiersService.getAll(this.dexieService.fichierTable).then(list => {
-        this.dataList = this.sortList(list);
-        this.length = list.length;
-        this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
-      }).catch(err => this.serviceUtils.handlePromiseError(err))
-    );
+    this.sort = {active: 'name', direction: 'desc'};
+    this.myFichiersService.doneFichier$
+      .pipe(skipWhile(done => done !== undefined && !done))
+      .subscribe(() =>
+        this.myFichiersService
+          .getAll(this.dexieService.fichierTable)
+          .then(list => {
+            this.dataList = this.sortList(list);
+            this.length = list.length;
+            this.displayedData = Utils.paginate(
+              this.filter(this.dataList),
+              this.page
+            );
+          })
+          .catch(err => this.serviceUtils.handlePromiseError(err))
+      );
   }
 
   filter(list: Fichier[]): Fichier[] {
     let result = list;
     if (this.nameFilter) {
-      result = Utils.filterByFields(result, ['name'], this.nameFilter);
+      result = Utils.filterByFields(result, 'name', this.nameFilter);
     }
     if (this.authorFilter) {
-      result = Utils.filterByFields(result, ['author'], this.authorFilter);
+      result = Utils.filterByFields(result, 'author', this.authorFilter);
     }
     if (this.filteredType) {
-      result = Utils.filterByFields(result, ['type'], this.filteredType.code);
+      result = Utils.filterByFields(result, 'type', this.filteredType.code);
     }
     if (this.beginFilter) {
       result = result.filter(f => f.rangeBegin >= this.beginFilter);
@@ -80,7 +97,9 @@ export class ListFichierComponent extends ListDirective<Fichier> implements OnIn
       result = result.filter(f => f.rangeEnd <= this.endFilter);
     }
     if (this.filteredCat && this.filteredCat.length > 0) {
-      result = result.filter(f => this.filteredCat.map(filter => filter.code).includes(f.category));
+      result = result.filter(f =>
+        this.filteredCat.map(filter => filter.code).includes(f.category)
+      );
     }
     result = this.filterComposition(result);
     this.length = result.length;
@@ -89,16 +108,23 @@ export class ListFichierComponent extends ListDirective<Fichier> implements OnIn
 
   filterComposition(list: Fichier[]): Fichier[] {
     const result = list;
-    result.forEach(f => f.displayedCompoList = f.compoList);
+    result.forEach(f => (f.displayedCompoList = f.compoList));
     if (!this.deleted) {
-      result.forEach(f => f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted));
+      result.forEach(
+        f =>
+          (f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted))
+      );
     }
     if (this.top) {
       result.forEach(f => {
-        f.displayedCompoList = f.sorted ? f.displayedCompoList.filter(c => c.rank < 10) : [];
+        f.displayedCompoList = f.sorted
+          ? f.displayedCompoList.filter(c => c.rank < 10)
+          : [];
       });
     }
-    return result.filter(f => f.displayedCompoList && f.displayedCompoList.length > 0);
+    return result.filter(
+      f => f.displayedCompoList && f.displayedCompoList.length > 0
+    );
   }
 
   sortList(list: Fichier[]): Fichier[] {
@@ -106,9 +132,10 @@ export class ListFichierComponent extends ListDirective<Fichier> implements OnIn
   }
 
   expand(element: Fichier): void {
-    this.expandedElement = this.expandedElement === element ? undefined : element;
+    this.expandedElement =
+      this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
-      this.sortComposition = { active: 'rank', direction: 'asc' };
+      this.sortComposition = {active: 'rank', direction: 'asc'};
       this.onSortComposition(this.sortComposition);
     }
   }
@@ -118,13 +145,17 @@ export class ListFichierComponent extends ListDirective<Fichier> implements OnIn
       this.pageComposition = this.initPagination();
       this.sortComposition = sort;
       this.expandedElement = this.filterComposition([this.expandedElement])[0];
-      this.displayedCompositions.next(Utils.sortComposition(this.expandedElement.displayedCompoList, sort));
+      this.displayedCompositions.next(
+        Utils.sortComposition(this.expandedElement.displayedCompoList, sort)
+      );
       this.expandedCompositions = this.displayedCompositions.getValue();
     }
   }
 
   onPaginateCompositionChange(): void {
-    this.displayedCompositions.next(Utils.paginate(this.expandedCompositions, this.pageComposition));
+    this.displayedCompositions.next(
+      Utils.paginate(this.expandedCompositions, this.pageComposition)
+    );
   }
 
   goTop(): void {

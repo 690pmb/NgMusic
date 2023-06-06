@@ -1,3 +1,5 @@
+import {HttpErrorResponse} from '@angular/common/http';
+
 export class Fichier {
   category: string;
   creation: string;
@@ -13,8 +15,17 @@ export class Fichier {
   compoList: Composition[];
   displayedCompoList: Composition[];
 
-  constructor(category: string, creation: string, name: string, rangeBegin: string, rangeEnd: string,
-              rank: string, size: string, sorted: string, type: string) {
+  constructor(
+    category: string,
+    creation: string,
+    name: string,
+    rangeBegin: string,
+    rangeEnd: string,
+    rank: string,
+    size: string,
+    sorted: string,
+    type: string
+  ) {
     this.category = category;
     this.creation = creation;
     this.name = name;
@@ -43,8 +54,18 @@ export class Composition {
   fileList: Fichier[];
   displayedFileList: Fichier[];
 
-  constructor(artist: string, title: string, type: string, deleted: string, sArtist: string,
-              sTitle: string, score: string, size: string, decile: string, rank: string) {
+  constructor(
+    artist: string,
+    title: string,
+    type: string,
+    deleted: string,
+    sArtist: string,
+    sTitle: string,
+    score: string,
+    size: string,
+    decile: string,
+    rank: string
+  ) {
     this.artist = artist;
     this.title = title;
     this.type = type;
@@ -68,3 +89,10 @@ export class Dropdown {
     this.code = code;
   }
 }
+
+export class File {
+  id?: number;
+  filename: string;
+}
+
+export type GlobalError = Error | HttpErrorResponse;
