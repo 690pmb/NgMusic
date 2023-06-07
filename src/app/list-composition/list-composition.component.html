@@ -198,7 +198,7 @@
       <span class="mat-text">Score</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      {{ compo.score | number : '1.0-0' : 'fr' }}
+      {{ compo.score | number: '1.0-0':'fr' }}
       <div class="decile-{{ compo.decile }}">({{ compo.decile }})</div>
     </mat-cell>
   </ng-container>
@@ -226,7 +226,7 @@
                 <span class="mat-text">{{ column }}</span>
               </mat-header-cell>
               <mat-cell *matCellDef="let fichier">
-                {{ fichier[column] | title : true }}
+                {{ fichier[column] | title: true }}
               </mat-cell>
             </ng-container>
           </div>

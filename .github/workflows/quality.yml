@@ -17,7 +17,9 @@ jobs:
   quality:
     runs-on: self-hosted
     steps:
-      - uses: 69pmb/deploy/workflow/ts-quality@main
+      - uses: 69pmb/deploy/workflow/ts-quality@feat/pnpm
+        with:
+          pnpm-version: 8
   deploy:
     if: github.ref_name == 'main'
     needs: quality
