@@ -1,7 +1,6 @@
 import {Component, OnInit, ElementRef} from '@angular/core';
 import {Sort} from '@angular/material/sort';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
-import {library} from '@fortawesome/fontawesome-svg-core';
 import {skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
@@ -13,8 +12,7 @@ import {DataService} from '../services/data.service';
 import {UtilsService} from '../services/utils.service';
 import {ListDirective} from '../list/list.component';
 import {DexieService} from '../services/dexie.service';
-
-library.add(faTimesCircle);
+import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-list-composition',
@@ -63,9 +61,11 @@ export class ListCompositionComponent
     private elemRef: ElementRef,
     private myCompositionsService: DataService,
     private dexieService: DexieService,
-    private serviceUtils: UtilsService
+    private serviceUtils: UtilsService,
+    library: FaIconLibrary
   ) {
     super();
+    library.addIcons(faAngleUp, faTimesCircle);
   }
 
   ngOnInit(): void {
