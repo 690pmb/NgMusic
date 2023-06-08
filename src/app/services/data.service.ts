@@ -171,7 +171,10 @@ export class DataService {
 
   parseCompositions(compoFromFile: string): Composition[] {
     const compoList = [];
-    new xml2js.Parser().parseString(compoFromFile, result => {
+    new xml2js.Parser().parseString(compoFromFile, (err, result) => {
+      if (err) {
+        console.error(err);
+      }
       result.Compositions.C.forEach(el => {
         const c = this.parseComposition(el);
         c.fileList = el.F.map(elFile => this.parseFichier(elFile, false));
@@ -183,7 +186,10 @@ export class DataService {
 
   parseFichiers(fichierFromFile: string): Fichier[] {
     const fichierList = [];
-    new xml2js.Parser().parseString(fichierFromFile, result => {
+    new xml2js.Parser().parseString(fichierFromFile, (err, result) => {
+      if (err) {
+        console.error(err);
+      }
       result.Fichiers.F.forEach(el => {
         const f = this.parseFichier(el, true);
         f.compoList = el.C.map(elCompo => this.parseComposition(elCompo));
