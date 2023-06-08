@@ -2,11 +2,18 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-sass-guidelines",
-    "stylelint-config-prettier"
+    "stylelint-config-standard-scss"
   ],
   "ignoreFiles": ["./src/app/styles/font-awesome.min.scss"],
   "rules": {
-    "color-hex-case": "lower",
+    "declaration-property-value-no-unknown": [
+      true,
+      {
+        "ignoreProperties": {
+          "background-color": "/.+/"
+        }
+      }
+    ],
     "color-hex-length": "short",
     "max-nesting-depth": 2,
     "at-rule-empty-line-before": null,
@@ -17,6 +24,11 @@
         "ignoreTypes": ["/^app-/", "/^ng-/", "/^ng2-/", "/^mat-/"]
       }
     ],
-    "function-no-unknown": [true, {"ignoreFunctions": ["nth"]}]
+    "function-no-unknown": [
+      true,
+      {
+        "ignoreFunctions": ["nth"]
+      }
+    ]
   }
 }
