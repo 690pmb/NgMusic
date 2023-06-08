@@ -83,7 +83,6 @@
       }
     }
   },
-  "defaultProject": "ng-music",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
