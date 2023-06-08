@@ -26,4 +26,39 @@ export class DexieService extends Dexie {
     this.compositionTable = this.table('composition');
     this.fichierTable = this.table('fichier');
   }
+
+  static getAll<T>(table: Dexie.Table<T, number>): Promise<T[]> {
+    return table.toArray();
+  }
+
+  static add<T>(table: Dexie.Table<T, number>, data: T): Promise<number> {
+    return table.add(data);
+  }
+
+  static addAll<T>(table: Dexie.Table<T, number>, data: T[]): Promise<void> {
+    return table
+      .bulkAdd(data)
+      .then(() => console.warn(`Done adding ${data.length} datas`))
+      .catch(Dexie.BulkError, e => {
+        // Explicitely catching the bulkAdd() operation makes those successful
+        // additions commit despite that there were errors.
+        console.error(
+          `Some items did not succeed. However, ${
+            data.length - e.failures.length
+          } items was added successfully`
+        );
+      });
+  }
+
+  static update<T>(
+    table: Dexie.Table<T, number>,
+    id: number,
+    data: T
+  ): Promise<number> {
+    return table.update(id, data);
+  }
+
+  static remove<T>(table: Dexie.Table<T, number>, id: number): Promise<void> {
+    return table.delete(id);
+  }
 }

@@ -12,11 +12,13 @@ import {DataService} from '../services/data.service';
 import {UtilsService} from '../services/utils.service';
 import {DexieService} from '../services/dexie.service';
 import {Utils} from '../utils/utils';
+import {Dropbox} from '../utils/dropbox';
 
 @Component({
   selector: 'app-list-fichier',
   templateUrl: './list-fichier.component.html',
   styleUrls: ['./list-fichier.component.scss'],
+  providers: [{provide: DataService, useClass: DataService}],
   animations: [
     trigger('compositionExpand', [
       state(
@@ -52,7 +54,7 @@ export class ListFichierComponent
 
   constructor(
     private elemRef: ElementRef,
-    private myFichiersService: DataService,
+    private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
     private serviceUtils: UtilsService
   ) {
@@ -61,12 +63,16 @@ export class ListFichierComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.myFichiersService.loadsList(
+      this.dexieService.fichierTable,
+      this.dexieService.fileFichier,
+      Dropbox.DROPBOX_FICHIER_FILE
+    );
     this.sort = {active: 'name', direction: 'desc'};
-    this.myFichiersService.doneFichier$
+    this.myFichiersService.done$
       .pipe(skipWhile(done => done !== undefined && !done))
       .subscribe(() =>
-        this.myFichiersService
-          .getAll(this.dexieService.fichierTable)
+        DexieService.getAll(this.dexieService.fichierTable)
           .then(list => {
             this.dataList = this.sortList(list);
             this.length = list.length;
