@@ -3,7 +3,7 @@ import localeFr from '@angular/common/locales/fr';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -33,7 +33,6 @@ import {TitlePipe} from './utils/title.pipe';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    HttpClientJsonpModule,
     FontAwesomeModule,
     MatSnackBarModule,
     MatTableModule,
