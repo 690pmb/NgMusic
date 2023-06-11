@@ -11,17 +11,16 @@ import {UtilsService} from './utils.service';
 import {Composition, Fichier, File} from '../utils/model';
 import {ToastService} from './toast.service';
 import {Dropbox} from '../utils/dropbox';
-
-type CompositionOrFichier<T extends Composition | Fichier> =
-  T extends Composition ? Composition : Fichier;
+import {XComposition, XFichier, XWrapper, isXF, isXC} from '../utils/xml';
+import {DexieService} from './dexie.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
-  doneComposition$ = new BehaviorSubject(false);
-  doneFichier$ = new BehaviorSubject(false);
-  dateFormat = 'YYYY-MM-DD HH-mm';
+export class DataService<T extends Composition | Fichier> {
+  private static readonly dateFormat = 'YYYY-MM-DD HH-mm';
+
+  done$ = new BehaviorSubject(false);
 
   constructor(
     private dropboxService: DropboxService,
@@ -29,96 +28,57 @@ export class DataService {
     private toast: ToastService
   ) {}
 
-  loadsList<T extends Composition | Fichier>(
-    table: Dexie.Table<CompositionOrFichier<T>, number>,
+  loadsList(
+    table: Dexie.Table<T, number>,
     file: Dexie.Table<File, number>,
-    dropboxFile: string,
-    isComposition: boolean
+    dropboxFile: string
   ): void {
     Promise.all([
       file.get(1),
       this.dropboxService.listFiles(Dropbox.DROPBOX_FOLDER),
     ]).then(([storedName, filesList]) => {
-      const fileNameToDownload = this.findsFileNameToDownload(
+      const fileNameToDownload = DataService.findsFileNameToDownload(
         filesList,
         dropboxFile
       );
       if (!fileNameToDownload && !storedName) {
         this.toast.open('No file to download or loaded');
-        this.done(isComposition);
+        this.done$.next(true);
       } else if (fileNameToDownload && !storedName) {
         this.downloadsList(
           table,
           file,
           fileNameToDownload,
-          `Download ${dropboxFile}`,
-          isComposition
+          `Download ${dropboxFile}`
         );
       } else if (!fileNameToDownload && storedName) {
         this.toast.open('Already loaded');
-        this.done(isComposition);
+        this.done$.next(true);
       } else {
         if (
-          this.extractDateFromFilename(fileNameToDownload).isAfter(
-            this.extractDateFromFilename(storedName.filename)
+          DataService.extractDateFromFilename(fileNameToDownload).isAfter(
+            DataService.extractDateFromFilename(storedName.filename)
           )
         ) {
           this.downloadsList(
             table,
             file,
             fileNameToDownload,
-            `Update ${dropboxFile}`,
-            isComposition
+            `Update ${dropboxFile}`
           );
         } else {
           this.toast.open('Already loaded');
-          this.done(isComposition);
+          this.done$.next(true);
         }
       }
     });
   }
 
-  getAll<T>(table: Dexie.Table<T, number>): Promise<T[]> {
-    return table.toArray();
-  }
-
-  add<T>(table: Dexie.Table<T, number>, data: T): Promise<number> {
-    return table.add(data);
-  }
-
-  addAll<T>(table: Dexie.Table<T, number>, data: T[]): Promise<void> {
-    return table
-      .bulkAdd(data)
-      .then(() => console.warn(`Done adding ${data.length} datas`))
-      .catch(Dexie.BulkError, e => {
-        // Explicitely catching the bulkAdd() operation makes those successful
-        // additions commit despite that there were errors.
-        console.error(
-          `Some items did not succeed. However, ${
-            data.length - e.failures.length
-          } items was added successfully`
-        );
-      });
-  }
-
-  update<T>(
+  downloadsList(
     table: Dexie.Table<T, number>,
-    id: number,
-    data: T
-  ): Promise<number> {
-    return table.update(id, data);
-  }
-
-  remove<T>(table: Dexie.Table<T, number>, id: number): Promise<void> {
-    return table.delete(id);
-  }
-
-  downloadsList<T extends Composition | Fichier>(
-    table: Dexie.Table<CompositionOrFichier<T>, number>,
     fileTable: Dexie.Table<File, number>,
     fileName: string,
-    resultMessage: string,
-    isComposition: boolean
+    resultMessage: string
   ): Promise<void> {
     // download file
     const t0 = performance.now();
@@ -133,7 +93,7 @@ export class DataService {
       .then((dataFromFile: string) => {
         if (dataFromFile && dataFromFile.trim().length > 0) {
           // Parse file
-          const dataList = this.parseData(dataFromFile, isComposition);
+          const dataList = this.parse(dataFromFile);
           const t1 = performance.now();
           console.warn(`Call took ${(t1 - t0) / 1000} seconds`);
           return dataList;
@@ -151,56 +111,43 @@ export class DataService {
           }
         });
         table.clear();
-        this.addAll(table, dataList);
+        DexieService.addAll(table, dataList);
         this.toast.open(resultMessage);
-        this.done(isComposition);
+        this.done$.next(true);
       })
       .catch(err => this.serviceUtils.handlePromiseError(err));
   }
 
-  parseData(
-    dataFromFile: string,
-    isComposition: boolean
-  ): (Composition | Fichier)[] {
-    if (isComposition) {
-      return this.parseCompositions(dataFromFile);
-    } else {
-      return this.parseFichiers(dataFromFile);
-    }
-  }
-
-  parseCompositions(compoFromFile: string): Composition[] {
-    const compoList = [];
-    new xml2js.Parser().parseString(compoFromFile, (err, result) => {
+  parse(xmlFile: string): T[] {
+    let list;
+    new xml2js.Parser().parseString(xmlFile, (err, result) => {
       if (err) {
         console.error(err);
       }
-      result.Compositions.C.forEach(el => {
-        const c = this.parseComposition(el);
-        c.fileList = el.F.map(elFile => this.parseFichier(elFile, false));
-        compoList.push(c);
-      });
-    });
-    return compoList;
-  }
-
-  parseFichiers(fichierFromFile: string): Fichier[] {
-    const fichierList = [];
-    new xml2js.Parser().parseString(fichierFromFile, (err, result) => {
-      if (err) {
-        console.error(err);
+      if (isXF(result)) {
+        list = result.Fichiers.F.map(el => {
+          const f = DataService.parseFichier(el, true);
+          f.compoList = el.C.map(elCompo =>
+            DataService.parseComposition(elCompo)
+          );
+          return f;
+        });
+      } else if (isXC(result)) {
+        list = result.Compositions.C.map(el => {
+          const c = DataService.parseComposition(el);
+          c.fileList = el.F.map(elFile =>
+            DataService.parseFichier(elFile, false)
+          );
+          return c;
+        });
       }
-      result.Fichiers.F.forEach(el => {
-        const f = this.parseFichier(el, true);
-        f.compoList = el.C.map(elCompo => this.parseComposition(elCompo));
-        fichierList.push(f);
-      });
     });
-    return fichierList;
+    return list;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private parseComposition(compoXml: any): Composition {
+  private static parseComposition(
+    compoXml: XWrapper<XComposition>
+  ): Composition {
     return new Composition(
       compoXml.$.A,
       compoXml.$.T,
@@ -215,8 +162,10 @@ export class DataService {
     );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private parseFichier(fichierXml: any, splitName: boolean): Fichier {
+  private static parseFichier(
+    fichierXml: XWrapper<XFichier>,
+    splitName: boolean
+  ): Fichier {
     let name: string = fichierXml.$.name;
     const f = new Fichier(
       fichierXml.$.cat,
@@ -243,7 +192,7 @@ export class DataService {
     return f;
   }
 
-  private findsFileNameToDownload(
+  private static findsFileNameToDownload(
     filesList: DropboxTypes.files.ListFolderResult,
     dropboxFile: string
   ): string {
@@ -252,46 +201,43 @@ export class DataService {
     }
     const names = filesList.entries
       .map(f => f.name)
-      .filter(name => this.isCorrectFileName(name, dropboxFile));
+      .filter(name => DataService.isCorrectFileName(name, dropboxFile));
     const count = names.length;
     if (count === 0) {
       return undefined;
     } else if (count === 1) {
-      return names.find(name => this.isCorrectFileName(name, dropboxFile));
+      return names.find(name =>
+        DataService.isCorrectFileName(name, dropboxFile)
+      );
     } else {
       const dateArray = [];
       names.map(name => {
-        if (this.isCorrectFileName(name, dropboxFile)) {
-          dateArray.push(this.extractDateFromFilename(name));
+        if (DataService.isCorrectFileName(name, dropboxFile)) {
+          dateArray.push(DataService.extractDateFromFilename(name));
         }
       });
       const lastDate = dateArray
         .reduce((d1, d2) => (d1.isAfter(d2) ? d1 : d2))
         .toDate();
       const fileToDownload = names.find(name =>
-        name.includes(moment(lastDate).format(this.dateFormat))
+        name.includes(moment(lastDate).format(DataService.dateFormat))
       );
       return fileToDownload;
     }
   }
 
-  private extractDateFromFilename(filename: string): moment.Moment {
+  private static extractDateFromFilename(filename: string): moment.Moment {
     const isComma = filename.indexOf(';');
     const isXml = filename.indexOf(Dropbox.DROPBOX_EXTENTION);
-    return moment(filename.substring(isComma + 1, isXml), this.dateFormat);
-  }
-
-  private isCorrectFileName(name: string, dropboxFile: string): boolean {
-    return (
-      name.includes(dropboxFile) && name.includes(Dropbox.DROPBOX_EXTENTION)
+    return moment(
+      filename.substring(isComma + 1, isXml),
+      DataService.dateFormat
     );
   }
 
-  private done(isCompilation: boolean): void {
-    if (isCompilation) {
-      this.doneComposition$.next(true);
-    } else {
-      this.doneFichier$.next(true);
-    }
+  private static isCorrectFileName(name: string, dropboxFile: string): boolean {
+    return (
+      name.includes(dropboxFile) && name.includes(Dropbox.DROPBOX_EXTENTION)
+    );
   }
 }

@@ -13,11 +13,13 @@ import {UtilsService} from '../services/utils.service';
 import {ListDirective} from '../list/list.component';
 import {DexieService} from '../services/dexie.service';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
+import {Dropbox} from '../utils/dropbox';
 
 @Component({
   selector: 'app-list-composition',
   templateUrl: './list-composition.component.html',
   styleUrls: ['./list-composition.component.scss'],
+  providers: [{provide: DataService, useClass: DataService}],
   animations: [
     trigger('detailExpand', [
       state(
@@ -59,7 +61,7 @@ export class ListCompositionComponent
 
   constructor(
     private elemRef: ElementRef,
-    private myCompositionsService: DataService,
+    private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
     private serviceUtils: UtilsService,
     library: FaIconLibrary
@@ -70,12 +72,16 @@ export class ListCompositionComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.myCompositionsService.loadsList(
+      this.dexieService.compositionTable,
+      this.dexieService.fileComposition,
+      Dropbox.DROPBOX_COMPOSITION_FILE
+    );
     this.sort = {active: 'score', direction: 'desc'};
-    this.myCompositionsService.doneComposition$
+    this.myCompositionsService.done$
       .pipe(skipWhile(done => done !== undefined && !done))
       .subscribe(() =>
-        this.myCompositionsService
-          .getAll(this.dexieService.compositionTable)
+        DexieService.getAll(this.dexieService.compositionTable)
           .then(list => {
             this.dataList = this.sortList(list);
             this.length = list.length;
