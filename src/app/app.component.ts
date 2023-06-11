@@ -1,36 +1,13 @@
-import {Component, OnInit} from '@angular/core';
-
-import {DataService} from './services/data.service';
-import {Dropbox} from './utils/dropbox';
-import {DexieService} from './services/dexie.service';
-import {Composition, Fichier} from './utils/model';
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'app';
   tabs = 'c';
 
-  constructor(
-    private dataService: DataService,
-    private dexieService: DexieService
-  ) {}
-
-  ngOnInit(): void {
-    this.dataService.loadsList<Composition>(
-      this.dexieService.compositionTable,
-      this.dexieService.fileComposition,
-      Dropbox.DROPBOX_COMPOSITION_FILE,
-      true
-    );
-    this.dataService.loadsList<Fichier>(
-      this.dexieService.fichierTable,
-      this.dexieService.fileFichier,
-      Dropbox.DROPBOX_FICHIER_FILE,
-      false
-    );
-  }
+  constructor() {}
 }
