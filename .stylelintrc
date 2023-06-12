@@ -27,7 +27,7 @@
     "function-no-unknown": [
       true,
       {
-        "ignoreFunctions": ["nth"]
+        "ignoreFunctions": ["nth", "define-palette"]
       }
     ]
   }

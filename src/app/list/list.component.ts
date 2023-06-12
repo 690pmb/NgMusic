@@ -31,8 +31,8 @@ export abstract class ListDirective<T> implements OnInit {
     this.catList = [
       new Dropdown('Year', 'YEAR'),
       new Dropdown('Decade', 'DECADE'),
-      new Dropdown('Long Period', 'LONG_PERIOD'),
-      new Dropdown('All Time', 'ALL_TIME'),
+      new Dropdown('Long Period', 'LONG PERIOD'),
+      new Dropdown('All Time', 'ALL TIME'),
       new Dropdown('Theme', 'THEME'),
       new Dropdown('Genre', 'GENRE'),
       new Dropdown('Divers', 'MISCELLANEOUS'),
