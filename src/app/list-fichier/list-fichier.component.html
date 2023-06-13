@@ -1,7 +1,7 @@
 <div class="filters">
   <!-- Author Filter -->
   <div class="filter-item">
-    <mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
       <input
         matInput
         type="search"
@@ -20,7 +20,7 @@
   </div>
   <!-- Name Filter -->
   <div class="filter-item">
-    <mat-form-field>
+    <mat-form-field subscriptSizing="dynamic">
       <input
         matInput
         type="search"
@@ -38,7 +38,7 @@
     </span>
   </div>
   <!-- Type Filter -->
-  <mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
     <mat-select
       #select
       placeholder="Type"
@@ -53,8 +53,8 @@
     </mat-select>
   </mat-form-field>
   <!-- Delete filter -->
-  <span class="mat-form-field-wrapper">
-    Supprimé:
+  <span class="filter-deleted">
+    <div>Supprimé:</div>
     <mat-checkbox
       (change)="
         deleted = !deleted; onSearch(); onSortComposition(sortComposition)
@@ -66,7 +66,7 @@
 </div>
 <div class="filters">
   <!-- Category Filter -->
-  <mat-form-field>
+  <mat-form-field subscriptSizing="dynamic">
     <mat-select
       #select
       placeholder="Catégorie"
@@ -177,7 +177,7 @@
       <span class="mat-text">Categorie</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let fichier">
-      {{ fichier.category | title: true }}
+      {{ fichier.category | title : true }}
     </mat-cell>
   </ng-container>
 
@@ -241,7 +241,7 @@
                     {{ compo[column] }}
                   </ng-container>
                   <ng-template #scoreBlock
-                    >{{ compo.score | number: '1.0-0':'fr' }}
+                    >{{ compo.score | number : '1.0-0' : 'fr' }}
                     <div class="decile-{{ compo.decile }}">
                       ({{ compo.decile }})
                     </div>
