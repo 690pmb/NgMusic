@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+@use './utils' as *;
+/* stylelint-disable-next-line */
+@include mat.core();
+
+$my-primary: mat.define-palette(
+  (
+    100: $green,
+    500: $purple,
+    700: $blue,
+    contrast: (
+      100: $dark-primary-text,
+      500: $light-primary-text,
+      700: $light-primary-text,
+    ),
+  )
+);
+/* stylelint-disable */
+$my-warn: mat.define-palette(mat.$red-palette, A400);
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-primary,
+      warn: $my-warn,
+    ),
+    typography:
+      mat.define-typography-config(
+        $font-family: $font-family,
+      ),
+  )
+);
+/* stylelint-enable */
+
+@include mat.all-component-themes($my-theme);

@@ -19,8 +19,8 @@
             "allowedCommonJsDependencies": ["xml2js"],
             "assets": ["src/assets", "src/favicon.png"],
             "styles": [
-              "src/_styles.scss",
-              "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css"
+              "src/app/styles/themes.scss",
+              "src/app/styles/styles.scss"
             ],
             "scripts": [],
             "aot": false,

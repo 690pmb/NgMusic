@@ -1,0 +1,17 @@
+@use 'utils' as *;
+
+* {
+  font-family: $font-family !important;
+}
+
+body {
+  margin: 0 !important;
+}
+
+.odd {
+  background-color: $odd !important;
+}
+
+.even {
+  background-color: $even !important;
+}
