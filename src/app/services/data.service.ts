@@ -8,10 +8,10 @@ import DropboxTypes from 'dropbox';
 
 import {DropboxService} from './dropbox.service';
 import {UtilsService} from './utils.service';
-import {Composition, Fichier, File} from '../utils/model';
+import {Composition, Fichier, File} from '@utils/model';
 import {ToastService} from './toast.service';
-import {Dropbox} from '../utils/dropbox';
-import {XComposition, XFichier, XWrapper, isXF, isXC} from '../utils/xml';
+import {Dropbox} from '@utils/dropbox';
+import {XComposition, XFichier, XWrapper, isXF, isXC} from '@utils/xml';
 import {DexieService} from './dexie.service';
 
 @Injectable({

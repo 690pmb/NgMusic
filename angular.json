@@ -22,6 +22,9 @@
               "src/app/styles/themes.scss",
               "src/app/styles/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/app/styles", "src/app/list"]
+            },
             "scripts": [],
             "aot": false,
             "vendorChunk": true,

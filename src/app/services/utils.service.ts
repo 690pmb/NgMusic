@@ -2,7 +2,7 @@ import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from './toast.service';
-import {GlobalError} from '../utils/model';
+import {GlobalError} from '@utils/model';
 
 @Injectable({providedIn: 'root'})
 export class UtilsService {

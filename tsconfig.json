@@ -1,6 +1,7 @@
 {
   "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "rootDir": ".",
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
@@ -16,7 +17,11 @@
     "lib": ["es2020", "dom"],
     "noImplicitAny": false,
     "strict": false,
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths": {
+      "@utils/*": ["./src/app/utils/*"],
+      "@services/*": ["./src/app/services/*"]
+    }
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "angularCompilerOptions": {
