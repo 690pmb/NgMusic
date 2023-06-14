@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
-@use './utils' as *;
+@use 'imports' as *;
+
 /* stylelint-disable-next-line */
 @include mat.core();
 

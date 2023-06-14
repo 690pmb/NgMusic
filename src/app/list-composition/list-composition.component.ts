@@ -5,15 +5,15 @@ import {skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
 import {faAngleUp} from '@fortawesome/free-solid-svg-icons';
-
-import {Composition} from '../utils/model';
-import {Utils} from '../utils/utils';
-import {DataService} from '../services/data.service';
-import {UtilsService} from '../services/utils.service';
-import {ListDirective} from '../list/list.component';
-import {DexieService} from '../services/dexie.service';
 import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {Dropbox} from '../utils/dropbox';
+
+import {Composition} from '@utils/model';
+import {Utils} from '@utils/utils';
+import {DataService} from '@services/data.service';
+import {UtilsService} from '@services/utils.service';
+import {ListDirective} from '../list/list.component';
+import {DexieService} from '@services/dexie.service';
+import {Dropbox} from '@utils/dropbox';
 
 @Component({
   selector: 'app-list-composition',

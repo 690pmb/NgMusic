@@ -7,12 +7,12 @@ import {Sort} from '@angular/material/sort';
 import {PageEvent} from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
-import {Fichier, Composition} from '../utils/model';
-import {DataService} from '../services/data.service';
-import {UtilsService} from '../services/utils.service';
-import {DexieService} from '../services/dexie.service';
-import {Utils} from '../utils/utils';
-import {Dropbox} from '../utils/dropbox';
+import {Fichier, Composition} from '@utils/model';
+import {DataService} from '@services/data.service';
+import {UtilsService} from '@services/utils.service';
+import {DexieService} from '@services/dexie.service';
+import {Utils} from '@utils/utils';
+import {Dropbox} from '@utils/dropbox';
 
 @Component({
   selector: 'app-list-fichier',
