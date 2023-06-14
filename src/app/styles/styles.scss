@@ -9,9 +9,9 @@ body {
 }
 
 .odd {
-  background-color: $odd !important;
+  @include bg-color('odd', true);
 }
 
 .even {
-  background-color: $even !important;
+  @include bg-color('even', true);
 }
