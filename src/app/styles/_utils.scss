@@ -1,5 +1,34 @@
+@use 'sass:map';
+@use 'variables' as *;
+
 @mixin media($width) {
   @media all and (max-width: $width) {
     @content;
   }
+}
+
+@function get-color($name) {
+  @if map.has-key($colors, $name) {
+    @return map.get($colors, $name);
+  }
+  @error 'Color "#{$name}" does not exist in color map. Available colors are: ' + map.keys($colors);
+}
+
+@mixin important($properties...) {
+  @each $key, $value, $important in $properties {
+    $imp: '';
+    @if $important {
+      $imp: '!important';
+    }
+
+    #{$key}: #{$value} #{$imp};
+  }
+}
+
+@mixin bg-color($color, $important: false) {
+  @include important(('background-color', get-color($color), $important));
+}
+
+@mixin color($color, $important: false) {
+  @include important(('color', get-color($color), $important));
 }

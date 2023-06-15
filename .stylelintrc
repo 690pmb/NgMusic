@@ -10,7 +10,8 @@
       true,
       {
         "ignoreProperties": {
-          "background-color": "/.+/"
+          "background-color": "/.+/",
+          "border": "/.+/"
         }
       }
     ],
@@ -27,7 +28,7 @@
     "function-no-unknown": [
       true,
       {
-        "ignoreFunctions": ["nth", "define-palette"]
+        "ignoreFunctions": ["nth", "define-palette", "get-color"]
       }
     ]
   }

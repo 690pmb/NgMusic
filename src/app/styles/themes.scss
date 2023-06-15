@@ -6,9 +6,9 @@
 
 $my-primary: mat.define-palette(
   (
-    100: $green,
-    500: $purple,
-    700: $blue,
+    100: get-color('green'),
+    500: get-color('purple'),
+    700: get-color('blue'),
     contrast: (
       100: $dark-primary-text,
       500: $light-primary-text,
