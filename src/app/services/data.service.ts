@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import * as xml2js from 'xml2js';
-import * as moment from 'moment-mini-ts';
 import Dexie from 'dexie';
 import * as JSZip from 'jszip';
 import DropboxTypes from 'dropbox';
@@ -13,12 +12,13 @@ import {ToastService} from './toast.service';
 import {Dropbox} from '@utils/dropbox';
 import {XComposition, XFichier, XWrapper, isXF, isXC} from '@utils/xml';
 import {DexieService} from './dexie.service';
+import {DateTime} from 'luxon';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService<T extends Composition | Fichier> {
-  private static readonly dateFormat = 'YYYY-MM-DD HH-mm';
+  private static readonly dateFormat = 'y-MM-dd HH-mm';
 
   done$ = new BehaviorSubject(false);
 
@@ -56,9 +56,8 @@ export class DataService<T extends Composition | Fichier> {
         this.done$.next(true);
       } else {
         if (
-          DataService.extractDateFromFilename(fileNameToDownload).isAfter(
-            DataService.extractDateFromFilename(storedName.filename)
-          )
+          DataService.extractDateFromFilename(fileNameToDownload) >
+          DataService.extractDateFromFilename(storedName.filename)
         ) {
           this.downloadsList(
             table,
@@ -210,26 +209,24 @@ export class DataService<T extends Composition | Fichier> {
         DataService.isCorrectFileName(name, dropboxFile)
       );
     } else {
-      const dateArray = [];
+      const dateArray: DateTime[] = [];
       names.map(name => {
         if (DataService.isCorrectFileName(name, dropboxFile)) {
           dateArray.push(DataService.extractDateFromFilename(name));
         }
       });
-      const lastDate = dateArray
-        .reduce((d1, d2) => (d1.isAfter(d2) ? d1 : d2))
-        .toDate();
+      const lastDate = dateArray.reduce((d1, d2) => (d1 > d2 ? d1 : d2));
       const fileToDownload = names.find(name =>
-        name.includes(moment(lastDate).format(DataService.dateFormat))
+        name.includes(lastDate.toFormat(DataService.dateFormat))
       );
       return fileToDownload;
     }
   }
 
-  private static extractDateFromFilename(filename: string): moment.Moment {
+  private static extractDateFromFilename(filename: string): DateTime {
     const isComma = filename.indexOf(';');
     const isXml = filename.indexOf(Dropbox.DROPBOX_EXTENTION);
-    return moment(
+    return DateTime.fromFormat(
       filename.substring(isComma + 1, isXml),
       DataService.dateFormat
     );
