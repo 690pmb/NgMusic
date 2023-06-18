@@ -105,11 +105,14 @@ export class Utils {
     ) {
       return items;
     }
+    const term = value.replaceAll(/\s/g, '').toLowerCase();
     return items.filter(item => {
       const fieldItem = item[field];
-      return typeof fieldItem === 'string'
-        ? fieldItem.toLowerCase()
-        : fieldItem.toString().includes(value.toLowerCase());
+      return (
+        typeof fieldItem === 'string'
+          ? fieldItem.toLowerCase()
+          : fieldItem.toString()
+      ).includes(term);
     });
   }
 
