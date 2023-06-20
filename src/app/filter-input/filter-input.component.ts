@@ -11,5 +11,5 @@ export class FilterInputComponent {
   placeholder?: string;
 
   @Input()
-  formControl!: FormControl<string>;
+  control!: FormControl<string>;
 }

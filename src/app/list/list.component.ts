@@ -13,8 +13,6 @@ export abstract class ListDirective<T> implements OnInit {
   page: PageEvent;
   sort: Sort;
   // Filters
-  types: Dropdown[];
-  filteredType: Dropdown;
   filteredCat: Dropdown[];
   catList: Dropdown[];
   beginFilter: number;
@@ -24,10 +22,6 @@ export abstract class ListDirective<T> implements OnInit {
 
   ngOnInit(): void {
     this.page = this.initPagination();
-    this.types = [
-      new Dropdown('Chanson', 'SONG'),
-      new Dropdown('Album', 'ALBUM'),
-    ];
     this.catList = [
       new Dropdown('Year', 'YEAR'),
       new Dropdown('Decade', 'DECADE'),

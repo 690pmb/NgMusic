@@ -54,9 +54,11 @@ export class ListFichierComponent
   filters = new FormGroup<{
     author: FormControl<string>;
     name: FormControl<string>;
+    type: FormControl<string | undefined>;
   }>({
     author: new FormControl(),
     name: new FormControl(),
+    type: new FormControl(),
   });
 
   deleted = false;
@@ -115,8 +117,12 @@ export class ListFichierComponent
         this.filters.controls.author.value
       );
     }
-    if (this.filteredType) {
-      result = Utils.filterByFields(result, 'type', this.filteredType.code);
+    if (this.filters.controls.type.value) {
+      result = Utils.filterByFields(
+        result,
+        'type',
+        this.filters.controls.type.value
+      );
     }
     if (this.beginFilter) {
       result = result.filter(f => f.rangeBegin >= this.beginFilter);

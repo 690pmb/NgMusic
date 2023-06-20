@@ -4,12 +4,12 @@
       matInput
       type="search"
       [placeholder]="placeholder"
-      [formControl]="formControl"
+      [formControl]="control"
     />
   </mat-form-field>
   <span
-    *ngIf="!!formControl.value"
-    (click)="formControl.setValue('')"
+    *ngIf="!!control.value"
+    (click)="control.setValue('')"
     class="pointer clear-btn"
   >
     <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
