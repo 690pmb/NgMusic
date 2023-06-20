@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Sort} from '@angular/material/sort';
 import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {skipWhile} from 'rxjs/operators';
@@ -14,6 +14,8 @@ import {UtilsService} from '@services/utils.service';
 import {ListDirective} from '../list/list.component';
 import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list-composition',
@@ -38,6 +40,9 @@ export class ListCompositionComponent
   extends ListDirective<Composition>
   implements OnInit
 {
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
   displayedColumnsFichier = [
     'name',
@@ -54,9 +59,16 @@ export class ListCompositionComponent
   expandedColumn = 'details';
   faAngleUp = faAngleUp;
   // Filters
-  artistFilter = '';
-  titleFilter = '';
-  filenameFilter = '';
+  filters = new FormGroup<{
+    artist: FormControl<string>;
+    title: FormControl<string>;
+    filename: FormControl<string>;
+  }>({
+    artist: new FormControl(),
+    title: new FormControl(),
+    filename: new FormControl(),
+  });
+
   deleted = false;
 
   constructor(
@@ -72,6 +84,10 @@ export class ListCompositionComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.filters.valueChanges.subscribe(() => {
+      this.paginator.firstPage();
+      this.onSearch();
+    });
     this.myCompositionsService.loadsList(
       this.dexieService.compositionTable,
       this.dexieService.fileComposition,
@@ -106,11 +122,19 @@ export class ListCompositionComponent
 
   filterOnComposition(list: Composition[]): Composition[] {
     let result = list;
-    if (this.artistFilter) {
-      result = Utils.filterByFields(result, 'sArtist', this.artistFilter);
+    if (this.filters.controls.artist.value) {
+      result = Utils.filterByFields(
+        result,
+        'sArtist',
+        this.filters.controls.artist.value
+      );
     }
-    if (this.titleFilter) {
-      result = Utils.filterByFields(result, 'sTitle', this.titleFilter);
+    if (this.filters.controls.title.value) {
+      result = Utils.filterByFields(
+        result,
+        'sTitle',
+        this.filters.controls.title.value
+      );
     }
     if (this.filteredType) {
       result = Utils.filterByFields(result, 'type', this.filteredType.code);
@@ -132,11 +156,13 @@ export class ListCompositionComponent
           ))
       );
     }
-    if (this.filenameFilter) {
+    if (this.filters.controls.filename.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            f.name.toLowerCase().includes(this.filenameFilter.toLowerCase())
+            f.name
+              .toLowerCase()
+              .includes(this.filters.controls.filename.value.toLowerCase())
           ))
       );
     }

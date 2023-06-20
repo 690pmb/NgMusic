@@ -1,43 +1,15 @@
 <!-- Compositions Filters -->
 <div class="filters">
   <!-- Artist Filter -->
-  <div class="filter-item">
-    <mat-form-field subscriptSizing="dynamic">
-      <input
-        matInput
-        type="search"
-        placeholder="Chercher un artiste"
-        [(ngModel)]="artistFilter"
-        (keyup)="paginator.firstPage(); onSearch()"
-      />
-    </mat-form-field>
-    <span
-      *ngIf="artistFilter"
-      (click)="artistFilter = ''; onSearch()"
-      class="pointer clear-btn"
-    >
-      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-    </span>
-  </div>
+  <app-filter-input
+    [formControl]="filters.controls.artist"
+    placeholder="Chercher un artiste"
+  ></app-filter-input>
   <!-- Titles Filter -->
-  <div class="filter-item">
-    <mat-form-field subscriptSizing="dynamic">
-      <input
-        matInput
-        type="search"
-        placeholder="Chercher un titre"
-        [(ngModel)]="titleFilter"
-        (keyup)="paginator.firstPage(); onSearch()"
-      />
-    </mat-form-field>
-    <span
-      *ngIf="titleFilter"
-      (click)="titleFilter = ''; onSearch()"
-      class="pointer clear-btn"
-    >
-      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-    </span>
-  </div>
+  <app-filter-input
+    [formControl]="filters.controls.title"
+    placeholder="Chercher un titre"
+  ></app-filter-input>
   <!-- Type Filter -->
   <mat-form-field subscriptSizing="dynamic">
     <mat-select
@@ -66,24 +38,10 @@
 <!-- Fichier Filters -->
 <div class="filters">
   <!-- FileName Filter -->
-  <div class="filter-item">
-    <mat-form-field subscriptSizing="dynamic">
-      <input
-        matInput
-        type="search"
-        placeholder="Chercher un fichier"
-        [(ngModel)]="filenameFilter"
-        (keyup)="paginator.firstPage(); onSearch()"
-      />
-    </mat-form-field>
-    <span
-      *ngIf="filenameFilter"
-      (click)="filenameFilter = ''; onSearch()"
-      class="pointer clear-btn"
-    >
-      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-    </span>
-  </div>
+  <app-filter-input
+    [formControl]="filters.controls.filename"
+    placeholder="Chercher un fichier"
+  ></app-filter-input>
   <!-- Category Filter -->
   <mat-form-field subscriptSizing="dynamic">
     <mat-select

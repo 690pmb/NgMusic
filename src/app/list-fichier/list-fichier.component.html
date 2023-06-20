@@ -1,42 +1,14 @@
 <div class="filters">
   <!-- Author Filter -->
-  <div class="filter-item">
-    <mat-form-field subscriptSizing="dynamic">
-      <input
-        matInput
-        type="search"
-        placeholder="Chercher un auteur"
-        [(ngModel)]="authorFilter"
-        (keyup)="paginator.firstPage(); onSearch()"
-      />
-    </mat-form-field>
-    <span
-      *ngIf="authorFilter"
-      (click)="authorFilter = ''; onSearch()"
-      class="pointer clear-btn"
-    >
-      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-    </span>
-  </div>
+  <app-filter-input
+    [formControl]="filters.controls.author"
+    placeholder="Chercher un auteur"
+  ></app-filter-input>
   <!-- Name Filter -->
-  <div class="filter-item">
-    <mat-form-field subscriptSizing="dynamic">
-      <input
-        matInput
-        type="search"
-        placeholder="Chercher un nom"
-        [(ngModel)]="nameFilter"
-        (keyup)="paginator.firstPage(); onSearch()"
-      />
-    </mat-form-field>
-    <span
-      *ngIf="nameFilter"
-      (click)="nameFilter = ''; onSearch()"
-      class="pointer clear-btn"
-    >
-      <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-    </span>
-  </div>
+  <app-filter-input
+    [formControl]="filters.controls.name"
+    placeholder="Chercher un nom"
+  ></app-filter-input>
   <!-- Type Filter -->
   <mat-form-field subscriptSizing="dynamic">
     <mat-select

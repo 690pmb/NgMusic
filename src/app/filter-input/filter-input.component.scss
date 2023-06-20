@@ -1,0 +1,22 @@
+@use 'imports' as *;
+
+.filter-item {
+  display: flex;
+  flex-direction: row;
+
+  ::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .clear-btn {
+    align-items: center;
+    display: flex;
+    margin: auto;
+  }
+}
+
+@include media($mobile-width) {
+  .filter-item .mat-mdc-form-field {
+    width: 90vw;
+  }
+}
