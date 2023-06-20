@@ -1,10 +1,10 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {faAngleUp} from '@fortawesome/free-solid-svg-icons';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
 import {skipWhile} from 'rxjs/operators';
 import {Sort} from '@angular/material/sort';
-import {PageEvent} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
 import {Fichier, Composition} from '@utils/model';
@@ -13,6 +13,7 @@ import {UtilsService} from '@services/utils.service';
 import {DexieService} from '@services/dexie.service';
 import {Utils} from '@utils/utils';
 import {Dropbox} from '@utils/dropbox';
+import {FormGroup, FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-list-fichier',
@@ -37,6 +38,9 @@ export class ListFichierComponent
   extends ListDirective<Fichier>
   implements OnInit
 {
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
   expandedCompositions: Composition[];
@@ -47,8 +51,14 @@ export class ListFichierComponent
   expandedColumn = 'compositions';
   faAngleUp = faAngleUp;
   // Filters
-  authorFilter = '';
-  nameFilter = '';
+  filters = new FormGroup<{
+    author: FormControl<string>;
+    name: FormControl<string>;
+  }>({
+    author: new FormControl(),
+    name: new FormControl(),
+  });
+
   deleted = false;
   top = false;
 
@@ -63,6 +73,10 @@ export class ListFichierComponent
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.filters.valueChanges.subscribe(() => {
+      this.paginator.firstPage();
+      this.onSearch();
+    });
     this.myFichiersService.loadsList(
       this.dexieService.fichierTable,
       this.dexieService.fileFichier,
@@ -87,11 +101,19 @@ export class ListFichierComponent
 
   filter(list: Fichier[]): Fichier[] {
     let result = list;
-    if (this.nameFilter) {
-      result = Utils.filterByFields(result, 'name', this.nameFilter);
+    if (this.filters.controls.name.value) {
+      result = Utils.filterByFields(
+        result,
+        'name',
+        this.filters.controls.name.value
+      );
     }
-    if (this.authorFilter) {
-      result = Utils.filterByFields(result, 'author', this.authorFilter);
+    if (this.filters.controls.author.value) {
+      result = Utils.filterByFields(
+        result,
+        'author',
+        this.filters.controls.author.value
+      );
     }
     if (this.filteredType) {
       result = Utils.filterByFields(result, 'type', this.filteredType.code);

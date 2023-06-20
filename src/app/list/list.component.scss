@@ -39,21 +39,6 @@
   padding: 0 16px;
 }
 
-.filter-item {
-  display: flex;
-  flex-direction: row;
-
-  ::-webkit-search-cancel-button {
-    display: none;
-  }
-
-  .clear-btn {
-    align-items: center;
-    display: flex;
-    margin: auto;
-  }
-}
-
 .mat-mdc-table,
 .mat-mdc-paginator,
 .paginator {
@@ -128,13 +113,9 @@
   @include bg-color('light-green', true);
 }
 
-@include media('800px') {
+@include media($mobile-width) {
   .filters {
     flex-direction: column;
-
-    .filter-item .mat-mdc-form-field {
-      width: 90vw;
-    }
   }
 
   .mdc-data-table__header-cell,

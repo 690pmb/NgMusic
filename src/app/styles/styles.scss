@@ -15,3 +15,7 @@ body {
 .even {
   @include bg-color('even', true);
 }
+
+.pointer {
+  cursor: pointer;
+}

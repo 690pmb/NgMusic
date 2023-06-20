@@ -1,0 +1,17 @@
+<div class="filter-item">
+  <mat-form-field subscriptSizing="dynamic">
+    <input
+      matInput
+      type="search"
+      [placeholder]="placeholder"
+      [formControl]="formControl"
+    />
+  </mat-form-field>
+  <span
+    *ngIf="!!formControl.value"
+    (click)="formControl.setValue('')"
+    class="pointer clear-btn"
+  >
+    <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
+  </span>
+</div>

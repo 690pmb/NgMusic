@@ -2,7 +2,7 @@ import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
@@ -20,6 +20,7 @@ import {AppComponent} from './app.component';
 import {ListCompositionComponent} from './list-composition/list-composition.component';
 import {ListFichierComponent} from './list-fichier/list-fichier.component';
 import {TitlePipe} from '@utils/title.pipe';
+import {FilterInputComponent} from './filter-input/filter-input.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {TitlePipe} from '@utils/title.pipe';
     ListCompositionComponent,
     ListFichierComponent,
     TitlePipe,
+    FilterInputComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -43,6 +45,7 @@ import {TitlePipe} from '@utils/title.pipe';
     MatButtonModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
