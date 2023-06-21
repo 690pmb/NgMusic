@@ -8,7 +8,11 @@
     [control]="filters.controls.title"
     placeholder="Chercher un titre"
   ></app-filter-input>
-  <app-filter-type [control]="filters.controls.type"></app-filter-type>
+  <app-filter-select
+    placeholder="Type"
+    [control]="filters.controls.type"
+    [options]="types"
+  ></app-filter-select>
   <!-- Delete filter -->
   <span class="filter-deleted">
     <div>Supprimé:</div>
@@ -25,21 +29,12 @@
     [control]="filters.controls.filename"
     placeholder="Chercher un fichier"
   ></app-filter-input>
-  <!-- Category Filter -->
-  <mat-form-field subscriptSizing="dynamic">
-    <mat-select
-      #select
-      placeholder="Catégorie"
-      (selectionChange)="
-        paginator.firstPage(); filteredCat = $event.value; onSearch()
-      "
-      multiple
-    >
-      <mat-option *ngFor="let cat of catList" [value]="cat">{{
-        cat.label
-      }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <app-filter-select
+    placeholder="Catégorie"
+    [control]="filters.controls.category"
+    [options]="catList"
+    [multiple]="true"
+  ></app-filter-select>
   <!-- Begin Filter -->
   <mat-form-field>
     <input

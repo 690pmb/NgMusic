@@ -13,24 +13,28 @@ export abstract class ListDirective<T> implements OnInit {
   page: PageEvent;
   sort: Sort;
   // Filters
-  filteredCat: Dropdown[];
-  catList: Dropdown[];
   beginFilter: number;
   endFilter: number;
+
+  readonly types = [
+    new Dropdown('Chanson', 'SONG'),
+    new Dropdown('Album', 'ALBUM'),
+  ];
+
+  readonly catList = [
+    new Dropdown('Year', 'YEAR'),
+    new Dropdown('Decade', 'DECADE'),
+    new Dropdown('Long Period', 'LONG PERIOD'),
+    new Dropdown('All Time', 'ALL TIME'),
+    new Dropdown('Theme', 'THEME'),
+    new Dropdown('Genre', 'GENRE'),
+    new Dropdown('Divers', 'MISCELLANEOUS'),
+  ];
 
   constructor() {}
 
   ngOnInit(): void {
     this.page = this.initPagination();
-    this.catList = [
-      new Dropdown('Year', 'YEAR'),
-      new Dropdown('Decade', 'DECADE'),
-      new Dropdown('Long Period', 'LONG PERIOD'),
-      new Dropdown('All Time', 'ALL TIME'),
-      new Dropdown('Theme', 'THEME'),
-      new Dropdown('Genre', 'GENRE'),
-      new Dropdown('Divers', 'MISCELLANEOUS'),
-    ];
   }
 
   abstract filter(list: T[]): T[];

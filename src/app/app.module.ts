@@ -21,7 +21,7 @@ import {ListCompositionComponent} from './list-composition/list-composition.comp
 import {ListFichierComponent} from './list-fichier/list-fichier.component';
 import {TitlePipe} from '@utils/title.pipe';
 import {FilterInputComponent} from './filter-input/filter-input.component';
-import {FilterTypeComponent} from './filter-type/filter-type.component';
+import {FilterSelectComponent} from './filter-select/filter-select.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import {FilterTypeComponent} from './filter-type/filter-type.component';
     ListFichierComponent,
     TitlePipe,
     FilterInputComponent,
-    FilterTypeComponent,
+    FilterSelectComponent,
   ],
   imports: [
     BrowserAnimationsModule,
