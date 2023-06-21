@@ -64,11 +64,13 @@ export class ListCompositionComponent
     title: FormControl<string>;
     filename: FormControl<string>;
     type: FormControl<string | undefined>;
+    category: FormControl<string[] | undefined>;
   }>({
     artist: new FormControl(),
     title: new FormControl(),
     filename: new FormControl(),
     type: new FormControl(),
+    category: new FormControl(),
   });
 
   deleted = false;
@@ -154,11 +156,11 @@ export class ListCompositionComponent
   filterOnFichier(list: Composition[]): Composition[] {
     const result = list;
     result.forEach(c => (c.displayedFileList = c.fileList));
-    if (this.filteredCat && this.filteredCat.length > 0) {
+    if (this.filters.controls.category.value?.length > 0) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            this.filteredCat.map(filter => filter.code).includes(f.category)
+            this.filters.controls.category.value.includes(f.category)
           ))
       );
     }

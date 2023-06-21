@@ -55,10 +55,12 @@ export class ListFichierComponent
     author: FormControl<string>;
     name: FormControl<string>;
     type: FormControl<string | undefined>;
+    category: FormControl<string[] | undefined>;
   }>({
     author: new FormControl(),
     name: new FormControl(),
     type: new FormControl(),
+    category: new FormControl(),
   });
 
   deleted = false;
@@ -130,9 +132,9 @@ export class ListFichierComponent
     if (this.endFilter) {
       result = result.filter(f => f.rangeEnd <= this.endFilter);
     }
-    if (this.filteredCat && this.filteredCat.length > 0) {
+    if (this.filters.controls.category.value?.length > 0) {
       result = result.filter(f =>
-        this.filteredCat.map(filter => filter.code).includes(f.category)
+        this.filters.controls.category.value.includes(f.category)
       );
     }
     result = this.filterComposition(result);
