@@ -1,29 +1,13 @@
 <div class="filters">
-  <!-- Author Filter -->
   <app-filter-input
-    [formControl]="filters.controls.author"
+    [control]="filters.controls.author"
     placeholder="Chercher un auteur"
   ></app-filter-input>
-  <!-- Name Filter -->
   <app-filter-input
-    [formControl]="filters.controls.name"
+    [control]="filters.controls.name"
     placeholder="Chercher un nom"
   ></app-filter-input>
-  <!-- Type Filter -->
-  <mat-form-field subscriptSizing="dynamic">
-    <mat-select
-      #select
-      placeholder="Type"
-      (selectionChange)="
-        paginator.firstPage(); filteredType = $event.value; onSearch()
-      "
-    >
-      <mat-option [value]="undefined"></mat-option>
-      <mat-option *ngFor="let type of types" [value]="type">{{
-        type.label
-      }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <app-filter-type [control]="filters.controls.type"></app-filter-type>
   <!-- Delete filter -->
   <span class="filter-deleted">
     <div>Supprimé:</div>

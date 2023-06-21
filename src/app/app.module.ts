@@ -21,6 +21,7 @@ import {ListCompositionComponent} from './list-composition/list-composition.comp
 import {ListFichierComponent} from './list-fichier/list-fichier.component';
 import {TitlePipe} from '@utils/title.pipe';
 import {FilterInputComponent} from './filter-input/filter-input.component';
+import {FilterTypeComponent} from './filter-type/filter-type.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import {FilterInputComponent} from './filter-input/filter-input.component';
     ListFichierComponent,
     TitlePipe,
     FilterInputComponent,
+    FilterTypeComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -47,7 +49,6 @@ import {FilterInputComponent} from './filter-input/filter-input.component';
     MatCheckboxModule,
     ReactiveFormsModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {

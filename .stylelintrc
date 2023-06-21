@@ -17,6 +17,7 @@
     ],
     "color-hex-length": "short",
     "max-nesting-depth": 2,
+    "no-empty-source": null,
     "at-rule-empty-line-before": null,
     "at-rule-no-unknown": null,
     "selector-type-no-unknown": [

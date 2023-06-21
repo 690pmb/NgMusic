@@ -63,10 +63,12 @@ export class ListCompositionComponent
     artist: FormControl<string>;
     title: FormControl<string>;
     filename: FormControl<string>;
+    type: FormControl<string | undefined>;
   }>({
     artist: new FormControl(),
     title: new FormControl(),
     filename: new FormControl(),
+    type: new FormControl(),
   });
 
   deleted = false;
@@ -136,8 +138,12 @@ export class ListCompositionComponent
         this.filters.controls.title.value
       );
     }
-    if (this.filteredType) {
-      result = Utils.filterByFields(result, 'type', this.filteredType.code);
+    if (this.filters.controls.type.value) {
+      result = Utils.filterByFields(
+        result,
+        'type',
+        this.filters.controls.type.value
+      );
     }
     if (!this.deleted) {
       result = result.filter(c => !c.deleted);
