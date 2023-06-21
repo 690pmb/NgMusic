@@ -16,11 +16,7 @@
   <!-- Delete filter -->
   <span class="filter-deleted">
     <div>Supprimé:</div>
-    <mat-checkbox
-      (change)="paginator.firstPage(); deleted = !deleted; onSearch()"
-      [checked]="deleted"
-    >
-    </mat-checkbox>
+    <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
   </span>
 </div>
 <!-- Fichier Filters -->
