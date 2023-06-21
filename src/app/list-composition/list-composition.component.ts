@@ -64,16 +64,16 @@ export class ListCompositionComponent
     title: FormControl<string>;
     filename: FormControl<string>;
     type: FormControl<string | undefined>;
+    deleted: FormControl<boolean>;
     category: FormControl<string[] | undefined>;
   }>({
     artist: new FormControl(),
     title: new FormControl(),
     filename: new FormControl(),
     type: new FormControl(),
+    deleted: new FormControl(),
     category: new FormControl(),
   });
-
-  deleted = false;
 
   constructor(
     private elemRef: ElementRef,
@@ -147,7 +147,7 @@ export class ListCompositionComponent
         this.filters.controls.type.value
       );
     }
-    if (!this.deleted) {
+    if (!this.filters.controls.deleted.value) {
       result = result.filter(c => !c.deleted);
     }
     return result;

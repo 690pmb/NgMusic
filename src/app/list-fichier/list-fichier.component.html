@@ -15,13 +15,7 @@
   <!-- Delete filter -->
   <span class="filter-deleted">
     <div>Supprimé:</div>
-    <mat-checkbox
-      (change)="
-        deleted = !deleted; onSearch(); onSortComposition(sortComposition)
-      "
-      [checked]="deleted"
-    >
-    </mat-checkbox>
+    <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
   </span>
 </div>
 <div class="filters">
@@ -62,11 +56,7 @@
   <!-- TOP 10 filter -->
   <span class="mat-form-field-wrapper">
     Top 10:
-    <mat-checkbox
-      (change)="top = !top; onSearch(); onSortComposition(sortComposition)"
-      [checked]="top"
-    >
-    </mat-checkbox>
+    <mat-checkbox [formControl]="filters.controls.top"> </mat-checkbox>
   </span>
 </div>
 <div class="paginator mat-elevation-z4">

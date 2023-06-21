@@ -55,16 +55,17 @@ export class ListFichierComponent
     author: FormControl<string>;
     name: FormControl<string>;
     type: FormControl<string | undefined>;
+    deleted: FormControl<boolean>;
     category: FormControl<string[] | undefined>;
+    top: FormControl<boolean>;
   }>({
     author: new FormControl(),
     name: new FormControl(),
     type: new FormControl(),
+    deleted: new FormControl(),
     category: new FormControl(),
+    top: new FormControl(),
   });
-
-  deleted = false;
-  top = false;
 
   constructor(
     private elemRef: ElementRef,
@@ -145,13 +146,13 @@ export class ListFichierComponent
   filterComposition(list: Fichier[]): Fichier[] {
     const result = list;
     result.forEach(f => (f.displayedCompoList = f.compoList));
-    if (!this.deleted) {
+    if (!this.filters.controls.deleted.value) {
       result.forEach(
         f =>
           (f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted))
       );
     }
-    if (this.top) {
+    if (this.filters.controls.top.value) {
       result.forEach(f => {
         f.displayedCompoList = f.sorted
           ? f.displayedCompoList.filter(c => c.rank < 10)
