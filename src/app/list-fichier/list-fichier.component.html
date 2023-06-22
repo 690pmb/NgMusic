@@ -1,43 +1,55 @@
 <div class="filters">
-  <app-filter-input
-    [control]="filters.controls.author"
-    placeholder="Chercher un auteur"
-  ></app-filter-input>
-  <app-filter-input
-    [control]="filters.controls.name"
-    placeholder="Chercher un nom"
-  ></app-filter-input>
-  <app-filter-select
-    placeholder="Type"
-    [control]="filters.controls.type"
-    [options]="types"
-  ></app-filter-select>
-  <!-- Delete filter -->
-  <span class="filter-deleted">
-    <div>Supprimé:</div>
-    <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
-  </span>
-</div>
-<div class="filters">
-  <app-filter-select
-    placeholder="Catégorie"
-    [control]="filters.controls.category"
-    [options]="catList"
-    [multiple]="true"
-  ></app-filter-select>
-  <app-filter-year
-    [control]="filters.controls.begin"
-    placeholder="Année de début"
-  ></app-filter-year>
-  <app-filter-year
-    [control]="filters.controls.end"
-    placeholder="Année de fin"
-  ></app-filter-year>
-  <!-- TOP 10 filter -->
-  <span class="mat-form-field-wrapper">
-    Top 10:
-    <mat-checkbox [formControl]="filters.controls.top"> </mat-checkbox>
-  </span>
+  <div>
+    <div class="filters">
+      <app-filter-input
+        [control]="filters.controls.author"
+        placeholder="Chercher un auteur"
+      ></app-filter-input>
+      <app-filter-input
+        [control]="filters.controls.name"
+        placeholder="Chercher un nom"
+      ></app-filter-input>
+      <app-filter-select
+        placeholder="Type"
+        [control]="filters.controls.type"
+        [options]="types"
+      ></app-filter-select>
+      <!-- Delete filter -->
+      <span class="filter-deleted">
+        <div>Supprimé:</div>
+        <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
+      </span>
+    </div>
+    <div class="filters">
+      <app-filter-select
+        placeholder="Catégorie"
+        [control]="filters.controls.category"
+        [options]="catList"
+        [multiple]="true"
+      ></app-filter-select>
+      <app-filter-year
+        [control]="filters.controls.begin"
+        placeholder="Année de début"
+      ></app-filter-year>
+      <app-filter-year
+        [control]="filters.controls.end"
+        placeholder="Année de fin"
+      ></app-filter-year>
+      <!-- TOP 10 filter -->
+      <span class="mat-form-field-wrapper">
+        Top 10:
+        <mat-checkbox [formControl]="filters.controls.top"> </mat-checkbox>
+      </span>
+    </div>
+  </div>
+  <button
+    class="reset-btn"
+    mat-icon-button
+    color="primary"
+    (click)="filters.reset()"
+  >
+    <fa-icon [icon]="['fas', 'rotate-right']" size="4x"></fa-icon>
+  </button>
 </div>
 <div class="paginator mat-elevation-z4">
   <!-- Paginator -->
@@ -201,5 +213,5 @@
 </mat-table>
 
 <button class="go-top" mat-icon-button color="primary" (click)="goTop()">
-  <fa-icon [icon]="faAngleUp" size="4x"></fa-icon>
+  <fa-icon [icon]="['fas', 'angle-up']" size="4x"></fa-icon>
 </button>

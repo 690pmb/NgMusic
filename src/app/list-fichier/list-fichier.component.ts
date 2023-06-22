@@ -1,5 +1,4 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {faAngleUp} from '@fortawesome/free-solid-svg-icons';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
 import {skipWhile} from 'rxjs/operators';
@@ -49,7 +48,6 @@ export class ListFichierComponent
   sortComposition: Sort;
   expandedElement: Fichier;
   expandedColumn = 'compositions';
-  faAngleUp = faAngleUp;
   // Filters
   filters = new FormGroup<{
     author: FormControl<string>;
