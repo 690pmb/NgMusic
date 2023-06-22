@@ -66,6 +66,8 @@ export class ListCompositionComponent
     type: FormControl<string | undefined>;
     deleted: FormControl<boolean>;
     category: FormControl<string[] | undefined>;
+    begin: FormControl<number | undefined>;
+    end: FormControl<number | undefined>;
   }>({
     artist: new FormControl(),
     title: new FormControl(),
@@ -73,6 +75,8 @@ export class ListCompositionComponent
     type: new FormControl(),
     deleted: new FormControl(),
     category: new FormControl(),
+    begin: new FormControl(),
+    end: new FormControl(),
   });
 
   constructor(
@@ -126,28 +130,17 @@ export class ListCompositionComponent
 
   filterOnComposition(list: Composition[]): Composition[] {
     let result = list;
-    if (this.filters.controls.artist.value) {
-      result = Utils.filterByFields(
-        result,
-        'sArtist',
-        this.filters.controls.artist.value
-      );
+    const controls = this.filters.controls;
+    if (controls.artist.value) {
+      result = Utils.filterByFields(result, 'sArtist', controls.artist.value);
     }
-    if (this.filters.controls.title.value) {
-      result = Utils.filterByFields(
-        result,
-        'sTitle',
-        this.filters.controls.title.value
-      );
+    if (controls.title.value) {
+      result = Utils.filterByFields(result, 'sTitle', controls.title.value);
     }
-    if (this.filters.controls.type.value) {
-      result = Utils.filterByFields(
-        result,
-        'type',
-        this.filters.controls.type.value
-      );
+    if (controls.type.value) {
+      result = Utils.filterByFields(result, 'type', controls.type.value);
     }
-    if (!this.filters.controls.deleted.value) {
+    if (!controls.deleted.value) {
       result = result.filter(c => !c.deleted);
     }
     return result;
@@ -155,38 +148,37 @@ export class ListCompositionComponent
 
   filterOnFichier(list: Composition[]): Composition[] {
     const result = list;
+    const controls = this.filters.controls;
     result.forEach(c => (c.displayedFileList = c.fileList));
-    if (this.filters.controls.category.value?.length > 0) {
+    if (controls.category.value?.length > 0) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            this.filters.controls.category.value.includes(f.category)
+            controls.category.value.includes(f.category)
           ))
       );
     }
-    if (this.filters.controls.filename.value) {
+    if (controls.filename.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            f.name
-              .toLowerCase()
-              .includes(this.filters.controls.filename.value.toLowerCase())
+            f.name.toLowerCase().includes(controls.filename.value.toLowerCase())
           ))
       );
     }
-    if (this.beginFilter) {
+    if (controls.begin.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeBegin >= this.beginFilter
+            f => f.rangeBegin >= controls.begin.value
           ))
       );
     }
-    if (this.endFilter) {
+    if (controls.end.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeEnd <= this.endFilter
+            f => f.rangeEnd <= controls.end.value
           ))
       );
     }

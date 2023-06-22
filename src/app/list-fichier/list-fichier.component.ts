@@ -58,6 +58,8 @@ export class ListFichierComponent
     deleted: FormControl<boolean>;
     category: FormControl<string[] | undefined>;
     top: FormControl<boolean>;
+    begin: FormControl<number | undefined>;
+    end: FormControl<number | undefined>;
   }>({
     author: new FormControl(),
     name: new FormControl(),
@@ -65,6 +67,8 @@ export class ListFichierComponent
     deleted: new FormControl(),
     category: new FormControl(),
     top: new FormControl(),
+    begin: new FormControl(),
+    end: new FormControl(),
   });
 
   constructor(
@@ -106,37 +110,24 @@ export class ListFichierComponent
 
   filter(list: Fichier[]): Fichier[] {
     let result = list;
-    if (this.filters.controls.name.value) {
-      result = Utils.filterByFields(
-        result,
-        'name',
-        this.filters.controls.name.value
-      );
+    const controls = this.filters.controls;
+    if (controls.name.value) {
+      result = Utils.filterByFields(result, 'name', controls.name.value);
     }
-    if (this.filters.controls.author.value) {
-      result = Utils.filterByFields(
-        result,
-        'author',
-        this.filters.controls.author.value
-      );
+    if (controls.author.value) {
+      result = Utils.filterByFields(result, 'author', controls.author.value);
     }
-    if (this.filters.controls.type.value) {
-      result = Utils.filterByFields(
-        result,
-        'type',
-        this.filters.controls.type.value
-      );
+    if (controls.type.value) {
+      result = Utils.filterByFields(result, 'type', controls.type.value);
     }
-    if (this.beginFilter) {
-      result = result.filter(f => f.rangeBegin >= this.beginFilter);
+    if (controls.begin.value) {
+      result = result.filter(f => f.rangeBegin >= controls.begin.value);
     }
-    if (this.endFilter) {
-      result = result.filter(f => f.rangeEnd <= this.endFilter);
+    if (controls.end.value) {
+      result = result.filter(f => f.rangeEnd <= controls.end.value);
     }
-    if (this.filters.controls.category.value?.length > 0) {
-      result = result.filter(f =>
-        this.filters.controls.category.value.includes(f.category)
-      );
+    if (controls.category.value?.length > 0) {
+      result = result.filter(f => controls.category.value.includes(f.category));
     }
     result = this.filterComposition(result);
     this.length = result.length;
@@ -145,14 +136,15 @@ export class ListFichierComponent
 
   filterComposition(list: Fichier[]): Fichier[] {
     const result = list;
+    const controls = this.filters.controls;
     result.forEach(f => (f.displayedCompoList = f.compoList));
-    if (!this.filters.controls.deleted.value) {
+    if (!controls.deleted.value) {
       result.forEach(
         f =>
           (f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted))
       );
     }
-    if (this.filters.controls.top.value) {
+    if (controls.top.value) {
       result.forEach(f => {
         f.displayedCompoList = f.sorted
           ? f.displayedCompoList.filter(c => c.rank < 10)
