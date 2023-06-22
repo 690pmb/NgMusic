@@ -12,9 +12,6 @@ export abstract class ListDirective<T> implements OnInit {
   pageSizeOptions = [25, 50, 100, 200];
   page: PageEvent;
   sort: Sort;
-  // Filters
-  beginFilter: number;
-  endFilter: number;
 
   readonly types = [
     new Dropdown('Chanson', 'SONG'),
