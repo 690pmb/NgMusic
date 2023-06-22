@@ -29,6 +29,10 @@
   justify-content: center;
 }
 
+.reset-btn {
+  align-self: center;
+}
+
 ::ng-deep.mat-mdc-paginator-container {
   justify-content: center !important;
 }
@@ -116,6 +120,10 @@
 @include media($mobile-width) {
   .filters {
     flex-direction: column;
+  }
+
+  .reset-btn {
+    margin-bottom: 22px;
   }
 
   .mdc-data-table__header-cell,

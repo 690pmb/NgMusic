@@ -1,11 +1,8 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Sort} from '@angular/material/sort';
-import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
 import {skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
-import {faAngleUp} from '@fortawesome/free-solid-svg-icons';
-import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
 
 import {Composition} from '@utils/model';
 import {Utils} from '@utils/utils';
@@ -57,7 +54,6 @@ export class ListCompositionComponent
   sortFichier: Sort;
   expandedElement: Composition;
   expandedColumn = 'details';
-  faAngleUp = faAngleUp;
   // Filters
   filters = new FormGroup<{
     artist: FormControl<string>;
@@ -83,11 +79,9 @@ export class ListCompositionComponent
     private elemRef: ElementRef,
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
-    private serviceUtils: UtilsService,
-    library: FaIconLibrary
+    private serviceUtils: UtilsService
   ) {
     super();
-    library.addIcons(faAngleUp, faTimesCircle);
   }
 
   ngOnInit(): void {
