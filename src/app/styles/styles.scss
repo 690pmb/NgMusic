@@ -19,3 +19,7 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+:root {
+  --purple: #{get-color('purple')};
+}

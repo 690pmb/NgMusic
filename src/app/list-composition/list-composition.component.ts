@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Sort} from '@angular/material/sort';
 import {skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
@@ -76,7 +76,6 @@ export class ListCompositionComponent
   });
 
   constructor(
-    private elemRef: ElementRef,
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
     private serviceUtils: UtilsService
@@ -212,9 +211,5 @@ export class ListCompositionComponent
         Utils.sortFichier(this.expandedElement.displayedFileList, sort)
       );
     }
-  }
-
-  goTop(): void {
-    this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
 }

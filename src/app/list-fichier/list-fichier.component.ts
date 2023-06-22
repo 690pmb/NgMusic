@@ -1,4 +1,4 @@
-import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
 import {skipWhile} from 'rxjs/operators';
@@ -70,7 +70,6 @@ export class ListFichierComponent
   });
 
   constructor(
-    private elemRef: ElementRef,
     private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
     private serviceUtils: UtilsService
@@ -183,9 +182,5 @@ export class ListFichierComponent
     this.displayedCompositions.next(
       Utils.paginate(this.expandedCompositions, this.pageComposition)
     );
-  }
-
-  goTop(): void {
-    this.elemRef.nativeElement.querySelector('.filters').scrollIntoView();
   }
 }

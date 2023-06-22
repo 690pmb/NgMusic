@@ -19,6 +19,10 @@
   }
 }
 
+.parent-filter {
+  gap: 10px;
+}
+
 .paginator {
   top: 0;
 }
@@ -31,6 +35,11 @@
 
 .reset-btn {
   align-self: center;
+  @include color('purple');
+
+  ::ng-deep &.mat-ripple-element {
+    opacity: 0.1;
+  }
 }
 
 ::ng-deep.mat-mdc-paginator-container {
@@ -100,15 +109,6 @@
   border-bottom-width: 0;
 }
 
-.go-top {
-  display: flex;
-  margin: auto;
-
-  ::ng-deep.fa-angle-up {
-    @include color('blue');
-  }
-}
-
 .deleted {
   @include bg-color('green', true);
 }
@@ -118,6 +118,10 @@
 }
 
 @include media($mobile-width) {
+  .parent-filter {
+    gap: 0;
+  }
+
   .filters {
     flex-direction: column;
   }

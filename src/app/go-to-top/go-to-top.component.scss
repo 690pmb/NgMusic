@@ -1,0 +1,15 @@
+@use 'imports' as *;
+
+$icon-size: 6;
+
+.go-top {
+  position: fixed;
+  @include color('purple');
+
+  bottom: 0;
+  left: calc(50vw - #{$icon-size * 6}px);
+}
+
+::ng-deep .mat-ripple-element {
+  opacity: 0.1;
+}
