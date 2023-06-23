@@ -131,6 +131,23 @@
     </mat-cell>
   </ng-container>
 
+  <!-- MENU -->
+  <ng-container matColumnDef="menu">
+    <mat-header-cell *matHeaderCellDef>
+      <span class="mat-text">Menu</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let compo">
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        [matMenuTriggerData]="{compo}"
+        (click)="$event.stopImmediatePropagation()"
+      >
+        <fa-icon [icon]="['fas', 'ellipsis-vertical']"></fa-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
   <!-- Fichier -->
   <ng-container matColumnDef="{{ expandedColumn }}">
     <td
@@ -174,6 +191,7 @@
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row
     *matRowDef="let element; let i = dataIndex; columns: displayedColumns"
+    [appRowAction]="element"
     class="example-element-row"
     [ngClass]="{
       deleted: element.deleted === 1,
@@ -196,3 +214,11 @@
 </mat-table>
 
 <app-go-to-top></app-go-to-top>
+
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-compo="compo">
+    <button mat-menu-item (click)="utilsService.compositionInClipBoard(compo)">
+      <span>Copier</span>
+    </button>
+  </ng-template>
+</mat-menu>
