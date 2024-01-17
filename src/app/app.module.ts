@@ -10,12 +10,22 @@ import {MatSortModule} from '@angular/material/sort';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatRippleModule} from '@angular/material/core';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {
+  FontAwesomeModule,
+  FaIconLibrary,
+} from '@fortawesome/angular-fontawesome';
+import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
+import {
+  faRotateRight,
+  faAngleUp,
+  faEllipsisVertical,
+} from '@fortawesome/free-solid-svg-icons';
 
 import {AppComponent} from './app.component';
 import {ListCompositionComponent} from './list-composition/list-composition.component';
@@ -25,6 +35,9 @@ import {FilterInputComponent} from './filter-input/filter-input.component';
 import {FilterSelectComponent} from './filter-select/filter-select.component';
 import {FilterYearComponent} from './filter-year/filter-year.component';
 import {GoToTopComponent} from './go-to-top/go-to-top.component';
+import {RowActionDirective} from './row-action/row-action.directive';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -36,13 +49,17 @@ import {GoToTopComponent} from './go-to-top/go-to-top.component';
     FilterSelectComponent,
     FilterYearComponent,
     GoToTopComponent,
+    RowActionDirective,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    ClipboardModule,
     FontAwesomeModule,
+    LayoutModule,
+    MatMenuModule,
     MatSnackBarModule,
     MatTableModule,
     MatRippleModule,
@@ -58,7 +75,13 @@ import {GoToTopComponent} from './go-to-top/go-to-top.component';
   bootstrap: [AppComponent],
 })
 export class AppModule {
-  constructor() {
+  constructor(library: FaIconLibrary) {
     registerLocaleData(localeFr);
+    library.addIcons(
+      faAngleUp,
+      faTimesCircle,
+      faRotateRight,
+      faEllipsisVertical
+    );
   }
 }
