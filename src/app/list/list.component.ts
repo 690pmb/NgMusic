@@ -28,8 +28,6 @@ export abstract class ListDirective<T> implements OnInit {
     new Dropdown('Divers', 'MISCELLANEOUS'),
   ];
 
-  constructor() {}
-
   ngOnInit(): void {
     this.page = this.initPagination();
   }

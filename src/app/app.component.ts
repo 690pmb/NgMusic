@@ -1,7 +1,4 @@
 import {Component} from '@angular/core';
-import {FaIconLibrary} from '@fortawesome/angular-fontawesome';
-import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
-import {faRotateRight, faAngleUp} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +8,4 @@ import {faRotateRight, faAngleUp} from '@fortawesome/free-solid-svg-icons';
 export class AppComponent {
   title = 'app';
   tabs = 'c';
-
-  constructor(library: FaIconLibrary) {
-    library.addIcons(faAngleUp, faTimesCircle, faRotateRight);
-  }
 }

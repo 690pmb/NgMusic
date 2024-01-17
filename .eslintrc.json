@@ -3,6 +3,8 @@
     "./node_modules/gts/",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
     "plugin:@angular-eslint/recommended"
   ],
   "settings": {
@@ -15,7 +17,8 @@
   "plugins": [
     "eslint-plugin-import",
     "eslint-plugin-prefer-arrow",
-    "@angular-eslint"
+    "@angular-eslint",
+    "@typescript-eslint"
   ],
   "rules": {
     "prefer-arrow/prefer-arrow-functions": [
@@ -62,6 +65,13 @@
     "prefer-template": ["error"],
     "no-useless-concat": ["error"],
     "no-duplicate-imports": ["error"],
-    "import/no-unresolved": ["error", {"ignore": ["@utils", "@services"]}]
+    "import/no-unresolved": ["error", {"ignore": ["@utils", "@services"]}],
+    "no-restricted-imports": [
+      "error",
+      {
+        "message": "Please import directly from 'rxjs' instead",
+        "name": "rxjs/Rx"
+      }
+    ]
   }
 }

@@ -3,6 +3,8 @@ import {Sort} from '@angular/material/sort';
 import {skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject} from 'rxjs';
+import {FormControl, FormGroup} from '@angular/forms';
+import {MatPaginator} from '@angular/material/paginator';
 
 import {Composition} from '@utils/model';
 import {Utils} from '@utils/utils';
@@ -11,8 +13,6 @@ import {UtilsService} from '@services/utils.service';
 import {ListDirective} from '../list/list.component';
 import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
-import {FormControl, FormGroup} from '@angular/forms';
-import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-list-composition',
@@ -40,7 +40,15 @@ export class ListCompositionComponent
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  displayedColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
+  private readonly compositionColumns = [
+    'artist',
+    'title',
+    'type',
+    'sizeC',
+    'score',
+  ];
+
+  displayedColumns = [...this.compositionColumns];
   displayedColumnsFichier = [
     'name',
     'category',
@@ -78,13 +86,21 @@ export class ListCompositionComponent
   constructor(
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
-    private serviceUtils: UtilsService
+    private serviceUtils: UtilsService,
+    protected utilsService: UtilsService
   ) {
     super();
   }
 
   ngOnInit(): void {
     super.ngOnInit();
+    this.utilsService.isDesktop().subscribe(isDesktop => {
+      if (isDesktop) {
+        this.displayedColumns = [...this.compositionColumns, 'menu'];
+      } else {
+        this.displayedColumns = [...this.compositionColumns];
+      }
+    });
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
       this.onSearch();
