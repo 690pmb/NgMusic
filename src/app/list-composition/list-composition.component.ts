@@ -54,14 +54,15 @@ export class ListCompositionComponent
     'category',
     'rangeBegin',
     'rangeEnd',
-    'size',
     'rank',
+    'size',
   ];
 
   displayedFichier = new BehaviorSubject([]);
   sortFichier: Sort;
   expandedElement: Composition;
   expandedColumn = 'details';
+  wikiUrl = '';
   // Filters
   filters = new FormGroup<{
     artist: FormControl<string>;
@@ -227,5 +228,15 @@ export class ListCompositionComponent
         Utils.sortFichier(this.expandedElement.displayedFileList, sort)
       );
     }
+  }
+
+  wiki(compo: Composition): void {
+    this.utilsService
+      .wikisearch(compo.title)
+      .subscribe(u => (this.wikiUrl = u));
+  }
+
+  openWiki(): void {
+    window.open(this.wikiUrl);
   }
 }

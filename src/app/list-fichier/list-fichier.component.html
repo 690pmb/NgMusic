@@ -114,7 +114,7 @@
       <span class="mat-text">Categorie</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let fichier">
-      {{ fichier.category | title : true }}
+      {{ fichier.category | title: true }}
     </mat-cell>
   </ng-container>
 
@@ -178,7 +178,7 @@
                     {{ compo[column] }}
                   </ng-container>
                   <ng-template #scoreBlock
-                    >{{ compo.score | number : '1.0-0' : 'fr' }}
+                    >{{ compo.score | number: '1.0-0' : 'fr' }}
                     <div class="decile-{{ compo.decile }}">
                       ({{ compo.decile }})
                     </div>

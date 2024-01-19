@@ -10,7 +10,10 @@ export class RowActionDirective implements AfterViewInit {
   @Input()
   appRowAction!: Composition;
 
-  constructor(private el: ElementRef, private utilsService: UtilsService) {}
+  constructor(
+    private el: ElementRef,
+    private utilsService: UtilsService
+  ) {}
 
   ngAfterViewInit(): void {
     let out = false;
