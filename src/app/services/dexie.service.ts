@@ -50,14 +50,6 @@ export class DexieService extends Dexie {
       });
   }
 
-  static update<T>(
-    table: Dexie.Table<T, number>,
-    id: number,
-    data: T
-  ): Promise<number> {
-    return table.update(id, data);
-  }
-
   static remove<T>(table: Dexie.Table<T, number>, id: number): Promise<void> {
     return table.delete(id);
   }

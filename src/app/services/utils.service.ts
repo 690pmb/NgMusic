@@ -66,10 +66,6 @@ export class UtilsService {
     });
   }
 
-  getPromise<T>(url: string, headers?: HttpHeaders): Promise<T> {
-    return this.getObservable<T>(url, headers).toPromise();
-  }
-
   getObservable<T>(url: string, headers?: HttpHeaders): Observable<T> {
     return headers
       ? this.http.get<T>(url, {headers: headers})

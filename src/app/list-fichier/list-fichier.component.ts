@@ -42,11 +42,11 @@ export class ListFichierComponent
 
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
   displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
-  expandedCompositions: Composition[];
-  displayedCompositions = new BehaviorSubject([]);
-  pageComposition: PageEvent;
-  sortComposition: Sort;
-  expandedElement: Fichier;
+  expandedCompositions: Composition[] = [];
+  displayedCompositions = new BehaviorSubject<Composition[]>([]);
+  pageComposition!: PageEvent;
+  sortComposition?: Sort;
+  expandedElement?: Fichier;
   expandedColumn = 'compositions';
   // Filters
   filters = new FormGroup<{
@@ -118,13 +118,15 @@ export class ListFichierComponent
       result = Utils.filterByFields(result, 'type', controls.type.value);
     }
     if (controls.begin.value) {
-      result = result.filter(f => f.rangeBegin >= controls.begin.value);
+      result = result.filter(f => f.rangeBegin >= (controls.begin.value ?? 0));
     }
     if (controls.end.value) {
-      result = result.filter(f => f.rangeEnd <= controls.end.value);
+      result = result.filter(f => f.rangeEnd <= (controls.end.value ?? 0));
     }
-    if (controls.category.value?.length > 0) {
-      result = result.filter(f => controls.category.value.includes(f.category));
+    if (controls.category.value?.length ?? 0 > 0) {
+      result = result.filter(f =>
+        controls.category?.value?.includes(f.category)
+      );
     }
     result = this.filterComposition(result);
     this.length = result.length;

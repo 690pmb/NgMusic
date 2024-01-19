@@ -4,7 +4,7 @@ import {PageEvent} from '@angular/material/paginator';
 import {Composition, Fichier} from './model';
 
 export class Utils {
-  static sortComposition(list: Composition[], sort: Sort): Composition[] {
+  static sortComposition(list: Composition[], sort?: Sort): Composition[] {
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
@@ -37,7 +37,7 @@ export class Utils {
     }
   }
 
-  static sortFichier(list: Fichier[], sort: Sort): Fichier[] {
+  static sortFichier(list: Fichier[], sort?: Sort): Fichier[] {
     if (sort && sort.active && sort.direction !== '') {
       return list.sort((a, b) => {
         const isAsc: boolean = sort.direction === 'asc';
@@ -75,7 +75,7 @@ export class Utils {
     const month1: string = a.split('/')[1];
     const year2: string = b.split('/')[0];
     const month2: string = b.split('/')[1];
-    let result: number;
+    let result = 1;
     if (year1 < year2) {
       result = -1;
     } else if (year1 > year2) {
@@ -111,8 +111,8 @@ export class Utils {
       return (
         typeof fieldItem === 'string'
           ? fieldItem.toLowerCase()
-          : fieldItem.toString()
-      ).includes(term);
+          : fieldItem?.toString()
+      )?.includes(term);
     });
   }
 

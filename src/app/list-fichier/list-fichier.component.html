@@ -152,7 +152,7 @@
         <ng-container *ngIf="fichier == expandedElement">
           <mat-paginator
             #paginatorComposition
-            [length]="expandedElement.displayedCompoList.length"
+            [length]="expandedElement?.displayedCompoList.length"
             [pageIndex]="0"
             [pageSize]="50"
             (page)="pageComposition = $event; onPaginateCompositionChange()"
@@ -178,7 +178,7 @@
                     {{ compo[column] }}
                   </ng-container>
                   <ng-template #scoreBlock
-                    >{{ compo.score | number: '1.0-0' : 'fr' }}
+                    >{{ compo.score | number: '1.0-0':'fr' }}
                     <div class="decile-{{ compo.decile }}">
                       ({{ compo.decile }})
                     </div>
