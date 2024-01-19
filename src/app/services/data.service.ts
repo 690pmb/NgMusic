@@ -38,13 +38,13 @@ export class DataService<T extends Composition | Fichier> {
       this.dropboxService.listFiles(Dropbox.DROPBOX_FOLDER),
     ]).then(([storedName, filesList]) => {
       const fileNameToDownload = DataService.findsFileNameToDownload(
-        filesList,
-        dropboxFile
+        dropboxFile,
+        filesList
       );
-      if (!fileNameToDownload && !storedName) {
+      if (!fileNameToDownload && !storedName?.filename) {
         this.toast.open('No file to download or loaded');
         this.done$.next(true);
-      } else if (fileNameToDownload && !storedName) {
+      } else if (fileNameToDownload && !storedName?.filename) {
         this.downloadsList(
           table,
           file,
@@ -56,13 +56,13 @@ export class DataService<T extends Composition | Fichier> {
         this.done$.next(true);
       } else {
         if (
-          DataService.extractDateFromFilename(fileNameToDownload) >
-          DataService.extractDateFromFilename(storedName.filename)
+          DataService.extractDateFromFilename(fileNameToDownload ?? '') >
+          DataService.extractDateFromFilename(storedName?.filename ?? '')
         ) {
           this.downloadsList(
             table,
             file,
-            fileNameToDownload,
+            fileNameToDownload ?? '',
             `Update ${dropboxFile}`
           );
         } else {
@@ -88,8 +88,8 @@ export class DataService<T extends Composition | Fichier> {
         this.toast.open(`File downloaded: ${fileName}`);
         return zip.loadAsync(content);
       })
-      .then(content => zip.file(Object.keys(content.files)[0]).async('string'))
-      .then((dataFromFile: string) => {
+      .then(content => zip.file(Object.keys(content.files)[0])?.async('string'))
+      .then((dataFromFile: string | undefined) => {
         if (dataFromFile && dataFromFile.trim().length > 0) {
           // Parse file
           const dataList = this.parse(dataFromFile);
@@ -192,9 +192,9 @@ export class DataService<T extends Composition | Fichier> {
   }
 
   private static findsFileNameToDownload(
-    filesList: DropboxTypes.files.ListFolderResult,
-    dropboxFile: string
-  ): string {
+    dropboxFile: string,
+    filesList?: DropboxTypes.files.ListFolderResult
+  ): string | undefined {
     if (!filesList) {
       return undefined;
     }

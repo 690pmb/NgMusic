@@ -9,10 +9,10 @@ export class Fichier {
   rangeEnd: number;
   rank: number;
   size: number;
-  author: string;
-  publish: number;
+  author?: string;
+  publish?: number;
   sorted: number; // 0: false, 1: true
-  compoList: Composition[];
+  compoList: Composition[] = [];
   displayedCompoList: Composition[];
 
   constructor(
@@ -40,7 +40,7 @@ export class Fichier {
 }
 
 export class Composition {
-  id: number;
+  id?: number;
   artist: string;
   title: string;
   sArtist: string;
@@ -51,7 +51,7 @@ export class Composition {
   type: string;
   deleted: number; // 0: false, 1: true
   rank: number;
-  fileList: Fichier[];
+  fileList: Fichier[] = [];
   displayedFileList: Fichier[];
 
   constructor(
@@ -92,7 +92,7 @@ export class Dropdown {
 
 export class File {
   id?: number;
-  filename: string;
+  filename?: string;
 }
 
 export type GlobalError = Error | HttpErrorResponse;

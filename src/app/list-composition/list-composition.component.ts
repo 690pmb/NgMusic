@@ -6,7 +6,7 @@ import {BehaviorSubject} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 
-import {Composition} from '@utils/model';
+import {Composition, Fichier} from '@utils/model';
 import {Utils} from '@utils/utils';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
@@ -58,30 +58,34 @@ export class ListCompositionComponent
     'size',
   ];
 
-  displayedFichier = new BehaviorSubject([]);
-  sortFichier: Sort;
-  expandedElement: Composition;
+  displayedFichier = new BehaviorSubject<Fichier[]>([]);
+  sortFichier?: Sort;
+  expandedElement?: Composition;
   expandedColumn = 'details';
   wikiUrl = '';
   // Filters
   filters = new FormGroup<{
-    artist: FormControl<string>;
-    title: FormControl<string>;
-    filename: FormControl<string>;
+    artist: FormControl<string | undefined>;
+    title: FormControl<string | undefined>;
+    filename: FormControl<string | undefined>;
     type: FormControl<string | undefined>;
     deleted: FormControl<boolean>;
     category: FormControl<string[] | undefined>;
     begin: FormControl<number | undefined>;
     end: FormControl<number | undefined>;
   }>({
-    artist: new FormControl(),
-    title: new FormControl(),
-    filename: new FormControl(),
-    type: new FormControl(),
-    deleted: new FormControl(),
-    category: new FormControl(),
-    begin: new FormControl(),
-    end: new FormControl(),
+    artist: new FormControl<string | undefined>(undefined, {nonNullable: true}),
+    title: new FormControl<string | undefined>(undefined, {nonNullable: true}),
+    filename: new FormControl<string | undefined>(undefined, {
+      nonNullable: true,
+    }),
+    type: new FormControl<string | undefined>(undefined, {nonNullable: true}),
+    deleted: new FormControl<boolean>(false, {nonNullable: true}),
+    category: new FormControl<string[] | undefined>(undefined, {
+      nonNullable: true,
+    }),
+    begin: new FormControl<number | undefined>(undefined, {nonNullable: true}),
+    end: new FormControl<number | undefined>(undefined, {nonNullable: true}),
   });
 
   constructor(
@@ -160,19 +164,21 @@ export class ListCompositionComponent
     const result = list;
     const controls = this.filters.controls;
     result.forEach(c => (c.displayedFileList = c.fileList));
-    if (controls.category.value?.length > 0) {
+    if (controls.category.value?.length ?? 0 > 0) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            controls.category.value.includes(f.category)
+            controls.category.value?.includes(f.category)
           ))
       );
     }
-    if (controls.filename.value) {
+    if (controls.filename?.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            f.name.toLowerCase().includes(controls.filename.value.toLowerCase())
+            f.name
+              .toLowerCase()
+              .includes(controls.filename.value?.toLowerCase() ?? '')
           ))
       );
     }
@@ -180,7 +186,7 @@ export class ListCompositionComponent
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeBegin >= controls.begin.value
+            f => f.rangeBegin >= (controls.begin?.value ?? 0)
           ))
       );
     }
@@ -188,7 +194,7 @@ export class ListCompositionComponent
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeEnd <= controls.end.value
+            f => f.rangeEnd <= (controls.end?.value ?? 0)
           ))
       );
     }
@@ -220,12 +226,12 @@ export class ListCompositionComponent
     }
   }
 
-  onSortFichier(sort: Sort): void {
+  onSortFichier(sort?: Sort): void {
     if (this.expandedElement) {
       this.sortFichier = sort;
       this.expandedElement = this.filterOnFichier([this.expandedElement])[0];
       this.displayedFichier.next(
-        Utils.sortFichier(this.expandedElement.displayedFileList, sort)
+        Utils.sortFichier(this.expandedElement?.displayedFileList ?? [], sort)
       );
     }
   }

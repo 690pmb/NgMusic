@@ -13,7 +13,9 @@ export class DropboxService {
     });
   }
 
-  listFiles(folder: string): Promise<DropboxTypes.files.ListFolderResult> {
+  listFiles(
+    folder: string
+  ): Promise<DropboxTypes.files.ListFolderResult | undefined> {
     return this.getDbx()
       .filesListFolder({path: folder})
       .then((response: DropboxTypes.files.ListFolderResult) => response)
@@ -27,23 +29,24 @@ export class DropboxService {
     return DropboxConstant.DROPBOX_FOLDER + fileName;
   }
 
-  downloadFile(fileName: string): Promise<unknown> {
+  downloadFile(fileName: string): Promise<string> {
     return (
       this.getDbx()
         .filesDownload({path: this.getPath(fileName)})
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         .then((response: any) => {
           const fileReader = new FileReader();
-          return new Promise((resolve, reject) => {
+          return new Promise<string>((resolve, reject) => {
             fileReader.onerror = () => {
               fileReader.abort();
               reject(new DOMException('Problem parsing input file.'));
             };
-            fileReader.onload = () => resolve(fileReader.result.toString());
+            fileReader.onload = () =>
+              resolve(fileReader?.result?.toString() ?? '');
             fileReader.readAsBinaryString(response.fileBlob);
           });
         })
-        .catch(err => this.serviceUtils.handleError(err))
+        .catch(err => Promise.reject(this.serviceUtils.handleError(err)))
     );
   }
 }

@@ -16,7 +16,7 @@
     "module": "es2020",
     "lib": ["es2021", "dom"],
     "noImplicitAny": false,
-    "strict": false,
+    "strict": true,
     "useDefineForClassFields": false,
     "paths": {
       "@utils/*": ["./src/app/utils/*"],
