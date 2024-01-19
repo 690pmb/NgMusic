@@ -1,6 +1,11 @@
-import {Observable, map} from 'rxjs';
+import {Observable, catchError, of, map} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {
+  HttpHeaders,
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import {ToastService} from './toast.service';
 import {Composition, GlobalError} from '@utils/model';
 import {Clipboard} from '@angular/cdk/clipboard';
@@ -80,5 +85,25 @@ export class UtilsService {
     return this.breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
       .pipe(map(b => b.matches));
+  }
+
+  wikisearch(term: string): Observable<string> {
+    const params = new HttpParams()
+      .set('action', 'opensearch')
+      .set('search', term)
+      .set('format', 'json');
+
+    return this.http
+      .jsonp<string>(
+        `https://en.wikipedia.org/w/api.php?${params.toString()}`,
+        'callback'
+      )
+      .pipe(
+        map(response => response[3][0]),
+        catchError(err => {
+          this.handleError(err);
+          return of('');
+        })
+      );
   }
 }

@@ -126,7 +126,7 @@
       <span class="mat-text">Score</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      {{ compo.score | number : '1.0-0' : 'fr' }}
+      {{ compo.score | number: '1.0-0' : 'fr' }}
       <div class="decile-{{ compo.decile }}">({{ compo.decile }})</div>
     </mat-cell>
   </ng-container>
@@ -141,7 +141,8 @@
         mat-icon-button
         [matMenuTriggerFor]="menu"
         [matMenuTriggerData]="{compo}"
-        (click)="$event.stopImmediatePropagation()"
+        (closed)="wikiUrl = ''"
+        (click)="wiki(compo); $event.stopImmediatePropagation()"
       >
         <fa-icon [icon]="['fas', 'ellipsis-vertical']"></fa-icon>
       </button>
@@ -171,7 +172,7 @@
                 <span class="mat-text">{{ column }}</span>
               </mat-header-cell>
               <mat-cell *matCellDef="let fichier">
-                {{ fichier[column] | title : true }}
+                {{ fichier[column] | title: true }}
               </mat-cell>
             </ng-container>
           </div>
@@ -218,7 +219,12 @@
 <mat-menu #menu="matMenu">
   <ng-template matMenuContent let-compo="compo">
     <button mat-menu-item (click)="utilsService.compositionInClipBoard(compo)">
+      <fa-icon [icon]="['far', 'copy']"></fa-icon>
       <span>Copier</span>
+    </button>
+    <button mat-menu-item *ngIf="wikiUrl !== ''" (click)="openWiki()">
+      <fa-icon [icon]="['fab', 'wikipedia-w']"></fa-icon>
+      <span>Wikipedia</span>
     </button>
   </ng-template>
 </mat-menu>

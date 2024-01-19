@@ -3,7 +3,7 @@ import localeFr from '@angular/common/locales/fr';
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -20,7 +20,8 @@ import {
   FontAwesomeModule,
   FaIconLibrary,
 } from '@fortawesome/angular-fontawesome';
-import {faTimesCircle} from '@fortawesome/free-regular-svg-icons';
+import {faCopy, faTimesCircle} from '@fortawesome/free-regular-svg-icons';
+import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {
   faRotateRight,
   faAngleUp,
@@ -56,6 +57,7 @@ import {MatMenuModule} from '@angular/material/menu';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     ClipboardModule,
     FontAwesomeModule,
     LayoutModule,
@@ -79,6 +81,8 @@ export class AppModule {
     registerLocaleData(localeFr);
     library.addIcons(
       faAngleUp,
+      faWikipediaW,
+      faCopy,
       faTimesCircle,
       faRotateRight,
       faEllipsisVertical
