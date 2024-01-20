@@ -195,6 +195,7 @@
             <mat-row
               *matRowDef="let compoRow; columns: displayedColumnsComposition"
               [appRowAction]="compoRow"
+              [isMobile]="!isDesktop"
               [ngClass]="{deleted: compoRow.deleted === 1}"
             >
             </mat-row>

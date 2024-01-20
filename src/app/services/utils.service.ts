@@ -1,4 +1,11 @@
-import {Observable, catchError, of, map} from 'rxjs';
+import {
+  Observable,
+  catchError,
+  of,
+  map,
+  distinctUntilChanged,
+  debounceTime,
+} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {
   HttpHeaders,
@@ -80,7 +87,11 @@ export class UtilsService {
   isDesktop(): Observable<boolean> {
     return this.breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
-      .pipe(map(b => b.matches));
+      .pipe(
+        debounceTime(200),
+        map(b => b.matches),
+        distinctUntilChanged()
+      );
   }
 
   wikisearch(term: string): Observable<string> {
