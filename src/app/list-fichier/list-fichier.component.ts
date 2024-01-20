@@ -41,7 +41,8 @@ export class ListFichierComponent
   paginator!: MatPaginator;
 
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
-  displayedColumnsComposition = ['artist', 'title', 'rank', 'size', 'score'];
+  compositionColumns = ['artist', 'title', 'rank', 'size', 'score'];
+  displayedColumnsComposition = [...this.compositionColumns];
   expandedCompositions: Composition[] = [];
   displayedCompositions = new BehaviorSubject<Composition[]>([]);
   pageComposition!: PageEvent;
@@ -72,9 +73,9 @@ export class ListFichierComponent
   constructor(
     private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
-    private serviceUtils: UtilsService
+    protected serviceUtils: UtilsService
   ) {
-    super();
+    super(serviceUtils);
   }
 
   ngOnInit(): void {
