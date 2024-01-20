@@ -171,18 +171,21 @@
             <div *ngFor="let column of displayedColumnsComposition">
               <ng-container matColumnDef="{{ column }}">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
-                  <span class="mat-text">{{ column }}</span>
+                  <span class="mat-text">{{ column | titlecase }}</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let compo">
-                  <ng-container *ngIf="column !== 'score'; else scoreBlock">
+                  <ng-container *ngIf="!column.includes('score', 'menu')">
                     {{ compo[column] }}
                   </ng-container>
-                  <ng-template #scoreBlock
+                  <ng-container *ngIf="column === 'score'"
                     >{{ compo.score | number: '1.0-0':'fr' }}
                     <div class="decile-{{ compo.decile }}">
                       ({{ compo.decile }})
                     </div>
-                  </ng-template>
+                  </ng-container>
+                  <ng-container *ngIf="column === 'menu'">
+                    <app-row-menu [composition]="compo"></app-row-menu>
+                  </ng-container>
                 </mat-cell>
               </ng-container>
             </div>

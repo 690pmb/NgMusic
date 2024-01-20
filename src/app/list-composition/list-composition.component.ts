@@ -40,15 +40,8 @@ export class ListCompositionComponent
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  private readonly compositionColumns = [
-    'artist',
-    'title',
-    'type',
-    'sizeC',
-    'score',
-  ];
-
-  displayedColumns = [...this.compositionColumns];
+  compositionColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
+  displayedColumnsComposition = [...this.compositionColumns];
   displayedColumnsFichier = [
     'name',
     'category',
@@ -62,7 +55,6 @@ export class ListCompositionComponent
   sortFichier?: Sort;
   expandedElement?: Composition;
   expandedColumn = 'details';
-  wikiUrl = '';
   // Filters
   filters = new FormGroup<{
     artist: FormControl<string | undefined>;
@@ -91,21 +83,13 @@ export class ListCompositionComponent
   constructor(
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
-    private serviceUtils: UtilsService,
     protected utilsService: UtilsService
   ) {
-    super();
+    super(utilsService);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.utilsService.isDesktop().subscribe(isDesktop => {
-      if (isDesktop) {
-        this.displayedColumns = [...this.compositionColumns, 'menu'];
-      } else {
-        this.displayedColumns = [...this.compositionColumns];
-      }
-    });
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
       this.onSearch();
@@ -128,7 +112,7 @@ export class ListCompositionComponent
               this.page
             );
           })
-          .catch(err => this.serviceUtils.handlePromiseError(err))
+          .catch(err => this.utilsService.handlePromiseError(err))
       );
   }
 
@@ -234,15 +218,5 @@ export class ListCompositionComponent
         Utils.sortFichier(this.expandedElement?.displayedFileList ?? [], sort)
       );
     }
-  }
-
-  wiki(compo: Composition): void {
-    this.utilsService
-      .wikisearch(compo.title)
-      .subscribe(u => (this.wikiUrl = u));
-  }
-
-  openWiki(): void {
-    window.open(this.wikiUrl);
   }
 }

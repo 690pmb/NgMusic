@@ -3,6 +3,7 @@ import {Sort} from '@angular/material/sort';
 import {PageEvent} from '@angular/material/paginator';
 import {Dropdown} from '@utils/model';
 import {Utils} from '@utils/utils';
+import {UtilsService} from '@services/utils.service';
 
 @Directive()
 export abstract class ListDirective<T> implements OnInit {
@@ -12,6 +13,8 @@ export abstract class ListDirective<T> implements OnInit {
   pageSizeOptions = [25, 50, 100, 200];
   page!: PageEvent;
   sort?: Sort;
+  compositionColumns!: string[];
+  displayedColumnsComposition!: string[];
 
   readonly types = [
     new Dropdown('Chanson', 'SONG'),
@@ -28,8 +31,17 @@ export abstract class ListDirective<T> implements OnInit {
     new Dropdown('Divers', 'MISCELLANEOUS'),
   ];
 
+  constructor(protected utilsService: UtilsService) {}
+
   ngOnInit(): void {
     this.page = this.initPagination();
+    this.utilsService.isDesktop().subscribe(isDesktop => {
+      if (isDesktop) {
+        this.displayedColumnsComposition = [...this.compositionColumns, 'menu'];
+      } else {
+        this.displayedColumnsComposition = [...this.compositionColumns];
+      }
+    });
   }
 
   abstract filter(list: T[]): T[];

@@ -1,0 +1,25 @@
+<button
+  mat-icon-button
+  [matMenuTriggerFor]="menu"
+  [matMenuTriggerData]="{composition}"
+  (closed)="wikiUrl = ''"
+  (click)="wiki(); $event.stopImmediatePropagation()"
+>
+  <fa-icon [icon]="['fas', 'ellipsis-vertical']"></fa-icon>
+</button>
+
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-composition="composition">
+    <button
+      mat-menu-item
+      (click)="utilsService.compositionInClipBoard(composition)"
+    >
+      <fa-icon [icon]="['far', 'copy']"></fa-icon>
+      <span>Copier</span>
+    </button>
+    <button mat-menu-item *ngIf="wikiUrl !== ''" (click)="openWiki()">
+      <fa-icon [icon]="['fab', 'wikipedia-w']"></fa-icon>
+      <span>Wikipedia</span>
+    </button>
+  </ng-template>
+</mat-menu>

@@ -39,6 +39,7 @@ import {GoToTopComponent} from './go-to-top/go-to-top.component';
 import {RowActionDirective} from './row-action/row-action.directive';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatMenuModule} from '@angular/material/menu';
+import {RowMenuComponent} from './row-menu/row-menu.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import {MatMenuModule} from '@angular/material/menu';
     FilterYearComponent,
     GoToTopComponent,
     RowActionDirective,
+    RowMenuComponent,
   ],
   imports: [
     BrowserAnimationsModule,
