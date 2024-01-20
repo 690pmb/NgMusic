@@ -5,6 +5,8 @@ const unicodeWordMatch =
 
 @Pipe({
   name: 'title',
+  standalone: true,
+  pure: true,
 })
 export class TitlePipe implements PipeTransform {
   transform(

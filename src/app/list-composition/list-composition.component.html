@@ -161,7 +161,7 @@
           <div *ngFor="let column of displayedColumnsFichier">
             <ng-container matColumnDef="{{ column }}">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
-                <span class="mat-text">{{ column }}</span>
+                <span class="mat-text">{{ column | upperFirst }}</span>
               </mat-header-cell>
               <mat-cell *matCellDef="let fichier">
                 {{ fichier[column] | title: true }}

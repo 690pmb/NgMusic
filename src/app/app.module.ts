@@ -31,7 +31,7 @@ import {
 import {AppComponent} from './app.component';
 import {ListCompositionComponent} from './list-composition/list-composition.component';
 import {ListFichierComponent} from './list-fichier/list-fichier.component';
-import {TitlePipe} from '@utils/title.pipe';
+import {TitlePipe} from '@pipes/title.pipe';
 import {FilterInputComponent} from './filter-input/filter-input.component';
 import {FilterSelectComponent} from './filter-select/filter-select.component';
 import {FilterYearComponent} from './filter-year/filter-year.component';
@@ -40,13 +40,13 @@ import {RowActionDirective} from './row-action/row-action.directive';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatMenuModule} from '@angular/material/menu';
 import {RowMenuComponent} from './row-menu/row-menu.component';
+import {UpperFirstPipe} from '@pipes/upper-first.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     ListCompositionComponent,
     ListFichierComponent,
-    TitlePipe,
     FilterInputComponent,
     FilterSelectComponent,
     FilterYearComponent,
@@ -75,6 +75,8 @@ import {RowMenuComponent} from './row-menu/row-menu.component';
     MatPaginatorModule,
     MatCheckboxModule,
     ReactiveFormsModule,
+    TitlePipe,
+    UpperFirstPipe,
   ],
   bootstrap: [AppComponent],
 })
