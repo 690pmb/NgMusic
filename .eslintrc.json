@@ -66,7 +66,10 @@
     "prefer-template": ["error"],
     "no-useless-concat": ["error"],
     "no-duplicate-imports": ["error"],
-    "import/no-unresolved": ["error", {"ignore": ["@utils", "@services"]}],
+    "import/no-unresolved": [
+      "error",
+      {"ignore": ["@utils", "@services", "@pipes"]}
+    ],
     "no-restricted-imports": [
       "error",
       {
