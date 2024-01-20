@@ -13,6 +13,7 @@ import {UtilsService} from '@services/utils.service';
 import {ListDirective} from '../list/list.component';
 import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
+import {yearsValidator} from '@utils/year.validator';
 
 @Component({
   selector: 'app-list-composition',
@@ -65,20 +66,29 @@ export class ListCompositionComponent
     category: FormControl<string[] | undefined>;
     begin: FormControl<number | undefined>;
     end: FormControl<number | undefined>;
-  }>({
-    artist: new FormControl<string | undefined>(undefined, {nonNullable: true}),
-    title: new FormControl<string | undefined>(undefined, {nonNullable: true}),
-    filename: new FormControl<string | undefined>(undefined, {
-      nonNullable: true,
-    }),
-    type: new FormControl<string | undefined>(undefined, {nonNullable: true}),
-    deleted: new FormControl<boolean>(false, {nonNullable: true}),
-    category: new FormControl<string[] | undefined>(undefined, {
-      nonNullable: true,
-    }),
-    begin: new FormControl<number | undefined>(undefined, {nonNullable: true}),
-    end: new FormControl<number | undefined>(undefined, {nonNullable: true}),
-  });
+  }>(
+    {
+      artist: new FormControl<string | undefined>(undefined, {
+        nonNullable: true,
+      }),
+      title: new FormControl<string | undefined>(undefined, {
+        nonNullable: true,
+      }),
+      filename: new FormControl<string | undefined>(undefined, {
+        nonNullable: true,
+      }),
+      type: new FormControl<string | undefined>(undefined, {nonNullable: true}),
+      deleted: new FormControl<boolean>(false, {nonNullable: true}),
+      category: new FormControl<string[] | undefined>(undefined, {
+        nonNullable: true,
+      }),
+      begin: new FormControl<number | undefined>(undefined, {
+        nonNullable: true,
+      }),
+      end: new FormControl<number | undefined>(undefined, {nonNullable: true}),
+    },
+    {validators: yearsValidator}
+  );
 
   constructor(
     private myCompositionsService: DataService<Composition>,

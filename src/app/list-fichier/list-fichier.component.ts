@@ -13,6 +13,7 @@ import {DexieService} from '@services/dexie.service';
 import {Utils} from '@utils/utils';
 import {Dropbox} from '@utils/dropbox';
 import {FormGroup, FormControl} from '@angular/forms';
+import {yearsValidator} from '@utils/year.validator';
 
 @Component({
   selector: 'app-list-fichier',
@@ -59,16 +60,19 @@ export class ListFichierComponent
     top: FormControl<boolean>;
     begin: FormControl<number | undefined>;
     end: FormControl<number | undefined>;
-  }>({
-    author: new FormControl(),
-    name: new FormControl(),
-    type: new FormControl(),
-    deleted: new FormControl(),
-    category: new FormControl(),
-    top: new FormControl(),
-    begin: new FormControl(),
-    end: new FormControl(),
-  });
+  }>(
+    {
+      author: new FormControl(),
+      name: new FormControl(),
+      type: new FormControl(),
+      deleted: new FormControl(),
+      category: new FormControl(),
+      top: new FormControl(),
+      begin: new FormControl(),
+      end: new FormControl(),
+    },
+    {validators: yearsValidator}
+  );
 
   constructor(
     private myFichiersService: DataService<Fichier>,

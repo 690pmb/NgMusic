@@ -42,6 +42,15 @@
         placeholder="Année de fin"
       ></app-filter-year>
     </div>
+    <div
+      *ngIf="
+    filters.errors?.['invalidYears'] &&
+    (filters.touched || filters.dirty)
+  "
+      class="mat-mdc-form-field-error years-error"
+    >
+      L'année de fin doit être supérieure à l'année de début
+    </div>
   </div>
   <fa-icon
     class="reset-btn pointer"
