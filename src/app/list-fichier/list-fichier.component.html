@@ -191,6 +191,7 @@
             ></mat-header-row>
             <mat-row
               *matRowDef="let compoRow; columns: displayedColumnsComposition"
+              [appRowAction]="compoRow"
               [ngClass]="{deleted: compoRow.deleted === 1}"
             >
             </mat-row>
