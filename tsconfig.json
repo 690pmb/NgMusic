@@ -20,13 +20,13 @@
     "useDefineForClassFields": false,
     "paths": {
       "@utils/*": ["./src/app/utils/*"],
-      "@services/*": ["./src/app/services/*"],
-    },
+      "@services/*": ["./src/app/services/*"]
+    }
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
   "angularCompilerOptions": {
     "disableTypeScriptVersionCheck": true,
     "strictInjectionParameters": true,
-    "fullTemplateTypeCheck": true,
-  },
+    "fullTemplateTypeCheck": true
+  }
 }
