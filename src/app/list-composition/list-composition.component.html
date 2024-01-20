@@ -191,6 +191,7 @@
       columns: displayedColumnsComposition
     "
     [appRowAction]="element"
+    [isMobile]="!isDesktop"
     class="example-element-row"
     [ngClass]="{
       deleted: element.deleted === 1,

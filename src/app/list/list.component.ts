@@ -15,6 +15,7 @@ export abstract class ListDirective<T> implements OnInit {
   sort?: Sort;
   compositionColumns!: string[];
   displayedColumnsComposition!: string[];
+  isDesktop = false;
 
   readonly types = [
     new Dropdown('Chanson', 'SONG'),
@@ -36,6 +37,7 @@ export abstract class ListDirective<T> implements OnInit {
   ngOnInit(): void {
     this.page = this.initPagination();
     this.utilsService.isDesktop().subscribe(isDesktop => {
+      this.isDesktop = isDesktop;
       if (isDesktop) {
         this.displayedColumnsComposition = [...this.compositionColumns, 'menu'];
       } else {
