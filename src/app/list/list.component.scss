@@ -42,6 +42,14 @@
   }
 }
 
+.years-error {
+  float: right;
+  width: 424px;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+
 ::ng-deep.mat-mdc-paginator-container {
   justify-content: center !important;
 }
@@ -128,6 +136,11 @@
 
   .filters {
     flex-direction: column;
+  }
+
+  .years-error {
+    float: unset;
+    justify-content: start;
   }
 
   .reset-btn {
