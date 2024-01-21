@@ -51,6 +51,12 @@ export class MenuService {
     this.wiki.pipe(take(1)).subscribe(w => window.open(w));
   }
 
+  openGoogle(): void {
+    window.open(
+      `https://www.google.com/search?q=${this.composition?.artist}%20${this.composition?.title}`
+    );
+  }
+
   compositionInClipBoard(composition?: Composition): void {
     const c = composition ?? this.composition;
     this.clipboard.copy(`${c?.artist} - ${c?.title}`);
