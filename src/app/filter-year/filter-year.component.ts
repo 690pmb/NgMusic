@@ -8,8 +8,8 @@ import {FormControl} from '@angular/forms';
 })
 export class FilterYearComponent {
   @Input()
-  placeholder?: string;
+  placeholder!: string;
 
   @Input()
-  control!: FormControl<number>;
+  control!: FormControl<number | undefined>;
 }

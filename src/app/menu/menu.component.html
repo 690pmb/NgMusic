@@ -1,10 +1,10 @@
 <ng-container *ngIf="menuService.wiki | async">
-  <ng-container *ngFor="let button of buttons">
+  <ng-container *ngFor="let btn of buttons">
     <ng-container *ngIf="isButton; else isMenu">
-      <ng-container *ngTemplateOutlet="button; context: button"> </ng-container>
+      <ng-container *ngTemplateOutlet="button; context: btn"> </ng-container>
     </ng-container>
     <ng-template #isMenu>
-      <ng-container *ngTemplateOutlet="menu; context: button"> </ng-container>
+      <ng-container *ngTemplateOutlet="menu; context: btn"> </ng-container>
     </ng-template>
   </ng-container>
 </ng-container>

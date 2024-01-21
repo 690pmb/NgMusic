@@ -59,8 +59,7 @@
     [matRippleRadius]="35"
     [matRippleCentered]="true"
     matRippleColor="var(--purple)"
-    matRippleUnbounded="true"
-    matRippleUnbounded="false"
+    [matRippleUnbounded]="true"
   ></fa-icon>
 </div>
 <div class="paginator mat-elevation-z4">
@@ -82,7 +81,7 @@
   [dataSource]="displayedData"
   (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
   matSort
-  [matSortActive]="'name'"
+  [matSortActive]="'sizeF'"
   [matSortDirection]="'desc'"
   multiTemplateDataRows
 >
@@ -160,7 +159,7 @@
         <ng-container *ngIf="fichier == expandedElement">
           <mat-paginator
             #paginatorComposition
-            [length]="expandedElement?.displayedCompoList.length"
+            [length]="expandedElement?.displayedCompoList?.length"
             [pageIndex]="0"
             [pageSize]="50"
             (page)="pageComposition = $event; onPaginateCompositionChange()"
@@ -182,7 +181,7 @@
                   <span class="mat-text">{{ column | titlecase }}</span>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let compo">
-                  <ng-container *ngIf="!column.includes('score', 'menu')">
+                  <ng-container *ngIf="!['score', 'menu'].includes(column)">
                     {{ compo[column] }}
                   </ng-container>
                   <ng-container *ngIf="column === 'score'"

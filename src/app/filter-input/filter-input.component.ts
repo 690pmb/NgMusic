@@ -8,7 +8,7 @@ import {FormControl} from '@angular/forms';
 })
 export class FilterInputComponent {
   @Input()
-  placeholder?: string;
+  placeholder!: string;
 
   @Input()
   control!: FormControl<string>;
