@@ -15,7 +15,7 @@
         [options]="types"
       ></app-filter-select>
       <!-- Delete filter -->
-      <span class="filter-deleted">
+      <span class="filter-checkbox">
         <div>Supprimé:</div>
         <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
       </span>
@@ -35,19 +35,19 @@
         [control]="filters.controls.end"
         placeholder="Année de fin"
       ></app-filter-year>
+      <div
+        *ngIf="
+          filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
+        "
+        class="mat-mdc-form-field-error years-error"
+      >
+        L'année de fin doit être supérieure à l'année de début
+      </div>
       <!-- TOP 10 filter -->
-      <span class="mat-form-field-wrapper">
-        Top 10:
+      <span class="filter-checkbox filter-top">
+        <div>Top 10:</div>
         <mat-checkbox [formControl]="filters.controls.top"> </mat-checkbox>
       </span>
-    </div>
-    <div
-      *ngIf="
-        filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
-      "
-      class="mat-mdc-form-field-error years-error"
-    >
-      L'année de fin doit être supérieure à l'année de début
     </div>
   </div>
   <fa-icon

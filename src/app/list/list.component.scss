@@ -54,10 +54,14 @@
   justify-content: center !important;
 }
 
-.filter-deleted {
+.filter-checkbox {
   display: flex;
   align-items: center;
   padding: 0 16px;
+
+  &.filter-top {
+    padding-bottom: 22px;
+  }
 }
 
 .mat-mdc-table,
