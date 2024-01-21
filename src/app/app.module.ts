@@ -11,6 +11,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
@@ -41,39 +42,44 @@ import {LayoutModule} from '@angular/cdk/layout';
 import {MatMenuModule} from '@angular/material/menu';
 import {RowMenuComponent} from './row-menu/row-menu.component';
 import {UpperFirstPipe} from '@pipes/upper-first.pipe';
+import {MenuDialogComponent} from './menu-dialog/menu-dialog.component';
+import {MenuComponent} from './menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ListCompositionComponent,
-    ListFichierComponent,
     FilterInputComponent,
     FilterSelectComponent,
     FilterYearComponent,
     GoToTopComponent,
+    ListCompositionComponent,
+    ListFichierComponent,
+    MenuDialogComponent,
     RowActionDirective,
     RowMenuComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
     ClipboardModule,
     FontAwesomeModule,
+    FormsModule,
+    HttpClientJsonpModule,
+    HttpClientModule,
     LayoutModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatTableModule,
-    MatRippleModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSortModule,
-    MatSelectModule,
     MatButtonModule,
-    MatPaginatorModule,
     MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatMenuModule,
+    MatPaginatorModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
     ReactiveFormsModule,
     TitlePipe,
     UpperFirstPipe,

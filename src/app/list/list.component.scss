@@ -93,10 +93,6 @@
   @include bg-color('white', true);
 }
 
-::ng-deep.mdc-list-item .ng-fa-icon {
-  margin-right: 16px;
-}
-
 .mat-mdc-form-field {
   display: block;
 

@@ -1,21 +1,8 @@
-import {
-  Observable,
-  catchError,
-  of,
-  map,
-  distinctUntilChanged,
-  debounceTime,
-} from 'rxjs';
+import {Observable, map, distinctUntilChanged, debounceTime} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {
-  HttpHeaders,
-  HttpClient,
-  HttpErrorResponse,
-  HttpParams,
-} from '@angular/common/http';
+import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from './toast.service';
-import {Composition, GlobalError} from '@utils/model';
-import {Clipboard} from '@angular/cdk/clipboard';
+import {GlobalError} from '@utils/model';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Injectable({providedIn: 'root'})
@@ -23,7 +10,6 @@ export class UtilsService {
   constructor(
     private http: HttpClient,
     private toast: ToastService,
-    private clipboard: Clipboard,
     private breakpointObserver: BreakpointObserver
   ) {}
 
@@ -79,11 +65,6 @@ export class UtilsService {
       : this.http.get<T>(url);
   }
 
-  compositionInClipBoard(composition: Composition): void {
-    this.clipboard.copy(`${composition.artist} - ${composition.title}`);
-    this.toast.open('Copié !');
-  }
-
   isDesktop(): Observable<boolean> {
     return this.breakpointObserver
       .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
@@ -91,26 +72,6 @@ export class UtilsService {
         debounceTime(200),
         map(b => b.matches),
         distinctUntilChanged()
-      );
-  }
-
-  wikisearch(term: string): Observable<string> {
-    const params = new HttpParams()
-      .set('action', 'opensearch')
-      .set('search', term)
-      .set('format', 'json');
-
-    return this.http
-      .jsonp<string>(
-        `https://en.wikipedia.org/w/api.php?${params.toString()}`,
-        'callback'
-      )
-      .pipe(
-        map(response => response[3][0]),
-        catchError(err => {
-          this.handleError(err);
-          return of('');
-        })
       );
   }
 }
