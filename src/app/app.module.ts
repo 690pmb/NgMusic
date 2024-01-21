@@ -22,7 +22,7 @@ import {
   FaIconLibrary,
 } from '@fortawesome/angular-fontawesome';
 import {faCopy, faTimesCircle} from '@fortawesome/free-regular-svg-icons';
-import {faWikipediaW} from '@fortawesome/free-brands-svg-icons';
+import {faGoogle, faWikipediaW} from '@fortawesome/free-brands-svg-icons';
 import {
   faRotateRight,
   faAngleUp,
@@ -95,7 +95,8 @@ export class AppModule {
       faCopy,
       faTimesCircle,
       faRotateRight,
-      faEllipsisVertical
+      faEllipsisVertical,
+      faGoogle
     );
   }
 }

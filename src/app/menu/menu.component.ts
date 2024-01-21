@@ -3,9 +3,11 @@ import {MenuService} from '@services/menu.service';
 import {Composition} from '@utils/model';
 
 export type MenuButton = {
-  text: string;
-  icon: string[];
-  click: () => void;
+  $implicit: {
+    text: string;
+    icon: string[];
+    click: () => void;
+  };
 };
 
 @Component({
@@ -20,21 +22,29 @@ export class MenuComponent implements OnInit, OnDestroy {
   @Input()
   isButton = false;
 
-  wiki = {
-    $implicit: {
-      text: 'Wikipedia',
-      icon: ['fab', 'wikipedia-w'],
-      click: () => this.menuService.openWiki(),
-    } as MenuButton,
-  };
-
-  copy = {
-    $implicit: {
-      text: 'Copier',
-      icon: ['far', 'copy'],
-      click: () => this.menuService.compositionInClipBoard(),
-    } as MenuButton,
-  };
+  buttons: MenuButton[] = [
+    {
+      $implicit: {
+        text: 'Copier',
+        icon: ['far', 'copy'],
+        click: () => this.menuService.compositionInClipBoard(),
+      },
+    },
+    {
+      $implicit: {
+        text: 'Wikipedia',
+        icon: ['fab', 'wikipedia-w'],
+        click: () => this.menuService.openWiki(),
+      },
+    },
+    {
+      $implicit: {
+        text: 'Google',
+        icon: ['fab', 'google'],
+        click: () => this.menuService.openGoogle(),
+      },
+    },
+  ];
 
   constructor(protected menuService: MenuService) {}
 
