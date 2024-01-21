@@ -58,28 +58,28 @@ export class ListCompositionComponent
   expandedColumn = 'details';
   // Filters
   filters = new FormGroup<{
-    artist: FormControl<string | undefined>;
-    title: FormControl<string | undefined>;
-    filename: FormControl<string | undefined>;
-    type: FormControl<string | undefined>;
+    artist: FormControl<string>;
+    title: FormControl<string>;
+    filename: FormControl<string>;
+    type: FormControl<string>;
     deleted: FormControl<boolean>;
-    category: FormControl<string[] | undefined>;
+    category: FormControl<string[]>;
     begin: FormControl<number | undefined>;
     end: FormControl<number | undefined>;
   }>(
     {
-      artist: new FormControl<string | undefined>(undefined, {
+      artist: new FormControl<string>('', {
         nonNullable: true,
       }),
-      title: new FormControl<string | undefined>(undefined, {
+      title: new FormControl<string>('', {
         nonNullable: true,
       }),
-      filename: new FormControl<string | undefined>(undefined, {
+      filename: new FormControl<string>('', {
         nonNullable: true,
       }),
-      type: new FormControl<string | undefined>(undefined, {nonNullable: true}),
+      type: new FormControl<string>('', {nonNullable: true}),
       deleted: new FormControl<boolean>(false, {nonNullable: true}),
-      category: new FormControl<string[] | undefined>(undefined, {
+      category: new FormControl<string[]>([], {
         nonNullable: true,
       }),
       begin: new FormControl<number | undefined>(undefined, {
@@ -158,21 +158,21 @@ export class ListCompositionComponent
     const result = list;
     const controls = this.filters.controls;
     result.forEach(c => (c.displayedFileList = c.fileList));
-    if (controls.category.value?.length ?? 0 > 0) {
+    if (controls.category.value.length > 0) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            controls.category.value?.includes(f.category)
+            controls.category.value.includes(f.category)
           ))
       );
     }
-    if (controls.filename?.value) {
+    if (controls.filename.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
             f.name
               .toLowerCase()
-              .includes(controls.filename.value?.toLowerCase() ?? '')
+              .includes(controls.filename.value.toLowerCase() ?? '')
           ))
       );
     }

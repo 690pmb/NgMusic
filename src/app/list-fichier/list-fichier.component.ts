@@ -54,9 +54,9 @@ export class ListFichierComponent
   filters = new FormGroup<{
     author: FormControl<string>;
     name: FormControl<string>;
-    type: FormControl<string | undefined>;
+    type: FormControl<string>;
     deleted: FormControl<boolean>;
-    category: FormControl<string[] | undefined>;
+    category: FormControl<string[]>;
     top: FormControl<boolean>;
     begin: FormControl<number | undefined>;
     end: FormControl<number | undefined>;
@@ -64,9 +64,13 @@ export class ListFichierComponent
     {
       author: new FormControl(),
       name: new FormControl(),
-      type: new FormControl(),
+      type: new FormControl<string>('', {
+        nonNullable: true,
+      }),
       deleted: new FormControl(),
-      category: new FormControl(),
+      category: new FormControl<string[]>([], {
+        nonNullable: true,
+      }),
       top: new FormControl(),
       begin: new FormControl(),
       end: new FormControl(),
@@ -93,7 +97,7 @@ export class ListFichierComponent
       this.dexieService.fileFichier,
       Dropbox.DROPBOX_FICHIER_FILE
     );
-    this.sort = {active: 'name', direction: 'desc'};
+    this.sort = {active: 'sizeF', direction: 'desc'};
     this.myFichiersService.done$
       .pipe(skipWhile(done => done !== undefined && !done))
       .subscribe(() =>
@@ -128,9 +132,9 @@ export class ListFichierComponent
     if (controls.end.value) {
       result = result.filter(f => f.rangeEnd <= (controls.end.value ?? 0));
     }
-    if (controls.category.value?.length ?? 0 > 0) {
+    if (controls.category.value.length > 0) {
       result = result.filter(f =>
-        controls.category?.value?.includes(f.category)
+        controls.category.value?.includes(f.category)
       );
     }
     result = this.filterComposition(result);

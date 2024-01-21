@@ -18,5 +18,5 @@ export class FilterSelectComponent {
   multiple = false;
 
   @Input()
-  control!: FormControl<string>;
+  control!: FormControl<string> | FormControl<string[]>;
 }
