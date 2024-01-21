@@ -1,0 +1,27 @@
+<ng-container *ngIf="menuService.wiki | async">
+  <ng-container *ngIf="isButton; else isMenu">
+    <ng-container *ngTemplateOutlet="button; context: copy"> </ng-container>
+    <ng-container *ngTemplateOutlet="button; context: wiki"> </ng-container>
+  </ng-container>
+  <ng-template #isMenu>
+    <ng-container *ngTemplateOutlet="menu; context: copy"> </ng-container>
+    <ng-container *ngTemplateOutlet="menu; context: wiki"> </ng-container>
+  </ng-template>
+</ng-container>
+
+<ng-template #menu let-data>
+  <button mat-menu-item>
+    <div (click)="data.click()">
+      <fa-icon [icon]="data.icon"></fa-icon>
+      <span>{{ data.text }}</span>
+    </div>
+  </button></ng-template
+>
+<ng-template #button let-data>
+  <button mat-button mat-dialog-close>
+    <div (click)="data.click()">
+      <fa-icon [icon]="data.icon"></fa-icon>
+      <span>{{ data.text }}</span>
+    </div>
+  </button></ng-template
+>

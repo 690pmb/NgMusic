@@ -1,7 +1,11 @@
 import {AfterViewInit, Directive, ElementRef, Input} from '@angular/core';
 import {fromEvent, filter, merge, map, tap, debounceTime} from 'rxjs';
 import {Composition} from '../utils/model';
-import {UtilsService} from '@services/utils.service';
+import {MatDialog} from '@angular/material/dialog';
+import {
+  MenuDialogComponent,
+  MenuDialogData,
+} from '../menu-dialog/menu-dialog.component';
 
 @Directive({
   selector: 'mat-row[appRowAction]',
@@ -13,12 +17,9 @@ export class RowActionDirective implements AfterViewInit {
   @Input()
   isMobile = false;
 
-  private readonly threshold = 1000;
+  private readonly threshold = 900;
 
-  constructor(
-    private elementRef: ElementRef,
-    private utilsService: UtilsService
-  ) {}
+  constructor(private elementRef: ElementRef, private dialog: MatDialog) {}
 
   ngAfterViewInit(): void {
     let out = true;
@@ -45,7 +46,12 @@ export class RowActionDirective implements AfterViewInit {
         filter(() => out && this.isMobile)
       )
       .subscribe(() => {
-        this.utilsService.compositionInClipBoard(this.appRowAction);
+        this.dialog.open<MenuDialogComponent, MenuDialogData>(
+          MenuDialogComponent,
+          {
+            data: {composition: this.appRowAction},
+          }
+        );
       });
   }
 }
