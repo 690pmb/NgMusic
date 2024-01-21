@@ -1,4 +1,5 @@
 import {HttpErrorResponse} from '@angular/common/http';
+import {SortDirection} from '@angular/material/sort';
 
 export class Fichier {
   category: string;
@@ -95,4 +96,8 @@ export class File {
   filename?: string;
 }
 
-export type GlobalError = Error | HttpErrorResponse;
+export type GlobalError = Error | HttpErrorResponse | string;
+
+export type Field<T> = `${string & keyof T}`;
+
+export type Sort<T> = {active: Field<T>; direction: SortDirection};

@@ -1,73 +1,40 @@
-import {Sort} from '@angular/material/sort';
 import {PageEvent} from '@angular/material/paginator';
-
+import {SortDirection} from '@angular/material/sort';
 import {Composition, Fichier} from './model';
 
 export class Utils {
-  static sortComposition(list: Composition[], sort?: Sort): Composition[] {
-    if (sort && sort.active && sort.direction !== '') {
+  static sort<T extends Composition | Fichier, K extends string & keyof T>(
+    list: T[],
+    active?: K,
+    direction?: SortDirection
+  ): T[] {
+    if (list.length > 0 && active && direction !== undefined) {
+      const isAsc: boolean = direction === 'asc';
       return list.sort((a, b) => {
-        const isAsc: boolean = sort.direction === 'asc';
-        if (['artist', 'title', 'type'].includes(sort.active)) {
-          return Utils.compare(
-            a[sort.active].trim().toLowerCase(),
-            b[sort.active].trim().toLowerCase(),
-            isAsc
-          );
-        } else if (['score', 'rank'].includes(sort.active)) {
-          return Utils.compare(a[sort.active], b[sort.active], isAsc);
-        } else if ('size' === sort.active) {
-          return Utils.compare(a.size, b.size, isAsc);
-        } else if (
-          'sizeC' === sort.active &&
-          a.displayedFileList &&
-          b.displayedFileList
+        if (
+          a instanceof Fichier &&
+          b instanceof Fichier &&
+          active === 'creation'
         ) {
-          return Utils.compare(
-            a.displayedFileList.length,
-            b.displayedFileList.length,
-            isAsc
-          );
+          return Utils.compareDate(a.creation ?? '', b.creation ?? '', isAsc);
         } else {
-          return 0;
+          let A;
+          let B;
+          if (typeof a[active] === 'string') {
+            A = (a[active] as string).trim().toLowerCase();
+            B = (b[active] as string).trim().toLowerCase();
+          } else if (Array.isArray(a[active])) {
+            A = (a[active] as []).length;
+            B = (b[active] as []).length;
+          }
+          return (
+            ((A ?? a[active]) < (B ?? b[active]) ? -1 : 1) * (isAsc ? 1 : -1)
+          );
         }
       });
     } else {
       return list;
     }
-  }
-
-  static sortFichier(list: Fichier[], sort?: Sort): Fichier[] {
-    if (sort && sort.active && sort.direction !== '') {
-      return list.sort((a, b) => {
-        const isAsc: boolean = sort.direction === 'asc';
-        if (['category', 'name', 'type', 'author'].includes(sort.active)) {
-          return Utils.compare(
-            a[sort.active].trim().toLowerCase(),
-            b[sort.active].trim().toLowerCase(),
-            isAsc
-          );
-        } else if (
-          ['rangeBegin', 'rangeEnd', 'rank', 'publish', 'sorted'].includes(
-            sort.active
-          )
-        ) {
-          return Utils.compare(a[sort.active], b[sort.active], isAsc);
-        } else if (sort.active === 'creation') {
-          return Utils.compareDate(a.creation, b.creation, isAsc);
-        } else if (['size', 'sizeF'].includes(sort.active)) {
-          return Utils.compare(a.size, b.size, isAsc);
-        } else {
-          return 0;
-        }
-      });
-    } else {
-      return list;
-    }
-  }
-
-  static compare<T>(a: T, b: T, isAsc: boolean): number {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   static compareDate(a: string, b: string, isAsc: boolean): number {

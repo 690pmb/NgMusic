@@ -1,7 +1,6 @@
 import {OnInit, Directive} from '@angular/core';
-import {Sort} from '@angular/material/sort';
 import {PageEvent} from '@angular/material/paginator';
-import {Dropdown} from '@utils/model';
+import {Dropdown, Sort, Field, Composition} from '@utils/model';
 import {Utils} from '@utils/utils';
 import {UtilsService} from '@services/utils.service';
 
@@ -12,9 +11,9 @@ export abstract class ListDirective<T> implements OnInit {
   displayedData: T[] = [];
   pageSizeOptions = [25, 50, 100, 200];
   page!: PageEvent;
-  sort?: Sort;
-  compositionColumns!: string[];
-  displayedColumnsComposition!: string[];
+  sort?: Sort<T>;
+  compositionColumns!: (Field<Composition> | 'menu')[];
+  displayedColumnsComposition!: (Field<Composition> | 'menu')[];
   isDesktop = false;
 
   readonly types = [

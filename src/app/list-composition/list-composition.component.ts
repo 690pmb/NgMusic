@@ -1,12 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Sort} from '@angular/material/sort';
 import {catchError, skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 
-import {Composition, Fichier} from '@utils/model';
+import {Composition, Fichier, Field, Sort} from '@utils/model';
 import {Utils} from '@utils/utils';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
@@ -41,9 +40,16 @@ export class ListCompositionComponent
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  override compositionColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
+  override compositionColumns: Field<Composition>[] = [
+    'artist',
+    'title',
+    'type',
+    'displayedFileList',
+    'score',
+  ];
+
   override displayedColumnsComposition = [...this.compositionColumns];
-  displayedColumnsFichier = [
+  displayedColumnsFichier: Field<Fichier>[] = [
     'name',
     'category',
     'rangeBegin',
@@ -53,7 +59,7 @@ export class ListCompositionComponent
   ];
 
   displayedFichier = new BehaviorSubject<Fichier[]>([]);
-  sortFichier?: Sort;
+  sortFichier?: Sort<Fichier>;
   expandedElement?: Composition;
   expandedColumn = 'details';
   // Filters
@@ -208,7 +214,7 @@ export class ListCompositionComponent
   }
 
   sortList(list: Composition[]): Composition[] {
-    return Utils.sortComposition(list, this.sort);
+    return Utils.sort(list, this.sort?.active, this.sort?.direction);
   }
 
   expand(element: Composition): void {
@@ -217,20 +223,25 @@ export class ListCompositionComponent
     if (this.expandedElement) {
       this.sortFichier = {active: 'rank', direction: 'asc'};
       this.displayedFichier.next(
-        Utils.sortFichier(
+        Utils.sort(
           this.expandedElement.displayedFileList,
-          this.sortFichier
+          this.sortFichier.active,
+          this.sortFichier.direction
         )
       );
     }
   }
 
-  onSortFichier(sort?: Sort): void {
+  onSortFichier(sort?: Sort<Fichier>): void {
     if (this.expandedElement) {
       this.sortFichier = sort;
       this.expandedElement = this.filterOnFichier([this.expandedElement])[0];
       this.displayedFichier.next(
-        Utils.sortFichier(this.expandedElement?.displayedFileList ?? [], sort)
+        Utils.sort(
+          this.expandedElement?.displayedFileList ?? [],
+          sort?.active,
+          sort?.direction
+        )
       );
     }
   }

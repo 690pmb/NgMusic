@@ -2,11 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import {catchError, skipWhile} from 'rxjs/operators';
-import {Sort} from '@angular/material/sort';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
-import {Fichier, Composition} from '@utils/model';
+import {Fichier, Composition, Sort, Field} from '@utils/model';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
 import {DexieService} from '@services/dexie.service';
@@ -41,13 +40,28 @@ export class ListFichierComponent
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
-  override compositionColumns = ['artist', 'title', 'rank', 'size', 'score'];
+  displayedColumns: Field<Fichier>[] = [
+    'author',
+    'name',
+    'type',
+    'category',
+    'size',
+    'publish',
+  ];
+
+  override compositionColumns: (Field<Composition> | 'menu')[] = [
+    'artist',
+    'title',
+    'rank',
+    'size',
+    'score',
+  ];
+
   override displayedColumnsComposition = [...this.compositionColumns];
   expandedCompositions: Composition[] = [];
   displayedCompositions = new BehaviorSubject<Composition[]>([]);
   pageComposition!: PageEvent;
-  sortComposition?: Sort;
+  sortComposition?: Sort<Composition>;
   expandedElement?: Fichier;
   expandedColumn = 'compositions';
   // Filters
@@ -97,7 +111,7 @@ export class ListFichierComponent
       this.dexieService.fileFichier,
       Dropbox.DROPBOX_FICHIER_FILE
     );
-    this.sort = {active: 'sizeF', direction: 'desc'};
+    this.sort = {active: 'size', direction: 'desc'};
     this.myFichiersService.done$
       .pipe(
         skipWhile(done => done !== undefined && !done),
@@ -170,7 +184,7 @@ export class ListFichierComponent
   }
 
   sortList(list: Fichier[]): Fichier[] {
-    return Utils.sortFichier(list, this.sort);
+    return Utils.sort(list, this.sort?.active, this.sort?.direction);
   }
 
   expand(element: Fichier): void {
@@ -182,15 +196,16 @@ export class ListFichierComponent
     }
   }
 
-  onSortComposition(sort: Sort): void {
+  onSortComposition(sort: Sort<Composition>): void {
     if (this.expandedElement) {
       this.pageComposition = this.initPagination();
       this.sortComposition = sort;
       this.expandedElement = this.filterComposition([this.expandedElement])[0];
       this.displayedCompositions.next(
-        Utils.sortComposition(
+        Utils.sort(
           this.expandedElement?.displayedCompoList ?? [],
-          sort
+          sort.active,
+          sort.direction
         )
       );
       this.expandedCompositions = this.displayedCompositions.getValue();
