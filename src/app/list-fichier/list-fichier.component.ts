@@ -42,8 +42,8 @@ export class ListFichierComponent
   paginator!: MatPaginator;
 
   displayedColumns = ['author', 'name', 'type', 'category', 'sizeF', 'publish'];
-  compositionColumns = ['artist', 'title', 'rank', 'size', 'score'];
-  displayedColumnsComposition = [...this.compositionColumns];
+  override compositionColumns = ['artist', 'title', 'rank', 'size', 'score'];
+  override displayedColumnsComposition = [...this.compositionColumns];
   expandedCompositions: Composition[] = [];
   displayedCompositions = new BehaviorSubject<Composition[]>([]);
   pageComposition!: PageEvent;
@@ -86,7 +86,7 @@ export class ListFichierComponent
     super(serviceUtils);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     super.ngOnInit();
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
@@ -188,7 +188,10 @@ export class ListFichierComponent
       this.sortComposition = sort;
       this.expandedElement = this.filterComposition([this.expandedElement])[0];
       this.displayedCompositions.next(
-        Utils.sortComposition(this.expandedElement.displayedCompoList, sort)
+        Utils.sortComposition(
+          this.expandedElement?.displayedCompoList ?? [],
+          sort
+        )
       );
       this.expandedCompositions = this.displayedCompositions.getValue();
     }
@@ -198,5 +201,10 @@ export class ListFichierComponent
     this.displayedCompositions.next(
       Utils.paginate(this.expandedCompositions, this.pageComposition)
     );
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  trackByFn(_index: number, item: string): string {
+    return item;
   }
 }

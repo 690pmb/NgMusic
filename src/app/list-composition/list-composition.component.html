@@ -3,12 +3,12 @@
   <div>
     <div class="filters">
       <app-filter-input
-        [control]="filters.controls.artist"
         placeholder="Chercher un artiste"
+        [control]="filters.controls.artist"
       ></app-filter-input>
       <app-filter-input
-        [control]="filters.controls.title"
         placeholder="Chercher un titre"
+        [control]="filters.controls.title"
       ></app-filter-input>
       <app-filter-select
         placeholder="Type"
@@ -24,8 +24,8 @@
     <!-- Fichier Filters -->
     <div class="filters">
       <app-filter-input
-        [control]="filters.controls.filename"
         placeholder="Chercher un fichier"
+        [control]="filters.controls.filename"
       ></app-filter-input>
       <app-filter-select
         placeholder="Catégorie"
@@ -34,12 +34,12 @@
         [multiple]="true"
       ></app-filter-select>
       <app-filter-year
-        [control]="filters.controls.begin"
         placeholder="Année de début"
+        [control]="filters.controls.begin"
       ></app-filter-year>
       <app-filter-year
-        [control]="filters.controls.end"
         placeholder="Année de fin"
+        [control]="filters.controls.end"
       ></app-filter-year>
     </div>
     <div
@@ -54,14 +54,14 @@
   </div>
   <fa-icon
     class="reset-btn pointer"
-    [icon]="['fas', 'rotate-right']"
     size="3x"
-    (click)="filters.reset()"
     matRipple
+    matRippleColor="var(--purple)"
+    [icon]="['fas', 'rotate-right']"
     [matRippleRadius]="35"
     [matRippleCentered]="true"
-    matRippleColor="var(--purple)"
     [matRippleUnbounded]="true"
+    (click)="filters.reset()"
   ></fa-icon>
 </div>
 <div class="paginator mat-elevation-z4">
@@ -72,8 +72,8 @@
     [pageIndex]="0"
     [pageSize]="50"
     [pageSizeOptions]="pageSizeOptions"
-    (page)="page = $event; onPaginateChange()"
     [showFirstLastButtons]="true"
+    (page)="page = $event; onPaginateChange()"
   >
   </mat-paginator>
 </div>
@@ -81,12 +81,12 @@
 <!-- Table -->
 <mat-table
   class="mat-elevation-z4"
-  [dataSource]="displayedData"
-  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
   matSort
+  multiTemplateDataRows
+  [dataSource]="displayedData"
   [matSortActive]="'score'"
   [matSortDirection]="'desc'"
-  multiTemplateDataRows
+  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
 >
   <!-- ARTIST -->
   <ng-container matColumnDef="artist">
@@ -135,7 +135,7 @@
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
       {{ compo.score | number: '1.0-0':'fr' }}
-      <div class="decile-{{ compo.decile }}">({{ compo.decile }})</div>
+      <div [class]="'decile-' + compo.decile">({{ compo.decile }})</div>
     </mat-cell>
   </ng-container>
 
@@ -150,24 +150,26 @@
   </ng-container>
 
   <!-- Fichier -->
-  <ng-container matColumnDef="{{ expandedColumn }}">
+  <ng-container [matColumnDef]="expandedColumn">
     <td
-      mat-cell
       *matCellDef="let compo"
+      mat-cell
       [attr.colspan]="displayedColumnsComposition.length"
-      [@detailExpand]="compo == expandedElement ? 'expanded' : 'collapsed'"
+      [@detailExpand]="compo === expandedElement ? 'expanded' : 'collapsed'"
     >
       <div class="example-element-detail">
         <mat-table
-          [dataSource]="displayedFichier"
-          *ngIf="compo == expandedElement"
+          *ngIf="compo === expandedElement"
           matSort
+          [dataSource]="displayedFichier"
           [matSortActive]="'rank'"
           [matSortDirection]="'desc'"
           (matSortChange)="onSortFichier($event)"
         >
-          <div *ngFor="let column of displayedColumnsFichier">
-            <ng-container matColumnDef="{{ column }}">
+          <div
+            *ngFor="let column of displayedColumnsFichier; trackBy: trackByFn"
+          >
+            <ng-container [matColumnDef]="column">
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 <span class="mat-text">{{ column | upperFirst }}</span>
               </mat-header-cell>
@@ -198,9 +200,9 @@
       let i = dataIndex;
       columns: displayedColumnsComposition
     "
+    class="example-element-row"
     [appRowAction]="element"
     [isMobile]="!isDesktop"
-    class="example-element-row"
     [ngClass]="{
       deleted: element.deleted === 1,
       even: i % 2 === 0,
