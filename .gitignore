@@ -8,7 +8,6 @@
 
 # dependencies
 /node_modules
-/cordova
 
 # IDEs and editors
 /.idea
