@@ -6,7 +6,6 @@
     "ng": "ng",
     "start": "ng serve --port 7070",
     "build": "ng build --configuration production --progress false",
-    "cordova": "pnpm build --base-href file:///android_asset/www/",
     "lint": "run-s lint:**",
     "lint:format": "prettier --check .",
     "lint:stylelint": "stylelint \"**/*.scss\" verbose",

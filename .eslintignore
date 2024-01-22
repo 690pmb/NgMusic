@@ -3,7 +3,6 @@
 build/
 dist/
 node_modules/
-cordova/
 .husky/
 *.conf.js
 .angular
