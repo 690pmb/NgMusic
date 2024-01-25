@@ -1,17 +1,26 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  filter,
+  forkJoin,
+  from,
+  map,
+  of,
+  switchMap,
+} from 'rxjs';
 import * as xml2js from 'xml2js';
-import Dexie from 'dexie';
 import * as JSZip from 'jszip';
-import DropboxTypes from 'dropbox';
+import {files} from 'dropbox';
 
 import {DropboxService} from './dropbox.service';
 import {UtilsService} from './utils.service';
 import {Composition, Fichier, File} from '@utils/model';
+import {Table} from '@utils/table';
 import {ToastService} from './toast.service';
 import {Dropbox} from '@utils/dropbox';
 import {XComposition, XFichier, XWrapper, isXF, isXC} from '@utils/xml';
-import {DexieService} from './dexie.service';
 import {DateTime} from 'luxon';
 
 @Injectable({
@@ -28,15 +37,11 @@ export class DataService<T extends Composition | Fichier> {
     private toast: ToastService
   ) {}
 
-  loadsList(
-    table: Dexie.Table<T, number>,
-    file: Dexie.Table<File, number>,
-    dropboxFile: string
-  ): void {
-    Promise.all([
-      file.get(1),
+  loadsList(table: Table<T>, file: Table<File>, dropboxFile: string): void {
+    forkJoin([
+      from(file.get(1)),
       this.dropboxService.listFiles(Dropbox.DROPBOX_FOLDER),
-    ]).then(([storedName, filesList]) => {
+    ]).subscribe(([storedName, filesList]) => {
       const fileNameToDownload = DataService.findsFileNameToDownload(
         dropboxFile,
         filesList
@@ -50,7 +55,7 @@ export class DataService<T extends Composition | Fichier> {
           file,
           fileNameToDownload,
           `Download ${dropboxFile}`
-        );
+        ).subscribe();
       } else if (!fileNameToDownload && storedName) {
         this.toast.open('Already loaded');
         this.done$.next(true);
@@ -64,7 +69,7 @@ export class DataService<T extends Composition | Fichier> {
             file,
             fileNameToDownload ?? '',
             `Update ${dropboxFile}`
-          );
+          ).subscribe();
         } else {
           this.toast.open('Already loaded');
           this.done$.next(true);
@@ -74,22 +79,23 @@ export class DataService<T extends Composition | Fichier> {
   }
 
   downloadsList(
-    table: Dexie.Table<T, number>,
-    fileTable: Dexie.Table<File, number>,
+    table: Table<T>,
+    fileTable: Table<File>,
     fileName: string,
     resultMessage: string
-  ): Promise<void> {
+  ): Observable<void> {
     // download file
     const t0 = performance.now();
     const zip: JSZip = new JSZip();
-    return this.dropboxService
-      .downloadFile(fileName)
-      .then((content: string) => {
+    return this.dropboxService.downloadFile(fileName).pipe(
+      switchMap((content: string) => {
         this.toast.open(`File downloaded: ${fileName}`);
         return zip.loadAsync(content);
-      })
-      .then(content => zip.file(Object.keys(content.files)[0])?.async('string'))
-      .then((dataFromFile: string | undefined) => {
+      }),
+      map(content => zip.file(Object.keys(content.files)[0])),
+      filter((data): data is JSZip.JSZipObject => !!data),
+      switchMap(data => data.async('string')),
+      map((dataFromFile: string | undefined) => {
         if (dataFromFile && dataFromFile.trim().length > 0) {
           // Parse file
           const dataList = this.parse(dataFromFile);
@@ -99,22 +105,39 @@ export class DataService<T extends Composition | Fichier> {
         } else {
           return [];
         }
-      })
-      .then((dataList: (Composition | Fichier)[]) => {
-        this.toast.open('Data parsed');
-        fileTable.get(1).then(item => {
-          if (!item) {
-            fileTable.add({filename: fileName});
-          } else {
-            fileTable.update(1, {filename: fileName});
-          }
-        });
-        table.clear();
-        DexieService.addAll(table, dataList);
+      }),
+      switchMap(dataList =>
+        this.updateTables(fileTable, fileName, table, dataList)
+      ),
+      map(() => {
         this.toast.open(resultMessage);
         this.done$.next(true);
-      })
-      .catch(err => this.serviceUtils.handlePromiseError(err));
+        of(undefined);
+      }),
+      catchError(err =>
+        this.serviceUtils.handleError(err, `Error when downloading ${fileName}`)
+      )
+    );
+  }
+
+  private updateTables(
+    fileTable: Table<File>,
+    fileName: string,
+    table: Table<T>,
+    dataList: T[]
+  ): Observable<void> {
+    this.toast.open('Data parsed');
+    return fileTable.get(1).pipe(
+      switchMap(item => {
+        if (!item) {
+          return fileTable.add({filename: fileName});
+        } else {
+          return fileTable.update(1, {filename: fileName});
+        }
+      }),
+      switchMap(() => table.clear()),
+      switchMap(() => table.addAll(dataList))
+    );
   }
 
   parse(xmlFile: string): T[] {
@@ -193,11 +216,8 @@ export class DataService<T extends Composition | Fichier> {
 
   private static findsFileNameToDownload(
     dropboxFile: string,
-    filesList?: DropboxTypes.files.ListFolderResult
+    filesList: files.ListFolderResult
   ): string | undefined {
-    if (!filesList) {
-      return undefined;
-    }
     const names = filesList.entries
       .map(f => f.name)
       .filter(name => DataService.isCorrectFileName(name, dropboxFile));

@@ -21,7 +21,8 @@
     "paths": {
       "@utils/*": ["./src/app/utils/*"],
       "@pipes/*": ["./src/app/pipes/*"],
-      "@services/*": ["./src/app/services/*"]
+      "@services/*": ["./src/app/services/*"],
+      "crypto": ["./node_modules/crypto-browserify"]
     }
   },
   "include": ["src/**/*.ts", "test/**/*.ts"],
