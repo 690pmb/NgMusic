@@ -1,52 +1,58 @@
 import {Injectable} from '@angular/core';
-import DropboxTypes from 'dropbox';
+import {Dropbox, files} from 'dropbox';
 import {UtilsService} from './utils.service';
 import {Dropbox as DropboxConstant} from '@utils/dropbox';
+import {Observable, catchError, from, map, switchMap} from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class DropboxService {
   constructor(private serviceUtils: UtilsService) {}
 
-  getDbx(): DropboxTypes.Dropbox {
-    return new DropboxTypes.Dropbox({
+  static getDbx(): Dropbox {
+    return new Dropbox({
       accessToken: DropboxConstant.DROPBOX_TOKEN,
     });
   }
 
-  listFiles(
-    folder: string
-  ): Promise<DropboxTypes.files.ListFolderResult | undefined> {
-    return this.getDbx()
-      .filesListFolder({path: folder})
-      .then((response: DropboxTypes.files.ListFolderResult) => response)
-      .catch(err => {
-        this.serviceUtils.handleError(err);
-        return undefined;
-      });
-  }
-
-  getPath(fileName: string): string {
+  static getPath(fileName: string): string {
     return DropboxConstant.DROPBOX_FOLDER + fileName;
   }
 
-  downloadFile(fileName: string): Promise<string> {
-    return (
-      this.getDbx()
-        .filesDownload({path: this.getPath(fileName)})
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .then((response: any) => {
-          const fileReader = new FileReader();
-          return new Promise<string>((resolve, reject) => {
-            fileReader.onerror = () => {
-              fileReader.abort();
-              reject(new DOMException('Problem parsing input file.'));
-            };
-            fileReader.onload = () =>
-              resolve(fileReader?.result?.toString() ?? '');
-            fileReader.readAsBinaryString(response.fileBlob);
-          });
-        })
-        .catch(err => Promise.reject(this.serviceUtils.handleError(err)))
+  listFiles(folder: string): Observable<files.ListFolderResult> {
+    return from(DropboxService.getDbx().filesListFolder({path: folder})).pipe(
+      map(response => response.result),
+      catchError(err =>
+        this.serviceUtils.handleError(err, 'Error when listing files')
+      )
+    );
+  }
+
+  downloadFile(fileName: string): Observable<string> {
+    return from(
+      DropboxService.getDbx().filesDownload({
+        path: DropboxService.getPath(fileName),
+      })
+    ).pipe(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      switchMap((response: any) => {
+        const fileReader = new FileReader();
+        return new Observable<string>(observer => {
+          fileReader.onerror = () => {
+            fileReader.abort();
+            observer.error(new DOMException('Problem parsing input file.'));
+          };
+          fileReader.onload = () =>
+            observer.next(fileReader?.result?.toString() ?? '');
+          fileReader.onloadend = () => observer.complete();
+          fileReader.readAsBinaryString(response.result.fileBlob);
+        });
+      }),
+      catchError(err =>
+        this.serviceUtils.handleError(
+          err,
+          `Error when downloading file ${fileName}`
+        )
+      )
     );
   }
 }

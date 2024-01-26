@@ -1,4 +1,4 @@
-import {catchError, of, map, ReplaySubject, take} from 'rxjs';
+import {catchError, map, ReplaySubject, take} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Injectable} from '@angular/core';
@@ -35,10 +35,12 @@ export class MenuService {
       )
       .pipe(
         map(response => response[3][0]),
-        catchError(err => {
-          this.utilsService.handleError(err);
-          return of('');
-        })
+        catchError(err =>
+          this.utilsService.handleError(
+            err,
+            'Error when searching wikipedia url'
+          )
+        )
       )
       .subscribe(u => this.setWiki(u));
   }

@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Sort} from '@angular/material/sort';
-import {skipWhile} from 'rxjs/operators';
+import {catchError, skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, switchMap} from 'rxjs';
 import {FormControl, FormGroup} from '@angular/forms';
 import {MatPaginator} from '@angular/material/paginator';
 
@@ -111,19 +111,24 @@ export class ListCompositionComponent
     );
     this.sort = {active: 'score', direction: 'desc'};
     this.myCompositionsService.done$
-      .pipe(skipWhile(done => done !== undefined && !done))
-      .subscribe(() =>
-        DexieService.getAll(this.dexieService.compositionTable)
-          .then(list => {
-            this.dataList = this.sortList(list);
-            this.length = list.length;
-            this.displayedData = Utils.paginate(
-              this.filter(this.dataList),
-              this.page
-            );
-          })
-          .catch(err => this.utilsService.handlePromiseError(err))
-      );
+      .pipe(
+        skipWhile(done => done !== undefined && !done),
+        switchMap(() => this.dexieService.compositionTable.getAll()),
+        catchError(err =>
+          this.utilsService.handleError(
+            err,
+            'Error when reading compositions table'
+          )
+        )
+      )
+      .subscribe(list => {
+        this.dataList = this.sortList(list);
+        this.length = list.length;
+        this.displayedData = Utils.paginate(
+          this.filter(this.dataList),
+          this.page
+        );
+      });
   }
 
   filter(list: Composition[]): Composition[] {

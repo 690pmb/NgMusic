@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {BehaviorSubject} from 'rxjs';
-import {skipWhile} from 'rxjs/operators';
+import {BehaviorSubject, switchMap} from 'rxjs';
+import {catchError, skipWhile} from 'rxjs/operators';
 import {Sort} from '@angular/material/sort';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
@@ -99,19 +99,24 @@ export class ListFichierComponent
     );
     this.sort = {active: 'sizeF', direction: 'desc'};
     this.myFichiersService.done$
-      .pipe(skipWhile(done => done !== undefined && !done))
-      .subscribe(() =>
-        DexieService.getAll(this.dexieService.fichierTable)
-          .then(list => {
-            this.dataList = this.sortList(list);
-            this.length = list.length;
-            this.displayedData = Utils.paginate(
-              this.filter(this.dataList),
-              this.page
-            );
-          })
-          .catch(err => this.serviceUtils.handlePromiseError(err))
-      );
+      .pipe(
+        skipWhile(done => done !== undefined && !done),
+        switchMap(() => this.dexieService.fichierTable.getAll()),
+        catchError(err =>
+          this.utilsService.handleError(
+            err,
+            'Error when reading fichiers table'
+          )
+        )
+      )
+      .subscribe(list => {
+        this.dataList = this.sortList(list);
+        this.length = list.length;
+        this.displayedData = Utils.paginate(
+          this.filter(this.dataList),
+          this.page
+        );
+      });
   }
 
   filter(list: Fichier[]): Fichier[] {
