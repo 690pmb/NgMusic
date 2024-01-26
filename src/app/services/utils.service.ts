@@ -1,4 +1,10 @@
-import {Observable, map, distinctUntilChanged, debounceTime} from 'rxjs';
+import {
+  Observable,
+  map,
+  distinctUntilChanged,
+  debounceTime,
+  throwError,
+} from 'rxjs';
 import {Injectable} from '@angular/core';
 import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from './toast.service';
@@ -46,17 +52,10 @@ export class UtilsService {
     return new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  handleError(error: GlobalError): void {
+  handleError(error: GlobalError, message: string): Observable<never> {
     console.error('handleError', error);
     this.toast.open(UtilsService.getErrorMessage(error));
-  }
-
-  handlePromiseError(error: GlobalError): Promise<void> {
-    console.error('handlePromiseError', error);
-    this.toast.open(UtilsService.getErrorMessage(error));
-    return new Promise<void>(resolve => {
-      resolve(undefined);
-    });
+    return throwError(() => message);
   }
 
   getObservable<T>(url: string, headers?: HttpHeaders): Observable<T> {
