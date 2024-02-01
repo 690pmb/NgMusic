@@ -83,7 +83,7 @@ export class DataService<T extends Composition | Fichier> {
     fileTable: Table<File>,
     fileName: string,
     resultMessage: string
-  ): Observable<void> {
+  ): Observable<unknown> {
     // download file
     const t0 = performance.now();
     const zip: JSZip = new JSZip();
@@ -92,7 +92,9 @@ export class DataService<T extends Composition | Fichier> {
         this.toast.open(`File downloaded: ${fileName}`);
         return zip.loadAsync(content);
       }),
-      map(content => zip.file(Object.keys(content.files)[0])),
+      map(content => Object.keys(content.files)[0]),
+      filter((path): path is string => !!path),
+      map(path => zip.file(path)),
       filter((data): data is JSZip.JSZipObject => !!data),
       switchMap(data => data.async('string')),
       map((dataFromFile: string | undefined) => {
@@ -112,7 +114,7 @@ export class DataService<T extends Composition | Fichier> {
       map(() => {
         this.toast.open(resultMessage);
         this.done$.next(true);
-        of(undefined);
+        of(null);
       }),
       catchError(err =>
         this.serviceUtils.handleError(err, `Error when downloading ${fileName}`)

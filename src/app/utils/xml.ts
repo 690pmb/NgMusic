@@ -29,9 +29,11 @@ export type XFichier = {
 
 export type XFichiers = Record<'F', XWrapper<XFichier>[]>;
 
-export type XWrapper<T extends XFichier | XComposition> = {
+export type XWrapper<T extends XComposition | XFichier> = (T extends XFichier
+  ? XCompositions
+  : XFichiers) & {
   $: T;
-} & (T extends XFichier ? XCompositions : XFichiers);
+};
 
 export type XF = {
   Fichiers: XFichiers;
@@ -41,6 +43,6 @@ export type XC = {
   Compositions: XCompositions;
 };
 
-export const isXF = (data: XF | XC): data is XF => 'Fichiers' in data;
+export const isXF = (data: XC | XF): data is XF => 'Fichiers' in data;
 
-export const isXC = (data: XF | XC): data is XC => 'Compositions' in data;
+export const isXC = (data: XC | XF): data is XC => 'Compositions' in data;

@@ -8,14 +8,19 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "moduleResolution": "node",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "importHelpers": true,
     "typeRoots": ["../node_modules/@types"],
     "target": "ES2022",
-    "module": "es2020",
-    "lib": ["es2021", "dom"],
+    "module": "es2022",
+    "lib": ["es2022", "dom"],
     "noImplicitAny": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
     "strict": true,
     "useDefineForClassFields": false,
     "paths": {
@@ -29,6 +34,7 @@
   "angularCompilerOptions": {
     "disableTypeScriptVersionCheck": true,
     "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
     "strictTemplates": true
   }
 }

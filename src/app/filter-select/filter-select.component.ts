@@ -18,5 +18,10 @@ export class FilterSelectComponent {
   multiple = false;
 
   @Input()
-  control!: FormControl<string> | FormControl<string[]>;
+  control!: FormControl<string[]> | FormControl<string>;
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  trackByFn(_index: number, option: Dropdown): string {
+    return option.code;
+  }
 }

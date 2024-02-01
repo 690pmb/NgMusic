@@ -2,12 +2,12 @@
   <div>
     <div class="filters">
       <app-filter-input
-        [control]="filters.controls.author"
         placeholder="Chercher un auteur"
+        [control]="filters.controls.author"
       ></app-filter-input>
       <app-filter-input
-        [control]="filters.controls.name"
         placeholder="Chercher un nom"
+        [control]="filters.controls.name"
       ></app-filter-input>
       <app-filter-select
         placeholder="Type"
@@ -28,12 +28,12 @@
         [multiple]="true"
       ></app-filter-select>
       <app-filter-year
-        [control]="filters.controls.begin"
         placeholder="Année de début"
+        [control]="filters.controls.begin"
       ></app-filter-year>
       <app-filter-year
-        [control]="filters.controls.end"
         placeholder="Année de fin"
+        [control]="filters.controls.end"
       ></app-filter-year>
       <div
         *ngIf="
@@ -52,14 +52,14 @@
   </div>
   <fa-icon
     class="reset-btn pointer"
-    [icon]="['fas', 'rotate-right']"
     size="3x"
-    (click)="filters.reset()"
     matRipple
+    matRippleColor="var(--purple)"
+    [icon]="['fas', 'rotate-right']"
     [matRippleRadius]="35"
     [matRippleCentered]="true"
-    matRippleColor="var(--purple)"
     [matRippleUnbounded]="true"
+    (click)="filters.reset()"
   ></fa-icon>
 </div>
 <div class="paginator mat-elevation-z4">
@@ -70,20 +70,20 @@
     [pageIndex]="0"
     [pageSize]="50"
     [pageSizeOptions]="pageSizeOptions"
-    (page)="page = $event; onPaginateChange()"
     [showFirstLastButtons]="true"
+    (page)="page = $event; onPaginateChange()"
   >
   </mat-paginator>
 </div>
 <!-- Table -->
 <mat-table
   class="mat-elevation-z4"
-  [dataSource]="displayedData"
-  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
   matSort
+  multiTemplateDataRows
+  [dataSource]="displayedData"
   [matSortActive]="'sizeF'"
   [matSortDirection]="'desc'"
-  multiTemplateDataRows
+  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
 >
   <!-- AUTHOR -->
   <ng-container matColumnDef="author">
@@ -146,37 +146,42 @@
   </ng-container>
 
   <!-- Composition -->
-  <ng-container matColumnDef="{{ expandedColumn }}">
+  <ng-container [matColumnDef]="expandedColumn">
     <td
-      mat-cell
       *matCellDef="let fichier"
+      mat-cell
       [attr.colspan]="displayedColumns.length"
       [@compositionExpand]="
-        fichier == expandedElement ? 'expanded' : 'collapsed'
+        fichier === expandedElement ? 'expanded' : 'collapsed'
       "
     >
       <div class="example-element-detail">
-        <ng-container *ngIf="fichier == expandedElement">
+        <ng-container *ngIf="fichier === expandedElement">
           <mat-paginator
             #paginatorComposition
             [length]="expandedElement?.displayedCompoList?.length"
             [pageIndex]="0"
             [pageSize]="50"
-            (page)="pageComposition = $event; onPaginateCompositionChange()"
             [showFirstLastButtons]="true"
+            (page)="pageComposition = $event; onPaginateCompositionChange()"
           >
           </mat-paginator>
           <mat-table
-            [dataSource]="displayedCompositions"
             matSort
+            [dataSource]="displayedCompositions"
             [matSortActive]="'rank'"
             [matSortDirection]="'desc'"
             (matSortChange)="
               paginatorComposition.firstPage(); onSortComposition($event)
             "
           >
-            <div *ngFor="let column of displayedColumnsComposition">
-              <ng-container matColumnDef="{{ column }}">
+            <div
+              *ngFor="
+                let column of displayedColumnsComposition;
+                trackBy: trackByFn
+              "
+            >
+              <ng-container [matColumnDef]="column">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <span class="mat-text">{{ column | titlecase }}</span>
                 </mat-header-cell>
@@ -186,7 +191,7 @@
                   </ng-container>
                   <ng-container *ngIf="column === 'score'"
                     >{{ compo.score | number: '1.0-0':'fr' }}
-                    <div class="decile-{{ compo.decile }}">
+                    <div [class]="'decile-' + compo.decile">
                       ({{ compo.decile }})
                     </div>
                   </ng-container>

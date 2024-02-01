@@ -41,8 +41,8 @@ export class ListCompositionComponent
   @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
-  compositionColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
-  displayedColumnsComposition = [...this.compositionColumns];
+  override compositionColumns = ['artist', 'title', 'type', 'sizeC', 'score'];
+  override displayedColumnsComposition = [...this.compositionColumns];
   displayedColumnsFichier = [
     'name',
     'category',
@@ -93,12 +93,12 @@ export class ListCompositionComponent
   constructor(
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
-    protected utilsService: UtilsService
+    protected serviceUtils: UtilsService
   ) {
-    super(utilsService);
+    super(serviceUtils);
   }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     super.ngOnInit();
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
@@ -202,7 +202,7 @@ export class ListCompositionComponent
     );
   }
 
-  onSort(): void {
+  override onSort(): void {
     super.onSort();
     this.displayedData = this.sortList(this.displayedData);
   }
@@ -233,5 +233,10 @@ export class ListCompositionComponent
         Utils.sortFichier(this.expandedElement?.displayedFileList ?? [], sort)
       );
     }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  trackByFn(_index: number, item: string): string {
+    return item;
   }
 }

@@ -6,52 +6,52 @@ settings:
 
 dependencies:
   '@angular-devkit/build-angular':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/compiler-cli@15.2.10)(typescript@4.9.5)
   '@angular/animations':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/core@15.2.10)
   '@angular/cdk':
     specifier: 15.2.9
     version: 15.2.9(@angular/common@15.2.10)(@angular/core@15.2.10)(rxjs@7.8.1)
   '@angular/common':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/core@15.2.10)(rxjs@7.8.1)
   '@angular/compiler':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/core@15.2.10)
   '@angular/core':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(rxjs@7.8.1)(zone.js@0.13.1)
   '@angular/forms':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/common@15.2.10)(@angular/core@15.2.10)(@angular/platform-browser@15.2.10)(rxjs@7.8.1)
   '@angular/material':
-    specifier: 15.2.9
+    specifier: ~15.2
     version: 15.2.9(@angular/animations@15.2.10)(@angular/cdk@15.2.9)(@angular/common@15.2.10)(@angular/core@15.2.10)(@angular/forms@15.2.10)(@angular/platform-browser@15.2.10)(rxjs@7.8.1)
   '@angular/platform-browser':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/animations@15.2.10)(@angular/common@15.2.10)(@angular/core@15.2.10)
   '@angular/platform-browser-dynamic':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/common@15.2.10)(@angular/compiler@15.2.10)(@angular/core@15.2.10)(@angular/platform-browser@15.2.10)
   '@fortawesome/angular-fontawesome':
     specifier: 0.12.1
     version: 0.12.1(@angular/core@15.2.10)(@fortawesome/fontawesome-svg-core@6.1.0)
   '@fortawesome/fontawesome-common-types':
-    specifier: 6.1.0
+    specifier: ~6.1
     version: 6.1.0
   '@fortawesome/fontawesome-svg-core':
-    specifier: 6.1.0
+    specifier: ~6.1
     version: 6.1.0
   '@fortawesome/free-brands-svg-icons':
-    specifier: 6.1.0
+    specifier: ~6.1
     version: 6.1.0
   '@fortawesome/free-regular-svg-icons':
-    specifier: 6.1.0
+    specifier: ~6.1
     version: 6.1.0
   '@fortawesome/free-solid-svg-icons':
-    specifier: 6.1.0
+    specifier: ~6.1
     version: 6.1.0
   core-js:
     specifier: 3.31.0
@@ -98,19 +98,25 @@ dependencies:
 
 devDependencies:
   '@angular-eslint/eslint-plugin':
-    specifier: ~15.2.1
+    specifier: ~15.2
+    version: 15.2.1(eslint@8.56.0)(typescript@4.9.5)
+  '@angular-eslint/eslint-plugin-template':
+    specifier: ~15.2
+    version: 15.2.1(eslint@8.56.0)(typescript@4.9.5)
+  '@angular-eslint/template-parser':
+    specifier: ~15.2
     version: 15.2.1(eslint@8.56.0)(typescript@4.9.5)
   '@angular/cli':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10
   '@angular/compiler-cli':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10(@angular/compiler@15.2.10)(typescript@4.9.5)
   '@angular/language-service':
-    specifier: 15.2.10
+    specifier: ~15.2
     version: 15.2.10
   '@types/luxon':
-    specifier: ~3.3.8
+    specifier: ~3.3
     version: 3.3.8
   '@types/node':
     specifier: 16.18.72
@@ -408,6 +414,27 @@ packages:
       }
     dev: true
 
+  /@angular-eslint/eslint-plugin-template@15.2.1(eslint@8.56.0)(typescript@4.9.5):
+    resolution:
+      {
+        integrity: sha512-IeiSLk6YxapFdH2z5o/O3R7VwtBd2T6fWmhLFPwDYMDknrwegnOjwswCdBplOccpUp0wqlCeGUx7LTsuzwaz7w==,
+      }
+    peerDependencies:
+      eslint: ^7.20.0 || ^8.0.0
+      typescript: '*'
+    dependencies:
+      '@angular-eslint/bundled-angular-compiler': 15.2.1
+      '@angular-eslint/utils': 15.2.1(eslint@8.56.0)(typescript@4.9.5)
+      '@typescript-eslint/type-utils': 5.48.2(eslint@8.56.0)(typescript@4.9.5)
+      '@typescript-eslint/utils': 5.48.2(eslint@8.56.0)(typescript@4.9.5)
+      aria-query: 5.1.3
+      axobject-query: 3.1.1
+      eslint: 8.56.0
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@angular-eslint/eslint-plugin@15.2.1(eslint@8.56.0)(typescript@4.9.5):
     resolution:
       {
@@ -423,6 +450,21 @@ packages:
       typescript: 4.9.5
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@angular-eslint/template-parser@15.2.1(eslint@8.56.0)(typescript@4.9.5):
+    resolution:
+      {
+        integrity: sha512-ViCi79gC2aKJecmYLkOT+QlT5WMRNXeYz0Dr9Pr8qXzIbY0oAWE7nOT5jkXwQ9oUk+ybtGCWHma5JVJWVJsIog==,
+      }
+    peerDependencies:
+      eslint: ^7.20.0 || ^8.0.0
+      typescript: '*'
+    dependencies:
+      '@angular-eslint/bundled-angular-compiler': 15.2.1
+      eslint: 8.56.0
+      eslint-scope: 7.2.2
+      typescript: 4.9.5
     dev: true
 
   /@angular-eslint/utils@15.2.1(eslint@8.56.0)(typescript@4.9.5):
@@ -773,14 +815,14 @@ packages:
       }
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@ampproject/remapping': 2.2.0
+      '@ampproject/remapping': 2.2.1
       '@babel/code-frame': 7.23.5
-      '@babel/generator': 7.20.14
+      '@babel/generator': 7.23.6
       '@babel/helper-compilation-targets': 7.23.6
       '@babel/helper-module-transforms': 7.23.3(@babel/core@7.20.12)
       '@babel/helpers': 7.23.9
       '@babel/parser': 7.23.9
-      '@babel/template': 7.20.7
+      '@babel/template': 7.23.9
       '@babel/traverse': 7.23.9
       '@babel/types': 7.23.9
       convert-source-map: 1.9.0
@@ -1386,7 +1428,7 @@ packages:
       '@babel/core': ^7.0.0-0
     dependencies:
       '@babel/core': 7.20.12
-      '@babel/helper-annotate-as-pure': 7.18.6
+      '@babel/helper-annotate-as-pure': 7.22.5
       '@babel/helper-create-class-features-plugin': 7.23.9(@babel/core@7.20.12)
       '@babel/helper-plugin-utils': 7.22.5
       '@babel/plugin-syntax-private-property-in-object': 7.14.5(@babel/core@7.20.12)
@@ -3677,7 +3719,7 @@ packages:
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.5.3
+      semver: 7.5.4
     dev: true
 
   /@npmcli/fs@3.1.0:
@@ -3687,7 +3729,7 @@ packages:
       }
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.3
+      semver: 7.5.4
 
   /@npmcli/git@4.1.0:
     resolution:
@@ -3702,7 +3744,7 @@ packages:
       proc-log: 3.0.0
       promise-inflight: 1.0.1
       promise-retry: 2.0.1
-      semver: 7.5.3
+      semver: 7.5.4
       which: 3.0.1
     transitivePeerDependencies:
       - bluebird
@@ -4212,6 +4254,29 @@ packages:
     dependencies:
       '@typescript-eslint/types': 5.62.0
       '@typescript-eslint/visitor-keys': 5.62.0
+    dev: true
+
+  /@typescript-eslint/type-utils@5.48.2(eslint@8.56.0)(typescript@4.9.5):
+    resolution:
+      {
+        integrity: sha512-QVWx7J5sPMRiOMJp5dYshPxABRoZV1xbRirqSk8yuIIsu0nvMTZesKErEA3Oix1k+uvsk8Cs8TGJ6kQ0ndAcew==,
+      }
+    engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    peerDependencies:
+      eslint: '*'
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@typescript-eslint/typescript-estree': 5.48.2(typescript@4.9.5)
+      '@typescript-eslint/utils': 5.48.2(eslint@8.56.0)(typescript@4.9.5)
+      debug: 4.3.4
+      eslint: 8.56.0
+      tsutils: 3.21.0(typescript@4.9.5)
+      typescript: 4.9.5
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@typescript-eslint/type-utils@5.62.0(eslint@8.56.0)(typescript@4.9.5):
@@ -4824,6 +4889,15 @@ packages:
       }
     dev: true
 
+  /aria-query@5.1.3:
+    resolution:
+      {
+        integrity: sha512-R5iJ5lkuHybztUfuOAznmboyjWq8O6sqNqtK7CLOqdydi54VNbORp49mb14KbWgG1QD3JFO9hJdZ+y4KutfdOQ==,
+      }
+    dependencies:
+      deep-equal: 2.2.3
+    dev: true
+
   /array-buffer-byte-length@1.0.0:
     resolution:
       {
@@ -4964,7 +5038,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.21.5
+      browserslist: 4.22.2
       caniuse-lite: 1.0.30001580
       fraction.js: 4.3.7
       normalize-range: 0.1.2
@@ -4979,6 +5053,15 @@ packages:
         integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==,
       }
     engines: {node: '>= 0.4'}
+
+  /axobject-query@3.1.1:
+    resolution:
+      {
+        integrity: sha512-goKlv8DZrK9hUh975fnHzhNIO4jUnFCfv/dszV5VwUGDFjI6vQ2VwoyjYjYNEbBE8AH87TduWP5uyDR1D+Iteg==,
+      }
+    dependencies:
+      deep-equal: 2.2.3
+    dev: true
 
   /babel-loader@9.1.2(@babel/core@7.20.12)(webpack@5.76.1):
     resolution:
@@ -5315,7 +5398,7 @@ packages:
         integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==,
       }
     dependencies:
-      semver: 7.5.3
+      semver: 7.5.4
     dev: true
 
   /bytes@3.0.0:
@@ -6002,7 +6085,7 @@ packages:
       postcss-modules-scope: 3.1.1(postcss@8.4.33)
       postcss-modules-values: 4.0.0(postcss@8.4.33)
       postcss-value-parser: 4.2.0
-      semver: 7.5.3
+      semver: 7.5.4
       webpack: 5.76.1(esbuild@0.17.8)
     dev: false
 
@@ -6113,6 +6196,33 @@ packages:
         integrity: sha512-VfxadyCECXgQlkoEAjeghAr5gY3Hf+IKjKb+X8tGVDtveCjN+USwprd2q3QXBR9T1+x2DG0XZF5/w+7HAtSaXA==,
       }
     engines: {node: '>=10'}
+    dev: true
+
+  /deep-equal@2.2.3:
+    resolution:
+      {
+        integrity: sha512-ZIwpnevOurS8bpT4192sqAowWM76JDKSHYzMLty3BZGSswgq6pBaH3DhCSW5xVAZICZyKdOBPjwww5wfgT/6PA==,
+      }
+    engines: {node: '>= 0.4'}
+    dependencies:
+      array-buffer-byte-length: 1.0.0
+      call-bind: 1.0.5
+      es-get-iterator: 1.1.3
+      get-intrinsic: 1.2.2
+      is-arguments: 1.1.1
+      is-array-buffer: 3.0.2
+      is-date-object: 1.0.5
+      is-regex: 1.1.4
+      is-shared-array-buffer: 1.0.2
+      isarray: 2.0.5
+      object-is: 1.1.5
+      object-keys: 1.1.1
+      object.assign: 4.1.5
+      regexp.prototype.flags: 1.5.1
+      side-channel: 1.0.4
+      which-boxed-primitive: 1.0.2
+      which-collection: 1.0.1
+      which-typed-array: 1.1.13
     dev: true
 
   /deep-is@0.1.4:
@@ -6534,6 +6644,23 @@ packages:
       typed-array-length: 1.0.4
       unbox-primitive: 1.0.2
       which-typed-array: 1.1.13
+    dev: true
+
+  /es-get-iterator@1.1.3:
+    resolution:
+      {
+        integrity: sha512-sPZmqHBe6JIiTfN5q2pEi//TwxmAFHwj/XEuYjTuse78i8KxaqMTTzxPoFKuzRpDpTJ+0NAbpfenkmH2rePtuw==,
+      }
+    dependencies:
+      call-bind: 1.0.5
+      get-intrinsic: 1.2.2
+      has-symbols: 1.0.3
+      is-arguments: 1.1.1
+      is-map: 2.0.2
+      is-set: 2.0.2
+      is-string: 1.0.7
+      isarray: 2.0.5
+      stop-iteration-iterator: 1.0.0
     dev: true
 
   /es-module-lexer@0.9.3:
@@ -8296,7 +8423,6 @@ packages:
     dependencies:
       call-bind: 1.0.5
       has-tostringtag: 1.0.0
-    dev: false
 
   /is-array-buffer@3.0.2:
     resolution:
@@ -8432,6 +8558,13 @@ packages:
       }
     dev: true
 
+  /is-map@2.0.2:
+    resolution:
+      {
+        integrity: sha512-cOZFQQozTha1f4MxLFzlgKYPTyj26picdZTx82hbc/Xf4K/tZOOXSCkMvU4pKioRXGDLJRn0GM7Upe7kR721yg==,
+      }
+    dev: true
+
   /is-negative-zero@2.0.2:
     resolution:
       {
@@ -8510,6 +8643,13 @@ packages:
       has-tostringtag: 1.0.0
     dev: true
 
+  /is-set@2.0.2:
+    resolution:
+      {
+        integrity: sha512-+2cnTEZeY5z/iXGbLhPrOAaK/Mau5k5eXq9j14CpRTftq0pAJu2MwVRSZhyZWBzx3o6X795Lz6Bpb6R0GKf37g==,
+      }
+    dev: true
+
   /is-shared-array-buffer@1.0.2:
     resolution:
       {
@@ -8570,6 +8710,13 @@ packages:
       }
     engines: {node: '>=10'}
 
+  /is-weakmap@2.0.1:
+    resolution:
+      {
+        integrity: sha512-NSBR4kH5oVj1Uwvv970ruUkCV7O1mzgVFO4/rev2cLRda9Tm9HrL70ZPut4rOHgY0FNrUu9BCbXA2sdQ+x0chA==,
+      }
+    dev: true
+
   /is-weakref@1.0.2:
     resolution:
       {
@@ -8577,6 +8724,16 @@ packages:
       }
     dependencies:
       call-bind: 1.0.5
+    dev: true
+
+  /is-weakset@2.0.2:
+    resolution:
+      {
+        integrity: sha512-t2yVvttHkQktwnNNmBQ98AhENLdPUTDTE21uPqAQ0ARwQfGeQKRVS0NNurH7bTf7RrvcVn1OOge45CnBeHCSmg==,
+      }
+    dependencies:
+      call-bind: 1.0.5
+      get-intrinsic: 1.2.2
     dev: true
 
   /is-what@3.14.1:
@@ -9797,7 +9954,7 @@ packages:
       nopt: 6.0.0
       npmlog: 6.0.2
       rimraf: 3.0.2
-      semver: 7.5.3
+      semver: 7.5.4
       tar: 6.2.0
       which: 2.0.2
     transitivePeerDependencies:
@@ -9856,7 +10013,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       is-core-module: 2.13.1
-      semver: 7.5.3
+      semver: 7.5.4
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -9892,7 +10049,7 @@ packages:
       }
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dependencies:
-      semver: 7.5.3
+      semver: 7.5.4
     dev: true
 
   /npm-normalize-package-bin@3.0.1:
@@ -9912,7 +10069,7 @@ packages:
     dependencies:
       hosted-git-info: 6.1.1
       proc-log: 3.0.0
-      semver: 7.5.3
+      semver: 7.5.4
       validate-npm-package-name: 5.0.0
     dev: true
 
@@ -9936,7 +10093,7 @@ packages:
       npm-install-checks: 6.3.0
       npm-normalize-package-bin: 3.0.1
       npm-package-arg: 10.1.0
-      semver: 7.5.3
+      semver: 7.5.4
     dev: true
 
   /npm-registry-fetch@14.0.5:
@@ -10022,6 +10179,17 @@ packages:
       {
         integrity: sha512-5qoj1RUiKOMsCCNLV1CBiPYE10sziTsnmNxkAI/rZhiD63CF7IqdFGC/XzjWjpSgLf0LxXX3bDFIh0E18f6UhQ==,
       }
+
+  /object-is@1.1.5:
+    resolution:
+      {
+        integrity: sha512-3cyDsyHgtmi7I7DfSSI2LDp6SK2lwvtbg0p0R1e0RvTqF5ceGx+K2dfSjm1bKDMVCFEDAQvy+o8c6a7VujOddw==,
+      }
+    engines: {node: '>= 0.4'}
+    dependencies:
+      call-bind: 1.0.5
+      define-properties: 1.2.1
+    dev: true
 
   /object-keys@1.1.1:
     resolution:
@@ -10568,7 +10736,7 @@ packages:
       cosmiconfig: 7.1.0
       klona: 2.0.6
       postcss: 8.4.31
-      semver: 7.5.3
+      semver: 7.5.4
       webpack: 5.76.1(esbuild@0.17.8)
     dev: false
 
@@ -11942,6 +12110,16 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
+  /stop-iteration-iterator@1.0.0:
+    resolution:
+      {
+        integrity: sha512-iCGQj+0l0HOdZ2AEeBADlsRC+vsnDsZsbdSiH1yNSjcfKM7fdpCMfqAL/dwF5BLiw/XhRft/Wax6zQbhq2BcjQ==,
+      }
+    engines: {node: '>= 0.4'}
+    dependencies:
+      internal-slot: 1.0.6
+    dev: true
+
   /stream@0.0.2:
     resolution:
       {
@@ -13079,7 +13257,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.11.3
       acorn-import-assertions: 1.9.0(acorn@8.11.3)
-      browserslist: 4.21.5
+      browserslist: 4.22.2
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.15.0
       es-module-lexer: 0.9.3
@@ -13143,6 +13321,18 @@ packages:
       is-number-object: 1.0.7
       is-string: 1.0.7
       is-symbol: 1.0.4
+    dev: true
+
+  /which-collection@1.0.1:
+    resolution:
+      {
+        integrity: sha512-W8xeTUwaln8i3K/cY1nGXzdnVZlidBcagyNFtBdD5kxnb4TvGKR7FfSIS3mYpwWS1QUCutfKz8IY8RjftB0+1A==,
+      }
+    dependencies:
+      is-map: 2.0.2
+      is-set: 2.0.2
+      is-weakmap: 2.0.1
+      is-weakset: 2.0.2
     dev: true
 
   /which-typed-array@1.1.13:
