@@ -1,81 +1,107 @@
 {
-  "extends": [
-    "./node_modules/gts/",
-    "plugin:import/recommended",
-    "plugin:import/typescript",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@angular-eslint/recommended"
-  ],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".ts", ".d.ts"]
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        "@angular-eslint/template/attributes-order": "error",
+        "@angular-eslint/template/button-has-type": "error",
+        "@angular-eslint/template/eqeqeq": "error",
+        "@angular-eslint/template/conditional-complexity": "error",
+        "@angular-eslint/template/no-negated-async": "error",
+        "@angular-eslint/template/banana-in-box": "error",
+        "@angular-eslint/template/no-duplicate-attributes": "error",
+        "@angular-eslint/template/use-track-by-function": "error",
+        "@angular-eslint/template/no-any": "error",
+        "@angular-eslint/template/no-distracting-elements": "error",
+        "@angular-eslint/template/no-interpolation-in-attributes": "error",
+        "@angular-eslint/template/no-positive-tabindex": "error"
       }
-    }
-  },
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "eslint-plugin-import",
-    "eslint-plugin-prefer-arrow",
-    "@angular-eslint",
-    "@typescript-eslint"
-  ],
-  "rules": {
-    "prefer-arrow/prefer-arrow-functions": [
-      "warn",
-      {
-        "disallowPrototype": true,
-        "singleReturnOnly": false,
-        "classPropertiesAllowed": false
-      }
-    ],
-    "node/no-unpublished-import": ["error"],
-    "@typescript-eslint/member-ordering": [
-      "error",
-      {
-        "default": [
-          "signature",
-          "decorated-field",
-          "decorated-method",
-          "field",
-          "constructor",
-          "method"
+    },
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "./node_modules/gts/",
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended"
+      ],
+      "settings": {
+        "import/resolver": {
+          "node": {
+            "extensions": [".ts", ".d.ts"]
+          }
+        }
+      },
+      "parser": "@typescript-eslint/parser",
+      "plugins": [
+        "eslint-plugin-import",
+        "eslint-plugin-prefer-arrow",
+        "@angular-eslint",
+        "@typescript-eslint"
+      ],
+      "rules": {
+        "prefer-arrow/prefer-arrow-functions": [
+          "warn",
+          {
+            "disallowPrototype": true,
+            "singleReturnOnly": false,
+            "classPropertiesAllowed": false
+          }
+        ],
+        "node/no-unpublished-import": ["error"],
+        "@typescript-eslint/member-ordering": [
+          "error",
+          {
+            "default": [
+              "signature",
+              "decorated-field",
+              "decorated-method",
+              "field",
+              "constructor",
+              "method"
+            ]
+          }
+        ],
+        "curly": ["warn"],
+        "complexity": ["error", 12],
+        "arrow-body-style": ["error", "as-needed"],
+        "@typescript-eslint/explicit-function-return-type": [
+          "error",
+          {
+            "allowExpressions": true,
+            "allowedNames": ["ngOnInit", "ngAfterViewInit"]
+          }
+        ],
+        "no-console": ["error", {"allow": ["warn", "error"]}],
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": ["error", {"args": "all"}],
+        "max-lines-per-function": ["error", {"skipBlankLines": true}],
+        "lines-between-class-members": [
+          "error",
+          "always",
+          {"exceptAfterSingleLine": true}
+        ],
+        "prefer-template": ["error"],
+        "@typescript-eslint/sort-type-constituents": "error",
+        "@typescript-eslint/type-annotation-spacing": "error",
+        "no-useless-concat": ["error"],
+        "no-duplicate-imports": ["error"],
+        "import/no-unresolved": [
+          "error",
+          {"ignore": ["@utils", "@services", "@pipes"]}
+        ],
+        "no-restricted-imports": [
+          "error",
+          {
+            "message": "Please import directly from 'rxjs' instead",
+            "name": "rxjs/Rx"
+          }
         ]
       }
-    ],
-    "curly": ["warn"],
-    "complexity": ["error", 12],
-    "arrow-body-style": ["error", "as-needed"],
-    "@typescript-eslint/explicit-function-return-type": [
-      "error",
-      {
-        "allowExpressions": true,
-        "allowedNames": ["ngOnInit", "ngAfterViewInit"]
-      }
-    ],
-    "no-console": ["error", {"allow": ["warn", "error"]}],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["error", {"args": "all"}],
-    "max-lines-per-function": ["error", {"skipBlankLines": true}],
-    "lines-between-class-members": [
-      "error",
-      "always",
-      {"exceptAfterSingleLine": true}
-    ],
-    "prefer-template": ["error"],
-    "no-useless-concat": ["error"],
-    "no-duplicate-imports": ["error"],
-    "import/no-unresolved": [
-      "error",
-      {"ignore": ["@utils", "@services", "@pipes"]}
-    ],
-    "no-restricted-imports": [
-      "error",
-      {
-        "message": "Please import directly from 'rxjs' instead",
-        "name": "rxjs/Rx"
-      }
-    ]
-  }
+    }
+  ]
 }

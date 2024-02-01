@@ -71,10 +71,10 @@ export class Utils {
   }
 
   static compareDate(a: string, b: string, isAsc: boolean): number {
-    const year1: string = a.split('/')[0];
-    const month1: string = a.split('/')[1];
-    const year2: string = b.split('/')[0];
-    const month2: string = b.split('/')[1];
+    const year1: number = +(a.split('/')[0] ?? 0);
+    const month1: number = +(a.split('/')[1] ?? 0);
+    const year2: number = +(b.split('/')[0] ?? 0);
+    const month2: number = +(b.split('/')[1] ?? 0);
     let result = 1;
     if (year1 < year2) {
       result = -1;

@@ -55,4 +55,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.menuService.setWiki('');
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  trackByFn(_index: number, button: MenuButton): string {
+    return button.$implicit.text;
+  }
 }
