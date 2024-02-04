@@ -5,7 +5,7 @@ import {catchError, skipWhile} from 'rxjs/operators';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
-import {Fichier, Composition, Sort, Field} from '@utils/model';
+import {Fichier, Composition, Sort, Field, Dropdown} from '@utils/model';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
 import {DexieService} from '@services/dexie.service';
@@ -64,6 +64,7 @@ export class ListFichierComponent
   sortComposition?: Sort<Composition>;
   expandedElement?: Fichier;
   expandedColumn = 'compositions';
+  authors!: Dropdown[];
   // Filters
   filters = new FormGroup<{
     author: FormControl<string>;
@@ -126,6 +127,16 @@ export class ListFichierComponent
       .subscribe(list => {
         this.dataList = this.sortList(list);
         this.length = list.length;
+        this.authors = list
+          .map(l => [l.author ?? ''])
+          .reduce((acc, curr) => {
+            if (acc.every(a => !curr.includes(a))) {
+              acc.push(...curr);
+            }
+            return acc;
+          })
+          .sort()
+          .map(l => new Dropdown(l, l));
         this.displayedData = Utils.paginate(
           this.filter(this.dataList),
           this.page
