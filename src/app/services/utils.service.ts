@@ -29,7 +29,7 @@ export class UtilsService {
         msg = error.error.response.statusText;
       }
       message = `Status ${error.status}: ${msg}`;
-    } else if (error.message) {
+    } else if (UtilsService.isError(error)) {
       message = error.message;
     } else {
       message = error;
@@ -38,7 +38,11 @@ export class UtilsService {
   }
 
   private static isHttpError(error: GlobalError): error is HttpErrorResponse {
-    return 'status' in error;
+    return (error as HttpErrorResponse).status !== undefined;
+  }
+
+  private static isError(error: GlobalError): error is Error {
+    return (error as Error).message !== undefined;
   }
 
   static encodeQueryUrl(query: string): string {

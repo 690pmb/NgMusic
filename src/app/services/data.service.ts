@@ -143,7 +143,7 @@ export class DataService<T extends Composition | Fichier> {
   }
 
   parse(xmlFile: string): T[] {
-    let list;
+    let list: T[] = [];
     new xml2js.Parser().parseString(xmlFile, (err, result) => {
       if (err) {
         console.error(err);
@@ -155,7 +155,7 @@ export class DataService<T extends Composition | Fichier> {
             DataService.parseComposition(elCompo)
           );
           return f;
-        });
+        }) as T[];
       } else if (isXC(result)) {
         list = result.Compositions.C.map(el => {
           const c = DataService.parseComposition(el);
@@ -163,7 +163,7 @@ export class DataService<T extends Composition | Fichier> {
             DataService.parseFichier(elFile, false)
           );
           return c;
-        });
+        }) as T[];
       }
     });
     return list;
