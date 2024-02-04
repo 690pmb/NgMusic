@@ -1,10 +1,11 @@
 <div class="parent-filter filters">
   <div>
     <div class="filters">
-      <app-filter-input
+      <app-filter-select
         placeholder="Chercher un auteur"
         [control]="filters.controls.author"
-      ></app-filter-input>
+        [options]="authors"
+      ></app-filter-select>
       <app-filter-input
         placeholder="Chercher un nom"
         [control]="filters.controls.name"
