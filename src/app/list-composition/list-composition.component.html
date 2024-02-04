@@ -86,7 +86,7 @@
   [dataSource]="displayedData"
   [matSortActive]="'score'"
   [matSortDirection]="'desc'"
-  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
+  (matSortChange)="paginator.firstPage(); sort = $any($event); onSort()"
 >
   <!-- ARTIST -->
   <ng-container matColumnDef="artist">
@@ -119,7 +119,7 @@
   </ng-container>
 
   <!-- SIZE -->
-  <ng-container matColumnDef="sizeC">
+  <ng-container matColumnDef="displayedFileList">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
       <span class="mat-text">Taille</span>
     </mat-header-cell>
@@ -158,14 +158,16 @@
       [@detailExpand]="compo === expandedElement ? 'expanded' : 'collapsed'"
     >
       <div class="example-element-detail">
+        <!-- eslint-disable @angular-eslint/template/no-any -->
         <mat-table
           *ngIf="compo === expandedElement"
           matSort
           [dataSource]="displayedFichier"
           [matSortActive]="'rank'"
           [matSortDirection]="'desc'"
-          (matSortChange)="onSortFichier($event)"
+          (matSortChange)="onSortFichier($any($event))"
         >
+          <!-- eslint-enable @angular-eslint/template/no-any -->
           <div
             *ngFor="let column of displayedColumnsFichier; trackBy: trackByFn"
           >

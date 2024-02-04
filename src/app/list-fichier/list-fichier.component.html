@@ -81,9 +81,9 @@
   matSort
   multiTemplateDataRows
   [dataSource]="displayedData"
-  [matSortActive]="'sizeF'"
+  [matSortActive]="'size'"
   [matSortDirection]="'desc'"
-  (matSortChange)="paginator.firstPage(); sort = $event; onSort()"
+  (matSortChange)="paginator.firstPage(); sort = $any($event); onSort()"
 >
   <!-- AUTHOR -->
   <ng-container matColumnDef="author">
@@ -126,7 +126,7 @@
   </ng-container>
 
   <!-- SIZE -->
-  <ng-container matColumnDef="sizeF">
+  <ng-container matColumnDef="size">
     <mat-header-cell *matHeaderCellDef mat-sort-header>
       <span class="mat-text">Taille</span>
     </mat-header-cell>
@@ -166,15 +166,17 @@
             (page)="pageComposition = $event; onPaginateCompositionChange()"
           >
           </mat-paginator>
+          <!-- eslint-disable @angular-eslint/template/no-any -->
           <mat-table
             matSort
             [dataSource]="displayedCompositions"
             [matSortActive]="'rank'"
             [matSortDirection]="'desc'"
             (matSortChange)="
-              paginatorComposition.firstPage(); onSortComposition($event)
+              paginatorComposition.firstPage(); onSortComposition($any($event))
             "
           >
+            <!-- eslint-enable @angular-eslint/template/no-any -->
             <div
               *ngFor="
                 let column of displayedColumnsComposition;
