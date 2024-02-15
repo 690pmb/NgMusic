@@ -1,4 +1,10 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+if [[ ! $(git config --get user.email) =~ .*gmail.* ]]; then
+    echo "Use project gitconfig before commit"
+    echo "For this, run the following command: 'git config include.path "../.gitconfig"'"
+    exit 1
+fi
+
 pnpm -s dlx lint-staged -q --concurrent false
