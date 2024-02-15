@@ -21,6 +21,10 @@
     "pretest": "pnpm compile",
     "posttest": "pnpm lint"
   },
+  "engines": {
+    "pnpm": ">=8",
+    "node": ">=16.20.0 <20.0.0"
+  },
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "~15.2",
