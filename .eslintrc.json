@@ -100,7 +100,8 @@
             "message": "Please import directly from 'rxjs' instead",
             "name": "rxjs/Rx"
           }
-        ]
+        ],
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"]
       }
     }
   ]
