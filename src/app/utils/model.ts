@@ -56,6 +56,7 @@ export class Composition {
   displayedFileList: Fichier[];
 
   constructor(
+    id: number,
     artist: string,
     title: string,
     type: string,
@@ -67,6 +68,7 @@ export class Composition {
     decile: string,
     rank: string
   ) {
+    this.id = id;
     this.artist = artist;
     this.title = title;
     this.type = type;

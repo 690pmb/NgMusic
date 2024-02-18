@@ -173,6 +173,7 @@ export class DataService<T extends Composition | Fichier> {
     compoXml: XWrapper<XComposition>
   ): Composition {
     return new Composition(
+      compoXml.$.id,
       compoXml.$.A,
       compoXml.$.T,
       compoXml.$.type,
@@ -190,7 +191,7 @@ export class DataService<T extends Composition | Fichier> {
     fichierXml: XWrapper<XFichier>,
     splitName: boolean
   ): Fichier {
-    let name: string = fichierXml.$.name;
+    const name: string = fichierXml.$.name;
     const f = new Fichier(
       fichierXml.$.cat,
       fichierXml.$.creation,
@@ -203,17 +204,25 @@ export class DataService<T extends Composition | Fichier> {
       fichierXml.$.type
     );
     if (splitName && !fichierXml.$.author) {
-      const author = name.substring(0, name.indexOf('-'));
-      const publish = name.substring(name.lastIndexOf('-') + 1, name.length);
-      name = name.substring(name.indexOf('-') + 1, name.lastIndexOf('-'));
-      f.name = name;
-      f.author = author;
-      f.publish = +publish;
+      const parsed = DataService.parseName(name);
+      f.name = parsed.name;
+      f.author = parsed.author;
+      f.publish = +parsed.publish;
     } else {
       f.author = fichierXml.$.author;
       f.publish = +fichierXml.$.publish;
     }
     return f;
+  }
+
+  public static parseName(
+    name: string
+  ): Record<'author' | 'name' | 'publish', string> {
+    return {
+      name: name.substring(name.indexOf('-') + 1, name.lastIndexOf('-')).trim(),
+      author: name.substring(0, name.indexOf('-')).trim(),
+      publish: name.substring(name.lastIndexOf('-') + 1, name.length).trim(),
+    };
   }
 
   private static findsFileNameToDownload(

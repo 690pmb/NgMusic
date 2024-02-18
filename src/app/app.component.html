@@ -1,15 +1,25 @@
-<div class="tab">
-  <button type="button" [ngClass]="{active: tabs === 'c'}" (click)="tabs = 'c'">
-    Compositions
-  </button>
-  <button type="button" [ngClass]="{active: tabs === 'f'}" (click)="tabs = 'f'">
-    Fichiers
-  </button>
-</div>
+<ng-container *ngIf="navigationService.tab.obs$ | async as tab">
+  <div class="tab">
+    <button
+      type="button"
+      [ngClass]="{active: tab === 'Composition'}"
+      (click)="navigationService.setTab('Composition')"
+    >
+      Compositions
+    </button>
+    <button
+      type="button"
+      [ngClass]="{active: tab === 'Fichier'}"
+      (click)="navigationService.setTab('Fichier')"
+    >
+      Fichiers
+    </button>
+  </div>
 
-<div class="tabcontent" [ngClass]="{active: tabs === 'c'}">
-  <app-list-composition></app-list-composition>
-</div>
-<div class="tabcontent" [ngClass]="{active: tabs === 'f'}">
-  <app-list-fichier></app-list-fichier>
-</div>
+  <div class="tabcontent" [ngClass]="{active: tab === 'Composition'}">
+    <app-list-composition></app-list-composition>
+  </div>
+  <div class="tabcontent" [ngClass]="{active: tab === 'Fichier'}">
+    <app-list-fichier></app-list-fichier>
+  </div>
+</ng-container>

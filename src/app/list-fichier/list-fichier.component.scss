@@ -1,1 +1,3 @@
-@use 'list.component';
+@use 'list.component' as *;
+
+@include link('title');

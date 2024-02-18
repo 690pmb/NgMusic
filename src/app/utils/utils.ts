@@ -72,15 +72,23 @@ export class Utils {
     ) {
       return items;
     }
-    const term = value.replaceAll(/\s/g, '').toLowerCase();
+    const term = Utils.cleanString(value);
     return items.filter(item => {
       const fieldItem = item[field];
       return (
         typeof fieldItem === 'string'
-          ? fieldItem.toLowerCase()
+          ? Utils.cleanString(fieldItem)
           : fieldItem?.toString()
       )?.includes(term);
     });
+  }
+
+  static cleanString(s: string): string {
+    return s
+      .replaceAll(/^(T|t)?he /g, '')
+      .replaceAll(/\(.*\)|\[.*\]/g, '')
+      .replaceAll(/\W/g, '')
+      .toLowerCase();
   }
 
   static paginate<T>(list: T[], page: PageEvent): T[] {

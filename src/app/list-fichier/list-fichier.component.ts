@@ -13,6 +13,7 @@ import {Utils} from '@utils/utils';
 import {Dropbox} from '@utils/dropbox';
 import {FormGroup, FormControl} from '@angular/forms';
 import {yearsValidator} from '@utils/year.validator';
+import {NavigationService} from '@services/navigation.service';
 
 @Component({
   selector: 'app-list-fichier',
@@ -96,13 +97,22 @@ export class ListFichierComponent
   constructor(
     private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
-    protected serviceUtils: UtilsService
+    protected serviceUtils: UtilsService,
+    private navigationService: NavigationService
   ) {
     super(serviceUtils);
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
+    this.navigationService.fichier.obs$.subscribe(f => {
+      this.filters.reset();
+      const parsed = DataService.parseName(f.name);
+      this.filters.controls.name.setValue(parsed.name);
+      this.filters.controls.author.setValue(parsed.author);
+      this.filters.controls.begin.setValue(+parsed.publish);
+      this.filters.controls.end.setValue(+parsed.publish);
+    });
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
       this.onSearch();
@@ -128,7 +138,7 @@ export class ListFichierComponent
         this.dataList = this.sortList(list);
         this.length = list.length;
         this.authors = list
-          .map(l => [l.author ?? ''])
+          .map(l => [l.author?.trim() ?? ''])
           .reduce((acc, curr) => {
             if (acc.every(a => !curr.includes(a))) {
               acc.push(...curr);
@@ -157,10 +167,14 @@ export class ListFichierComponent
       result = Utils.filterByFields(result, 'type', controls.type.value);
     }
     if (controls.begin.value) {
-      result = result.filter(f => f.rangeBegin >= (controls.begin.value ?? 0));
+      result = result.filter(
+        f => (f.publish ?? 0) >= (controls.begin.value ?? 0)
+      );
     }
     if (controls.end.value) {
-      result = result.filter(f => f.rangeEnd <= (controls.end.value ?? 0));
+      result = result.filter(
+        f => (f.publish ?? 0) <= (controls.end.value ?? 0)
+      );
     }
     if (controls.category.value.length > 0) {
       result = result.filter(f =>
@@ -227,6 +241,13 @@ export class ListFichierComponent
     this.displayedCompositions.next(
       Utils.paginate(this.expandedCompositions, this.pageComposition)
     );
+  }
+
+  switchTab(compo: Composition, column: string): void {
+    if (column === 'title') {
+      this.navigationService.setTab('Composition');
+      this.navigationService.composition.set(compo);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
