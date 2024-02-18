@@ -9,10 +9,7 @@ const unicodeWordMatch =
   pure: true,
 })
 export class TitlePipe implements PipeTransform {
-  transform(
-    value: string | unknown,
-    replaceUnderscore?: boolean
-  ): string | unknown {
+  transform(value: string, replaceUnderscore?: boolean): string {
     if (!value) {
       return value;
     }

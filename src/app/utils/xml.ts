@@ -1,4 +1,5 @@
 export type XComposition = {
+  id: number;
   A: string;
   T: string;
   type: string;

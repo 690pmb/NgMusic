@@ -188,7 +188,10 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
                   <span class="mat-text">{{ column | titlecase }}</span>
                 </mat-header-cell>
-                <mat-cell *matCellDef="let compo">
+                <mat-cell
+                  *matCellDef="let compo"
+                  (click)="switchTab(compo, column)"
+                >
                   <ng-container *ngIf="!['score', 'menu'].includes(column)">
                     {{ compo[column] }}
                   </ng-container>

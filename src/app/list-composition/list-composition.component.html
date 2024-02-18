@@ -175,7 +175,10 @@
               <mat-header-cell *matHeaderCellDef mat-sort-header>
                 <span class="mat-text">{{ column | upperFirst }}</span>
               </mat-header-cell>
-              <mat-cell *matCellDef="let fichier">
+              <mat-cell
+                *matCellDef="let fichier"
+                (click)="switchTab(fichier, column)"
+              >
                 {{ fichier[column] | title: true }}
               </mat-cell>
             </ng-container>

@@ -19,6 +19,15 @@
   }
 }
 
+@mixin link($name) {
+  .cdk-cell.cdk-column-#{$name} {
+    text-decoration: underline;
+    color: #4550e6;
+    font-weight: bold;
+    cursor: pointer;
+  }
+}
+
 .parent-filter {
   gap: 10px;
 }

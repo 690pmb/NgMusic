@@ -13,6 +13,7 @@ import {ListDirective} from '../list/list.component';
 import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
 import {yearsValidator} from '@utils/year.validator';
+import {NavigationService} from '@services/navigation.service';
 
 @Component({
   selector: 'app-list-composition',
@@ -99,13 +100,19 @@ export class ListCompositionComponent
   constructor(
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
-    protected serviceUtils: UtilsService
+    protected serviceUtils: UtilsService,
+    private navigationService: NavigationService
   ) {
     super(serviceUtils);
   }
 
   override ngOnInit(): void {
     super.ngOnInit();
+    this.navigationService.composition.obs$.subscribe(c => {
+      this.filters.reset();
+      this.filters.controls.artist.setValue(c.artist);
+      this.filters.controls.title.setValue(c.title);
+    });
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
       this.onSearch();
@@ -243,6 +250,13 @@ export class ListCompositionComponent
           sort?.direction
         )
       );
+    }
+  }
+
+  switchTab(fichier: Fichier, column: string): void {
+    if (column === 'name') {
+      this.navigationService.setTab('Fichier');
+      this.navigationService.fichier.set(fichier);
     }
   }
 
