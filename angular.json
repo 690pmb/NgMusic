@@ -17,7 +17,11 @@
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": ["xml2js"],
-            "assets": ["src/assets", "src/favicon.png"],
+            "assets": [
+              "src/assets",
+              "src/favicon.png",
+              "src/manifest.webmanifest"
+            ],
             "styles": [
               "src/app/styles/themes.scss",
               "src/app/styles/styles.scss"
@@ -32,7 +36,9 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {

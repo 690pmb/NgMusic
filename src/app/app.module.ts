@@ -1,7 +1,7 @@
 import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, isDevMode} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientJsonpModule, HttpClientModule} from '@angular/common/http';
 import {MatInputModule} from '@angular/material/input';
@@ -44,6 +44,7 @@ import {RowMenuComponent} from './row-menu/row-menu.component';
 import {UpperFirstPipe} from '@pipes/upper-first.pipe';
 import {MenuDialogComponent} from './menu-dialog/menu-dialog.component';
 import {MenuComponent} from './menu/menu.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,12 @@ import {MenuComponent} from './menu/menu.component';
     ReactiveFormsModule,
     TitlePipe,
     UpperFirstPipe,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   bootstrap: [AppComponent],
 })
