@@ -1,4 +1,4 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
 
 settings:
   autoInstallPeers: true
@@ -7,7 +7,7 @@ settings:
 dependencies:
   '@angular-devkit/build-angular':
     specifier: ~15.2
-    version: 15.2.10(@angular/compiler-cli@15.2.10)(typescript@4.9.5)
+    version: 15.2.10(@angular/compiler-cli@15.2.10)(@angular/service-worker@15.2.0)(typescript@4.9.5)
   '@angular/animations':
     specifier: ~15.2
     version: 15.2.10(@angular/core@15.2.10)
@@ -35,6 +35,9 @@ dependencies:
   '@angular/platform-browser-dynamic':
     specifier: ~15.2
     version: 15.2.10(@angular/common@15.2.10)(@angular/compiler@15.2.10)(@angular/core@15.2.10)(@angular/platform-browser@15.2.10)
+  '@angular/service-worker':
+    specifier: ~15.2
+    version: 15.2.0(@angular/common@15.2.10)(@angular/core@15.2.10)
   '@fortawesome/angular-fontawesome':
     specifier: 0.12.1
     version: 0.12.1(@angular/core@15.2.10)(@fortawesome/fontawesome-svg-core@6.1.0)
@@ -223,7 +226,7 @@ packages:
     transitivePeerDependencies:
       - chokidar
 
-  /@angular-devkit/build-angular@15.2.10(@angular/compiler-cli@15.2.10)(typescript@4.9.5):
+  /@angular-devkit/build-angular@15.2.10(@angular/compiler-cli@15.2.10)(@angular/service-worker@15.2.0)(typescript@4.9.5):
     resolution:
       {
         integrity: sha512-3pCPVEJilVwHIJC6Su1/PIEqvFfU1Lxew9yItxX4s6dud8HY+fuKrsDnao4NNMFNqCLqL4el5QbSBKnnpWH1sg==,
@@ -265,6 +268,7 @@ packages:
       '@angular-devkit/build-webpack': 0.1502.10(chokidar@3.5.3)(webpack-dev-server@4.11.1)(webpack@5.76.1)
       '@angular-devkit/core': 15.2.10(chokidar@3.5.3)
       '@angular/compiler-cli': 15.2.10(@angular/compiler@15.2.10)(typescript@4.9.5)
+      '@angular/service-worker': 15.2.0(@angular/common@15.2.10)(@angular/core@15.2.10)
       '@babel/core': 7.20.12
       '@babel/generator': 7.20.14
       '@babel/helper-annotate-as-pure': 7.18.6
@@ -754,6 +758,22 @@ packages:
         optional: true
     dependencies:
       '@angular/animations': 15.2.10(@angular/core@15.2.10)
+      '@angular/common': 15.2.10(@angular/core@15.2.10)(rxjs@7.8.1)
+      '@angular/core': 15.2.10(rxjs@7.8.1)(zone.js@0.13.1)
+      tslib: 2.5.3
+    dev: false
+
+  /@angular/service-worker@15.2.0(@angular/common@15.2.10)(@angular/core@15.2.10):
+    resolution:
+      {
+        integrity: sha512-q7TWZaRdAwf9SeXf5OiIhKzL1pzyioVojtfucnJAAFPnX+GoHM+1Z9nckpjfbUiEqd/lHXz0U8ClBYi4GKTZSQ==,
+      }
+    engines: {node: ^14.20.0 || ^16.13.0 || >=18.10.0}
+    hasBin: true
+    peerDependencies:
+      '@angular/common': 15.2.0
+      '@angular/core': 15.2.0
+    dependencies:
       '@angular/common': 15.2.10(@angular/core@15.2.10)(rxjs@7.8.1)
       '@angular/core': 15.2.10(rxjs@7.8.1)(zone.js@0.13.1)
       tslib: 2.5.3

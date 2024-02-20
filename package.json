@@ -37,6 +37,7 @@
     "@angular/material": "~15.2",
     "@angular/platform-browser": "~15.2",
     "@angular/platform-browser-dynamic": "~15.2",
+    "@angular/service-worker": "~15.2",
     "@fortawesome/angular-fontawesome": "0.12.1",
     "@fortawesome/fontawesome-common-types": "~6.1",
     "@fortawesome/fontawesome-svg-core": "~6.1",
