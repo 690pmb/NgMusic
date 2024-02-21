@@ -60,17 +60,26 @@ export abstract class ListDirective<T> implements OnInit {
   onSort(): void {
     this.page = this.initPagination();
     this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
+    this.displayedData = Utils.paginate(
+      this.sortList(this.filter(this.dataList)),
+      this.page
+    );
   }
 
   onSearch(): void {
     this.initPagination();
     this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
+    this.displayedData = Utils.paginate(
+      this.sortList(this.filter(this.dataList)),
+      this.page
+    );
   }
 
   onPaginateChange(): void {
     this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(this.filter(this.dataList), this.page);
+    this.displayedData = Utils.paginate(
+      this.sortList(this.filter(this.dataList)),
+      this.page
+    );
   }
 }

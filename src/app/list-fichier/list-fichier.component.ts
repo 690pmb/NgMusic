@@ -137,7 +137,7 @@ export class ListFichierComponent
         )
       )
       .subscribe(list => {
-        this.dataList = this.sortList(list);
+        this.dataList = list;
         this.length = list.length;
         this.authors = list
           .map(l => [l.author?.trim() ?? ''])
@@ -150,7 +150,7 @@ export class ListFichierComponent
           .sort()
           .map(l => new Dropdown(l, l));
         this.displayedData = Utils.paginate(
-          this.filter(this.dataList),
+          this.sortList(this.filter(this.dataList)),
           this.page
         );
       });
