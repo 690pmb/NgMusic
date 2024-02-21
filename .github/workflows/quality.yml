@@ -7,6 +7,10 @@ on:
       - 'fix/**'
       - 'feat/**'
       - 'feature/**'
+    paths:
+      - 'src/app/**'
+      - 'src/assets/**'
+      - '**.json'
   workflow_dispatch:
 
 concurrency:
