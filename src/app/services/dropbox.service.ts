@@ -3,10 +3,15 @@ import {Dropbox, files} from 'dropbox';
 import {UtilsService} from './utils.service';
 import {Dropbox as DropboxConstant} from '@utils/dropbox';
 import {Observable, catchError, from, map, switchMap} from 'rxjs';
+import {Reactive} from '../utils/reactive';
 
 @Injectable({providedIn: 'root'})
 export class DropboxService {
-  constructor(private serviceUtils: UtilsService) {}
+  files = new Reactive<files.ListFolderResult>();
+
+  constructor(private serviceUtils: UtilsService) {
+    this.listFiles().subscribe(f => this.files.set(f));
+  }
 
   static getDbx(): Dropbox {
     return new Dropbox({
@@ -18,8 +23,12 @@ export class DropboxService {
     return DropboxConstant.DROPBOX_FOLDER + fileName;
   }
 
-  listFiles(folder: string): Observable<files.ListFolderResult> {
-    return from(DropboxService.getDbx().filesListFolder({path: folder})).pipe(
+  private listFiles(): Observable<files.ListFolderResult> {
+    return from(
+      DropboxService.getDbx().filesListFolder({
+        path: DropboxConstant.DROPBOX_FOLDER,
+      })
+    ).pipe(
       map(response => response.result),
       catchError(err =>
         this.serviceUtils.handleError(err, 'Error when listing files')
