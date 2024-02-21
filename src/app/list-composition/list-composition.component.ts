@@ -61,7 +61,6 @@ export class ListCompositionComponent
 
   displayedFichier = new BehaviorSubject<Fichier[]>([]);
   sortFichier?: Sort<Fichier>;
-  expandedElement?: Composition;
   expandedColumn = 'details';
   // Filters
   filters = new FormGroup<{
