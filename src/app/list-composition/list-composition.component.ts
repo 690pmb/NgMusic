@@ -134,10 +134,10 @@ export class ListCompositionComponent
         )
       )
       .subscribe(list => {
-        this.dataList = this.sortList(list);
+        this.dataList = list;
         this.length = list.length;
         this.displayedData = Utils.paginate(
-          this.filter(this.dataList),
+          this.sortList(this.filter(this.dataList)),
           this.page
         );
       });
@@ -212,11 +212,6 @@ export class ListCompositionComponent
     return result.filter(
       c => c.displayedFileList && c.displayedFileList.length > 0
     );
-  }
-
-  override onSort(): void {
-    super.onSort();
-    this.displayedData = this.sortList(this.displayedData);
   }
 
   sortList(list: Composition[]): Composition[] {
