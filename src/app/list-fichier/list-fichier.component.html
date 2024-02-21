@@ -146,6 +146,18 @@
     </mat-cell>
   </ng-container>
 
+  <!-- SORTED -->
+  <ng-container matColumnDef="sorted">
+    <mat-header-cell *matHeaderCellDef mat-sort-header>
+      <span class="mat-text">Trié</span>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let fichier">
+      <div *ngIf="fichier.sorted">
+        <fa-icon [icon]="faCheck"></fa-icon>
+      </div>
+    </mat-cell>
+  </ng-container>
+
   <!-- Composition -->
   <ng-container [matColumnDef]="expandedColumn">
     <td

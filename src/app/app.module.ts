@@ -27,6 +27,7 @@ import {
   faRotateRight,
   faAngleUp,
   faEllipsisVertical,
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {AppComponent} from './app.component';
@@ -103,6 +104,7 @@ export class AppModule {
       faTimesCircle,
       faRotateRight,
       faEllipsisVertical,
+      faCheck,
       faGoogle
     );
   }
