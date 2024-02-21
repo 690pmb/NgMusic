@@ -219,7 +219,12 @@ export class ListFichierComponent
     this.expandedElement =
       this.expandedElement === element ? undefined : element;
     if (this.expandedElement) {
-      this.sortComposition = {active: 'rank', direction: 'asc'};
+      this.sortComposition = element.sorted
+        ? {
+            active: 'rank',
+            direction: 'asc',
+          }
+        : {active: 'score', direction: 'desc'};
       this.onSortComposition(this.sortComposition);
     }
   }

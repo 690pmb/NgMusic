@@ -183,8 +183,8 @@
           <mat-table
             matSort
             [dataSource]="displayedCompositions"
-            [matSortActive]="'rank'"
-            [matSortDirection]="'desc'"
+            [matSortActive]="fichier.sorted ? 'rank' : 'score'"
+            [matSortDirection]="fichier.sorted ? 'asc' : 'desc'"
             (matSortChange)="
               paginatorComposition.firstPage(); onSortComposition($any($event))
             "
