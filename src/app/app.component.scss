@@ -5,6 +5,9 @@
 
   border: 1px solid get-color('gray');
   overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 9;
 
   .active {
     @include bg-color('gray');
@@ -18,6 +21,7 @@
     outline: none;
     padding: 14px 16px;
     transition: 0.3s;
+    width: 50%;
 
     &:hover {
       @include bg-color('light-gray');
