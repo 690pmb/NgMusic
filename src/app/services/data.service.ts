@@ -9,6 +9,7 @@ import {
   map,
   of,
   switchMap,
+  take,
 } from 'rxjs';
 import * as xml2js from 'xml2js';
 import * as JSZip from 'jszip';
@@ -40,7 +41,7 @@ export class DataService<T extends Composition | Fichier> {
   loadsList(table: Table<T>, file: Table<File>, dropboxFile: string): void {
     forkJoin([
       from(file.get(1)),
-      this.dropboxService.listFiles(Dropbox.DROPBOX_FOLDER),
+      this.dropboxService.files.obs$.pipe(take(1)),
     ]).subscribe(([storedName, filesList]) => {
       const fileNameToDownload = DataService.findsFileNameToDownload(
         dropboxFile,
