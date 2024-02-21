@@ -1,6 +1,6 @@
 import {PageEvent} from '@angular/material/paginator';
 import {SortDirection} from '@angular/material/sort';
-import {Composition, Fichier} from './model';
+import {Composition, Fichier, isComposition} from './model';
 
 export class Utils {
   static sort<T extends Composition | Fichier, K extends string & keyof T>(
@@ -11,25 +11,18 @@ export class Utils {
     if (list.length > 0 && active && direction !== undefined) {
       const isAsc: boolean = direction === 'asc';
       return list.sort((a, b) => {
-        if (
-          a instanceof Fichier &&
-          b instanceof Fichier &&
-          active === 'creation'
-        ) {
-          return Utils.compareDate(a.creation ?? '', b.creation ?? '', isAsc);
-        } else {
-          let A;
-          let B;
-          if (typeof a[active] === 'string') {
-            A = (a[active] as string).trim().toLowerCase();
-            B = (b[active] as string).trim().toLowerCase();
-          } else if (Array.isArray(a[active])) {
-            A = (a[active] as []).length;
-            B = (b[active] as []).length;
-          }
+        if (isComposition(a) && isComposition(b) && active === 'score') {
           return (
-            ((A ?? a[active]) < (B ?? b[active]) ? -1 : 1) * (isAsc ? 1 : -1)
+            (a.decile < b.decile
+              ? -1
+              : a.decile > b.decile
+              ? 1
+              : a.score < b.score
+              ? -1
+              : 1) * (isAsc ? 1 : -1)
           );
+        } else {
+          return Utils.sortFields<T, K>(a, active, b, isAsc);
         }
       });
     } else {
@@ -37,24 +30,20 @@ export class Utils {
     }
   }
 
-  static compareDate(a: string, b: string, isAsc: boolean): number {
-    const year1: number = +(a.split('/')[0] ?? 0);
-    const month1: number = +(a.split('/')[1] ?? 0);
-    const year2: number = +(b.split('/')[0] ?? 0);
-    const month2: number = +(b.split('/')[1] ?? 0);
-    let result = 1;
-    if (year1 < year2) {
-      result = -1;
-    } else if (year1 > year2) {
-      result = 1;
-    } else {
-      if (month1 < month2) {
-        result = -1;
-      } else if (month1 > month2) {
-        result = 1;
-      }
+  private static sortFields<
+    T extends Composition | Fichier,
+    K extends string & keyof T
+  >(a: T, active: K, b: T, isAsc: boolean): number {
+    let A;
+    let B;
+    if (typeof a[active] === 'string') {
+      A = (a[active] as string).trim().toLowerCase();
+      B = (b[active] as string).trim().toLowerCase();
+    } else if (Array.isArray(a[active])) {
+      A = (a[active] as []).length;
+      B = (b[active] as []).length;
     }
-    return result * (isAsc ? 1 : -1);
+    return ((A ?? a[active]) < (B ?? b[active]) ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
   static filterByFields<T>(

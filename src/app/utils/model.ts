@@ -98,6 +98,9 @@ export class File {
   filename?: string;
 }
 
+export const isComposition = (c: Composition | Fichier): c is Composition =>
+  'artist' in c;
+
 export type GlobalError = Error | HttpErrorResponse | string;
 
 export type Field<T> = `${string & keyof T}`;

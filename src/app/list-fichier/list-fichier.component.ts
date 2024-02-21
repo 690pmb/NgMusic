@@ -65,7 +65,6 @@ export class ListFichierComponent
   displayedCompositions = new BehaviorSubject<Composition[]>([]);
   pageComposition!: PageEvent;
   sortComposition?: Sort<Composition>;
-  expandedElement?: Fichier;
   faCheck = faCheck;
   expandedColumn = 'compositions';
   authors!: Dropdown[];
