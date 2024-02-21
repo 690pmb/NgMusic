@@ -1,5 +1,6 @@
 @use 'sass:list';
 @use 'imports' as *;
+@forward 'imports';
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
 /* stylelint-disable selector-class-pattern */

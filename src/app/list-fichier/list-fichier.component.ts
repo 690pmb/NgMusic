@@ -14,6 +14,7 @@ import {Dropbox} from '@utils/dropbox';
 import {FormGroup, FormControl} from '@angular/forms';
 import {yearsValidator} from '@utils/year.validator';
 import {NavigationService} from '@services/navigation.service';
+import {faCheck} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-list-fichier',
@@ -48,6 +49,7 @@ export class ListFichierComponent
     'category',
     'size',
     'publish',
+    'sorted',
   ];
 
   override compositionColumns: (Field<Composition> | 'menu')[] = [
@@ -64,6 +66,7 @@ export class ListFichierComponent
   pageComposition!: PageEvent;
   sortComposition?: Sort<Composition>;
   expandedElement?: Fichier;
+  faCheck = faCheck;
   expandedColumn = 'compositions';
   authors!: Dropdown[];
   // Filters
