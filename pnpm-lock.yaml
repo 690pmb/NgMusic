@@ -63,8 +63,8 @@ dependencies:
     specifier: ^3.12.0
     version: 3.12.0
   dexie:
-    specifier: 2.0.4
-    version: 2.0.4
+    specifier: 3.2.2
+    version: 3.2.2
   dropbox:
     specifier: 10.34.0
     version: 10.34.0(@types/node-fetch@2.6.11)
@@ -4848,8 +4848,8 @@ packages:
     resolution: {integrity: sha512-T0NIuQpnTvFDATNuHN5roPwSBG83rFsuO+MXXH9/3N1eFbn4wcPjttvjMLEPWJ0RGUYgQE7cGgS3tNxbqCGM7g==}
     dev: false
 
-  /dexie@2.0.4:
-    resolution: {integrity: sha512-aQ/s1U2wHxwBKRrt2Z/mwFNHMQWhESerFsMYzE+5P5OsIe5o1kgpFMWkzKTtkvkyyEni6mWr/T4HUJuY9xIHLA==}
+  /dexie@3.2.2:
+    resolution: {integrity: sha512-q5dC3HPmir2DERlX+toCBbHQXW5MsyrFqPFcovkH9N2S/UW/H3H5AWAB6iEOExeraAu+j+zRDG+zg/D7YhH0qg==}
     engines: {node: '>=6.0'}
     dev: false
 
