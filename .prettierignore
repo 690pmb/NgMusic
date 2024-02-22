@@ -4,3 +4,4 @@ node_modules
 .husky
 .angular
 *.conf.js
+pnpm-lock.yaml
