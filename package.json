@@ -67,7 +67,7 @@
     "@angular/compiler-cli": "~15.2",
     "@angular/language-service": "~15.2",
     "@types/luxon": "~3.3",
-    "@types/node": "16.18.72",
+    "@types/node": "16.18.83",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "~5.62.0",
     "@typescript-eslint/parser": "~5.62.0",
