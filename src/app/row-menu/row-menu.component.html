@@ -9,7 +9,7 @@
 </button>
 
 <mat-menu #menu="matMenu">
-  <ng-template matMenuContent let-composition="composition">
+  <ng-template let-composition="composition" matMenuContent>
     <app-menu [composition]="composition"></app-menu>
   </ng-template>
 </mat-menu>
