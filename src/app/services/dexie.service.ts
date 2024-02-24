@@ -19,8 +19,8 @@ export class DexieService extends Dexie {
         '++id, artist, title, sArtist, sTitle, type, score, size, deleted, *fichier',
       fichier:
         '++id, name, category, rangeBegin, rangeEnd, sorted, rank, creation, size, *composition',
-      fileComposition: '++id, filename',
-      fileFichier: '++id, filename',
+      fileComposition: '++id, &filename',
+      fileFichier: '++id, &filename',
     });
     this.fileComposition = new Table(this.table('fileComposition'));
     this.fileFichier = new Table(this.table('fileFichier'));
