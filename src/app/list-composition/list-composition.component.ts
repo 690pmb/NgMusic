@@ -2,8 +2,13 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {catchError, skipWhile} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
-import {FormControl, FormGroup} from '@angular/forms';
-import {MatPaginator} from '@angular/material/paginator';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
 import {Composition, Fichier, Field, Sort} from '@utils/model';
 import {Utils} from '@utils/utils';
@@ -14,6 +19,20 @@ import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
 import {yearsValidator} from '@utils/year.validator';
 import {NavigationService} from '@services/navigation.service';
+import {UpperFirstPipe} from '../pipes/upper-first.pipe';
+import {TitlePipe} from '../pipes/title.pipe';
+import {GoToTopComponent} from '../go-to-top/go-to-top.component';
+import {RowActionDirective} from '../row-action/row-action.directive';
+import {RowMenuComponent} from '../row-menu/row-menu.component';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+import {MatRippleModule} from '@angular/material/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {NgIf, NgFor, NgClass, DecimalPipe} from '@angular/common';
+import {FilterYearComponent} from '../filter-year/filter-year.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FilterSelectComponent} from '../filter-select/filter-select.component';
+import {FilterInputComponent} from '../filter-input/filter-input.component';
 
 @Component({
   selector: 'app-list-composition',
@@ -32,6 +51,29 @@ import {NavigationService} from '@services/navigation.service';
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
+  ],
+  standalone: true,
+  imports: [
+    FilterInputComponent,
+    FilterSelectComponent,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FilterYearComponent,
+    NgIf,
+    FontAwesomeModule,
+    MatRippleModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    RowMenuComponent,
+    NgFor,
+    NgClass,
+    RowActionDirective,
+    GoToTopComponent,
+    DecimalPipe,
+    TitlePipe,
+    UpperFirstPipe,
   ],
 })
 export class ListCompositionComponent

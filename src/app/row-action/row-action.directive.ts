@@ -9,6 +9,7 @@ import {
 
 @Directive({
   selector: 'mat-row[appRowAction]',
+  standalone: true,
 })
 export class RowActionDirective implements AfterViewInit {
   @Input()

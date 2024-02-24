@@ -12,7 +12,7 @@ import {
   take,
 } from 'rxjs';
 import * as xml2js from 'xml2js';
-import * as JSZip from 'jszip';
+import JSZip from 'jszip';
 import {files} from 'dropbox';
 
 import {DropboxService} from './dropbox.service';
