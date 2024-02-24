@@ -2,7 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import {catchError, skipWhile} from 'rxjs/operators';
-import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {
+  MatPaginator,
+  PageEvent,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
 import {Fichier, Composition, Sort, Field, Dropdown} from '@utils/model';
@@ -11,10 +15,34 @@ import {UtilsService} from '@services/utils.service';
 import {DexieService} from '@services/dexie.service';
 import {Utils} from '@utils/utils';
 import {Dropbox} from '@utils/dropbox';
-import {FormGroup, FormControl} from '@angular/forms';
+import {
+  FormGroup,
+  FormControl,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import {yearsValidator} from '@utils/year.validator';
 import {NavigationService} from '@services/navigation.service';
 import {faCheck} from '@fortawesome/free-solid-svg-icons';
+import {TitlePipe} from '../pipes/title.pipe';
+import {GoToTopComponent} from '../go-to-top/go-to-top.component';
+import {RowActionDirective} from '../row-action/row-action.directive';
+import {RowMenuComponent} from '../row-menu/row-menu.component';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+import {MatRippleModule} from '@angular/material/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {
+  NgIf,
+  NgFor,
+  NgClass,
+  DecimalPipe,
+  TitleCasePipe,
+} from '@angular/common';
+import {FilterYearComponent} from '../filter-year/filter-year.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {FilterInputComponent} from '../filter-input/filter-input.component';
+import {FilterSelectComponent} from '../filter-select/filter-select.component';
 
 @Component({
   selector: 'app-list-fichier',
@@ -33,6 +61,29 @@ import {faCheck} from '@fortawesome/free-solid-svg-icons';
         animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
       ),
     ]),
+  ],
+  standalone: true,
+  imports: [
+    FilterSelectComponent,
+    FilterInputComponent,
+    MatCheckboxModule,
+    FormsModule,
+    ReactiveFormsModule,
+    FilterYearComponent,
+    NgIf,
+    FontAwesomeModule,
+    MatRippleModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    NgFor,
+    RowMenuComponent,
+    RowActionDirective,
+    NgClass,
+    GoToTopComponent,
+    DecimalPipe,
+    TitleCasePipe,
+    TitlePipe,
   ],
 })
 export class ListFichierComponent

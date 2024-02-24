@@ -9,7 +9,7 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
             "outputPath": "dist",
             "index": "src/index.html",
@@ -17,6 +17,7 @@
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": ["xml2js"],
+            "externalDependencies": ["crypto"],
             "assets": [
               "src/assets",
               "src/favicon.png",

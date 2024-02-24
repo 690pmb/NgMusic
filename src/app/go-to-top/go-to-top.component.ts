@@ -1,10 +1,14 @@
-import {ViewportScroller} from '@angular/common';
+import {ViewportScroller, NgIf} from '@angular/common';
 import {Component, HostListener} from '@angular/core';
+import {MatRippleModule} from '@angular/material/core';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'app-go-to-top',
   templateUrl: './go-to-top.component.html',
   styleUrls: ['./go-to-top.component.scss'],
+  standalone: true,
+  imports: [NgIf, FontAwesomeModule, MatRippleModule],
 })
 export class GoToTopComponent {
   @HostListener('window:scroll')

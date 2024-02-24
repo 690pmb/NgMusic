@@ -1,6 +1,11 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {MenuService} from '@services/menu.service';
 import {Composition} from '@utils/model';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatButtonModule} from '@angular/material/button';
+import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
+import {MatMenuModule} from '@angular/material/menu';
+import {NgIf, NgFor, NgTemplateOutlet, AsyncPipe} from '@angular/common';
 
 export type MenuButton = {
   $implicit: {
@@ -14,6 +19,17 @@ export type MenuButton = {
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
+  standalone: true,
+  imports: [
+    NgIf,
+    NgFor,
+    NgTemplateOutlet,
+    MatMenuModule,
+    FontAwesomeModule,
+    MatButtonModule,
+    MatDialogModule,
+    AsyncPipe,
+  ],
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @Input()
