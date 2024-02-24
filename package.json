@@ -75,7 +75,7 @@
     "eslint-plugin-import": "2.29.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
-    "gts": "~4.0.1",
+    "gts": "~5.2.0",
     "husky": "~8.0.3",
     "lint-staged": "~13.3.0",
     "npm-run-all2": "5.0.0",
