@@ -16,14 +16,14 @@
     "fix:fix": "eslint --max-warnings 0 --fix .",
     "compile": "tsc --noEmit",
     "postinstall": "run-s postinstall:*",
-    "postinstall:husky": "husky install",
+    "postinstall:husky": "husky",
     "postinstall:compile": "pnpm compile",
     "pretest": "pnpm compile",
     "posttest": "pnpm lint"
   },
   "engines": {
     "pnpm": ">=8",
-    "node": ">=16.20.0 <20.0.0"
+    "node": ">=18.12 <20.0.0"
   },
   "private": true,
   "dependencies": {
@@ -76,7 +76,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "gts": "~5.2.0",
-    "husky": "~8.0.3",
+    "husky": "^9.0",
     "lint-staged": "~15.2.2",
     "npm-run-all2": "6.1.2",
     "postcss": "~8.4.35",
