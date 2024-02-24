@@ -230,8 +230,8 @@ export class ListFichierComponent
       );
     }
     if (controls.category.value.length > 0) {
-      result = result.filter(f =>
-        controls.category.value?.includes(f.category)
+      result = result.filter(
+        f => controls.category.value?.includes(f.category)
       );
     }
     result = this.filterComposition(result);

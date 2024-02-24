@@ -31,8 +31,8 @@
 
 .tabcontent {
   border-top: 0;
-}
 
-.tabcontent:not(.active) {
-  display: none;
+  &:not(.active) {
+    display: none;
+  }
 }

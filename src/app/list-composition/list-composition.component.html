@@ -44,9 +44,8 @@
     </div>
     <div
       *ngIf="
-    filters.errors?.['invalidYears'] &&
-    (filters.touched || filters.dirty)
-  "
+        filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
+      "
       class="mat-mdc-form-field-error years-error"
     >
       L'année de fin doit être supérieure à l'année de début
@@ -134,7 +133,7 @@
       <span class="mat-text">Score</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      {{ compo.score | number: '1.0-0':'fr' }}
+      {{ compo.score | number: '1.0-0' : 'fr' }}
       <div [class]="'decile-' + compo.decile">({{ compo.decile }})</div>
     </mat-cell>
   </ng-container>
