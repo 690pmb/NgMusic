@@ -168,7 +168,7 @@ export class ListCompositionComponent
       .pipe(
         skipWhile(done => done !== undefined && !done),
         switchMap(() => this.dexieService.compositionTable.getAll()),
-        catchError(err =>
+        catchError((err: unknown) =>
           this.utilsService.handleError(
             err,
             'Error when reading compositions table'

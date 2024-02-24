@@ -1,4 +1,3 @@
-import {HttpErrorResponse} from '@angular/common/http';
 import {SortDirection} from '@angular/material/sort';
 
 export class Fichier {
@@ -84,13 +83,10 @@ export class Composition {
 }
 
 export class Dropdown {
-  label: string;
-  code: string;
-
-  constructor(label: string, code: string) {
-    this.label = label;
-    this.code = code;
-  }
+  constructor(
+    public label: string,
+    public code: string
+  ) {}
 }
 
 export class File {
@@ -100,8 +96,6 @@ export class File {
 
 export const isComposition = (c: Composition | Fichier): c is Composition =>
   'artist' in c;
-
-export type GlobalError = Error | HttpErrorResponse | string;
 
 export type Field<T> = `${string & keyof T}`;
 

@@ -8,7 +8,6 @@ import {
 import {Injectable} from '@angular/core';
 import {HttpHeaders, HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {ToastService} from './toast.service';
-import {GlobalError} from '@utils/model';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 
 @Injectable({providedIn: 'root'})
@@ -19,30 +18,40 @@ export class UtilsService {
     private breakpointObserver: BreakpointObserver
   ) {}
 
-  static getErrorMessage(error: GlobalError): string {
-    let message;
+  static getErrorMessage(error: unknown): string {
+    let message = '';
     if (UtilsService.isHttpError(error)) {
       let msg;
+      /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
       if (error.error?.errors) {
         msg = error.error.errors.join(', ');
       } else if (error.error.response) {
         msg = error.error.response.statusText;
       }
+      /* eslint-enable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
       message = `Status ${error.status}: ${msg}`;
     } else if (UtilsService.isError(error)) {
       message = error.message;
-    } else {
+    } else if (typeof error === 'string') {
       message = error;
     }
     return message;
   }
 
-  private static isHttpError(error: GlobalError): error is HttpErrorResponse {
-    return (error as HttpErrorResponse).status !== undefined;
+  private static isHttpError(error: unknown): error is HttpErrorResponse {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      (error as HttpErrorResponse).status !== undefined
+    );
   }
 
-  private static isError(error: GlobalError): error is Error {
-    return (error as Error).message !== undefined;
+  private static isError(error: unknown): error is Error {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      (error as Error).message !== undefined
+    );
   }
 
   static encodeQueryUrl(query: string): string {
@@ -56,7 +65,7 @@ export class UtilsService {
     return new HttpHeaders({'Content-Type': 'application/json'});
   }
 
-  handleError(error: GlobalError, message: string): Observable<never> {
+  handleError(error: unknown, message: string): Observable<never> {
     console.error('handleError', error);
     this.toast.open(UtilsService.getErrorMessage(error));
     return throwError(() => message);

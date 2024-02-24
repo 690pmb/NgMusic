@@ -20,6 +20,7 @@ import {
   FormControl,
   FormsModule,
   ReactiveFormsModule,
+  NonNullableFormBuilder,
 } from '@angular/forms';
 import {yearsValidator} from '@utils/year.validator';
 import {NavigationService} from '@services/navigation.service';
@@ -131,18 +132,14 @@ export class ListFichierComponent
     end: FormControl<number | undefined>;
   }>(
     {
-      author: new FormControl(),
-      name: new FormControl(),
-      type: new FormControl<string>('', {
-        nonNullable: true,
-      }),
-      deleted: new FormControl(),
-      category: new FormControl<string[]>([], {
-        nonNullable: true,
-      }),
-      top: new FormControl(),
-      begin: new FormControl(),
-      end: new FormControl(),
+      author: this.fb.control(''),
+      name: this.fb.control(''),
+      type: this.fb.control(''),
+      deleted: this.fb.control(false),
+      category: this.fb.control([]),
+      top: this.fb.control(false),
+      begin: this.fb.control(undefined),
+      end: this.fb.control(undefined),
     },
     {validators: yearsValidator}
   );
@@ -151,7 +148,8 @@ export class ListFichierComponent
     private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
     protected serviceUtils: UtilsService,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    private fb: NonNullableFormBuilder
   ) {
     super(serviceUtils);
   }

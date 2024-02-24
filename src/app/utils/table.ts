@@ -1,4 +1,4 @@
-import Dexie from 'dexie';
+import Dexie, {BulkError} from 'dexie';
 import {Observable, from} from 'rxjs';
 
 export class Table<T> {
@@ -20,10 +20,7 @@ export class Table<T> {
     return from(this.dexie.get(key));
   }
 
-  update(
-    key: number,
-    changes: {[keyPath: string]: string}
-  ): Observable<number> {
+  update(key: number, changes: Record<string, string>): Observable<number> {
     return from(this.dexie.update(key, changes));
   }
 
@@ -36,7 +33,7 @@ export class Table<T> {
       this.dexie
         .bulkAdd(data)
         .then(() => console.warn(`Done adding ${data.length} datas`))
-        .catch(Dexie.BulkError, e => {
+        .catch(Dexie.BulkError, (e: BulkError) => {
           // Explicitely catching the bulkAdd() operation makes those successful
           // additions commit despite that there were errors.
           console.error(

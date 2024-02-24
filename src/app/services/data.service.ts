@@ -145,7 +145,7 @@ export class DataService<T extends Composition | Fichier> {
 
   parse(xmlFile: string): T[] {
     let list: T[] = [];
-    new xml2js.Parser().parseString(xmlFile, (err, result) => {
+    new xml2js.Parser().parseString(xmlFile, (err, result: unknown) => {
       if (err) {
         console.error(err);
       }

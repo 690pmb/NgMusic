@@ -21,7 +21,7 @@ export class RowActionDirective implements AfterViewInit {
   private readonly threshold = 900;
 
   constructor(
-    private elementRef: ElementRef,
+    private elementRef: ElementRef<HTMLElement>,
     private dialog: MatDialog
   ) {}
 

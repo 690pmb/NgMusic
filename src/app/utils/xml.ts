@@ -44,6 +44,8 @@ export type XC = {
   Compositions: XCompositions;
 };
 
-export const isXF = (data: XC | XF): data is XF => 'Fichiers' in data;
+export const isXF = (data: unknown): data is XF =>
+  typeof data === 'object' && data !== null && 'Fichiers' in data;
 
-export const isXC = (data: XC | XF): data is XC => 'Compositions' in data;
+export const isXC = (data: unknown): data is XC =>
+  typeof data === 'object' && data !== null && 'Compositions' in data;

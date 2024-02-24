@@ -42,7 +42,7 @@ export class DropboxService {
         path: DropboxService.getPath(fileName),
       })
     ).pipe(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
       switchMap((response: any) => {
         const fileReader = new FileReader();
         return new Observable<string>(observer => {
@@ -53,6 +53,7 @@ export class DropboxService {
           fileReader.onload = () =>
             observer.next(fileReader?.result?.toString() ?? '');
           fileReader.onloadend = () => observer.complete();
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
           fileReader.readAsBinaryString(response.result.fileBlob);
         });
       }),
