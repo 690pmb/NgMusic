@@ -32,7 +32,7 @@ export class Utils {
 
   private static sortFields<
     T extends Composition | Fichier,
-    K extends string & keyof T
+    K extends string & keyof T,
   >(a: T, active: K, b: T, isAsc: boolean): number {
     let A;
     let B;

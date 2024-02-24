@@ -208,7 +208,7 @@
                     {{ compo[column] }}
                   </ng-container>
                   <ng-container *ngIf="column === 'score'"
-                    >{{ compo.score | number: '1.0-0':'fr' }}
+                    >{{ compo.score | number: '1.0-0' : 'fr' }}
                     <div [class]="'decile-' + compo.decile">
                       ({{ compo.decile }})
                     </div>

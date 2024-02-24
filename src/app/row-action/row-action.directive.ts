@@ -20,7 +20,10 @@ export class RowActionDirective implements AfterViewInit {
 
   private readonly threshold = 900;
 
-  constructor(private elementRef: ElementRef, private dialog: MatDialog) {}
+  constructor(
+    private elementRef: ElementRef,
+    private dialog: MatDialog
+  ) {}
 
   ngAfterViewInit(): void {
     let out = true;
