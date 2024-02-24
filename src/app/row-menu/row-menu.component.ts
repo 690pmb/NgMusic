@@ -14,7 +14,7 @@ import {MatButtonModule} from '@angular/material/button';
   imports: [MatButtonModule, MatMenuModule, FontAwesomeModule, MenuComponent],
 })
 export class RowMenuComponent {
-  @Input()
+  @Input({required: true})
   composition!: Composition;
 
   constructor(protected menuService: MenuService) {}

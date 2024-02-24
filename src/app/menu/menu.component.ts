@@ -32,7 +32,7 @@ export type MenuButton = {
   ],
 })
 export class MenuComponent implements OnInit, OnDestroy {
-  @Input()
+  @Input({required: true})
   composition!: Composition;
 
   @Input()

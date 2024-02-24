@@ -22,16 +22,16 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   ],
 })
 export class FilterSelectComponent {
-  @Input()
+  @Input({required: true})
   placeholder!: string;
 
-  @Input()
+  @Input({required: true})
   options!: Dropdown[];
 
   @Input()
   multiple = false;
 
-  @Input()
+  @Input({required: true})
   control!: FormControl<string[] | string>;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

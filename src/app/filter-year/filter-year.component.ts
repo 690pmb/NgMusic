@@ -18,9 +18,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   ],
 })
 export class FilterYearComponent {
-  @Input()
+  @Input({required: true})
   placeholder!: string;
 
-  @Input()
+  @Input({required: true})
   control!: FormControl<number | undefined>;
 }

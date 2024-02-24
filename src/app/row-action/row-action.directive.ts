@@ -12,7 +12,7 @@ import {
   standalone: true,
 })
 export class RowActionDirective implements AfterViewInit {
-  @Input()
+  @Input({required: true})
   appRowAction!: Composition;
 
   @Input()
