@@ -82,17 +82,9 @@ export class Composition {
   }
 }
 
-export class Dropdown {
-  constructor(
-    public label: string,
-    public code: string
-  ) {}
-}
+export type Dropdown = Record<'code' | 'label', string>;
 
-export class File {
-  id?: number;
-  filename?: string;
-}
+export type File = Partial<Record<'filename' | 'id', string>>;
 
 export const isComposition = (c: Composition | Fichier): c is Composition =>
   'artist' in c;

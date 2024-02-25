@@ -1,4 +1,4 @@
-<ng-container *ngIf="menuService.wiki | async">
+<ng-container *ngIf="menuService.wiki.obs$ | async">
   <ng-container *ngFor="let btn of buttons; trackBy: trackByFn">
     <ng-container *ngIf="isButton; else isMenu">
       <ng-container *ngTemplateOutlet="button; context: btn"> </ng-container>

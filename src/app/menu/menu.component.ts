@@ -7,13 +7,10 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatMenuModule} from '@angular/material/menu';
 import {NgIf, NgFor, NgTemplateOutlet, AsyncPipe} from '@angular/common';
 
-export type MenuButton = {
-  $implicit: {
-    text: string;
-    icon: string[];
-    click: () => void;
-  };
-};
+export type MenuButton = Record<
+  '$implicit',
+  {text: string; icon: [string, string]; click: () => void}
+>;
 
 @Component({
   selector: 'app-menu',
@@ -69,7 +66,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.menuService.setWiki('');
+    this.menuService.wiki.set('');
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

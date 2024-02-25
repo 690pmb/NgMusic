@@ -197,7 +197,7 @@ export class ListFichierComponent
             return acc;
           })
           .sort()
-          .map(l => new Dropdown(l, l));
+          .map(l => ({label: l, code: l}));
         this.displayedData = Utils.paginate(
           this.sortList(this.filter(this.dataList)),
           this.page
@@ -299,7 +299,7 @@ export class ListFichierComponent
     );
   }
 
-  switchTab(compo: Composition, column: Field<Composition>): void {
+  switchTab(compo: Composition, column: Field<Composition> | 'menu'): void {
     if (column === 'title') {
       this.navigationService.setTab('Composition');
       this.navigationService.composition.set(compo);

@@ -3,7 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogModule} from '@angular/material/dialog';
 import {Composition} from '../utils/model';
 import {MenuComponent} from '../menu/menu.component';
 
-export type MenuDialogData = {composition: Composition};
+export type MenuDialogData = Record<'composition', Composition>;
 
 @Component({
   selector: 'app-menu-dialog',

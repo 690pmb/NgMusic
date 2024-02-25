@@ -17,19 +17,19 @@ export abstract class ListDirective<T> implements OnInit {
   isDesktop = false;
   expandedElement?: T;
 
-  readonly types = [
-    new Dropdown('Chanson', 'SONG'),
-    new Dropdown('Album', 'ALBUM'),
+  readonly types: Dropdown[] = [
+    {label: 'Chanson', code: 'SONG'},
+    {label: 'Album', code: 'ALBUM'},
   ];
 
-  readonly catList = [
-    new Dropdown('Year', 'YEAR'),
-    new Dropdown('Decade', 'DECADE'),
-    new Dropdown('Long Period', 'LONG PERIOD'),
-    new Dropdown('All Time', 'ALL TIME'),
-    new Dropdown('Theme', 'THEME'),
-    new Dropdown('Genre', 'GENRE'),
-    new Dropdown('Divers', 'MISCELLANEOUS'),
+  readonly catList: Dropdown[] = [
+    {label: 'Year', code: 'YEAR'},
+    {label: 'Decade', code: 'DECADE'},
+    {label: 'Long Period', code: 'LONG PERIOD'},
+    {label: 'All Time', code: 'ALL TIME'},
+    {label: 'Theme', code: 'THEME'},
+    {label: 'Genre', code: 'GENRE'},
+    {label: 'Divers', code: 'MISCELLANEOUS'},
   ];
 
   constructor(protected utilsService: UtilsService) {}

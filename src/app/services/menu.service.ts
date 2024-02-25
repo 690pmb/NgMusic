@@ -1,18 +1,18 @@
-import {catchError, filter, map, ReplaySubject, take} from 'rxjs';
+import {catchError, filter, map, take} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Clipboard} from '@angular/cdk/clipboard';
 import {Injectable} from '@angular/core';
 import {Composition} from '@utils/model';
 import {UtilsService} from './utils.service';
 import {ToastService} from './toast.service';
+import {Reactive} from '@utils/reactive';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MenuService {
   private composition?: Composition;
-  private wiki$ = new ReplaySubject<string>(1);
-  wiki = this.wiki$.asObservable();
+  public wiki = new Reactive<string>();
 
   constructor(
     protected utilsService: UtilsService,
@@ -43,15 +43,11 @@ export class MenuService {
           )
         )
       )
-      .subscribe(u => this.setWiki(u));
-  }
-
-  setWiki(w: string): void {
-    this.wiki$.next(w);
+      .subscribe(u => this.wiki.set(u));
   }
 
   openWiki(): void {
-    this.wiki.pipe(take(1)).subscribe(w => window.open(w));
+    this.wiki.obs$.pipe(take(1)).subscribe(w => window.open(w));
   }
 
   openGoogle(): void {
