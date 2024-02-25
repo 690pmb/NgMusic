@@ -7,7 +7,10 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRippleModule} from '@angular/material/core';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -59,6 +62,21 @@ bootstrapApplication(AppComponent, {
         registrationStrategy: 'registerWhenStable:30000',
       })
     ),
+    {
+      provide: MatPaginatorIntl,
+      useFactory: (): MatPaginatorIntl => {
+        const int = new MatPaginatorIntl();
+        int.itemsPerPageLabel = 'Élements par page';
+        int.nextPageLabel = 'Page suivante';
+        int.previousPageLabel = 'Page précédente';
+        int.firstPageLabel = '1ère page';
+        int.lastPageLabel = 'Dernière page';
+        const e = int.getRangeLabel;
+        int.getRangeLabel = (page: number, pageSize: number, length: number) =>
+          e(page, pageSize, length).replace('of', 'sur');
+        return int;
+      },
+    },
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
   ],
