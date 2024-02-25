@@ -66,7 +66,7 @@ export class UtilsService {
   }
 
   handleError(error: unknown, message: string): Observable<never> {
-    console.error('handleError', error);
+    console.error('An error occured:', error);
     this.toast.open(UtilsService.getErrorMessage(error));
     return throwError(() => message);
   }

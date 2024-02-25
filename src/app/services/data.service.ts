@@ -38,9 +38,13 @@ export class DataService<T extends Composition | Fichier> {
     private toast: ToastService
   ) {}
 
-  loadsList(table: Table<T>, file: Table<File>, dropboxFile: string): void {
+  loadsList(
+    table: Table<T>,
+    fileTable: Table<File>,
+    dropboxFile: string
+  ): void {
     forkJoin([
-      from(file.get(1)),
+      from(fileTable.get(1)),
       this.dropboxService.files.obs$.pipe(take(1)),
     ]).subscribe(([storedName, filesList]) => {
       const fileNameToDownload = DataService.findsFileNameToDownload(
@@ -53,7 +57,7 @@ export class DataService<T extends Composition | Fichier> {
       } else if (fileNameToDownload && !storedName?.filename) {
         this.downloadsList(
           table,
-          file,
+          fileTable,
           fileNameToDownload,
           `Download ${dropboxFile}`
         ).subscribe();
@@ -67,7 +71,7 @@ export class DataService<T extends Composition | Fichier> {
         ) {
           this.downloadsList(
             table,
-            file,
+            fileTable,
             fileNameToDownload ?? '',
             `Update ${dropboxFile}`
           ).subscribe();
@@ -228,30 +232,24 @@ export class DataService<T extends Composition | Fichier> {
 
   private static findsFileNameToDownload(
     dropboxFile: string,
-    filesList: files.ListFolderResult
+    filesList?: files.ListFolderResult
   ): string | undefined {
-    const names = filesList.entries
-      .map(f => f.name)
-      .filter(name => DataService.isCorrectFileName(name, dropboxFile));
-    const count = names.length;
-    if (count === 0) {
+    const names =
+      filesList?.entries
+        .map(f => f.name)
+        .filter(name => DataService.isCorrectFileName(name, dropboxFile)) ?? [];
+    if (names.length === 0) {
       return undefined;
-    } else if (count === 1) {
-      return names.find(name =>
-        DataService.isCorrectFileName(name, dropboxFile)
-      );
+    } else if (names.length === 1) {
+      return names[0];
     } else {
-      const dateArray: DateTime[] = [];
-      names.map(name => {
-        if (DataService.isCorrectFileName(name, dropboxFile)) {
-          dateArray.push(DataService.extractDateFromFilename(name));
-        }
-      });
+      const dateArray = names.map(name =>
+        DataService.extractDateFromFilename(name)
+      );
       const lastDate = dateArray.reduce((d1, d2) => (d1 > d2 ? d1 : d2));
-      const fileToDownload = names.find(name =>
+      return names.find(name =>
         name.includes(lastDate.toFormat(DataService.dateFormat))
       );
-      return fileToDownload;
     }
   }
 

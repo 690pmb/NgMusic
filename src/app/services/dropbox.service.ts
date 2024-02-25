@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
-import {Dropbox, files} from 'dropbox';
+import {Dropbox, DropboxResponseError, files} from 'dropbox';
 import {UtilsService} from './utils.service';
 import {Dropbox as DropboxConstant} from '@utils/dropbox';
-import {Observable, catchError, from, map, switchMap} from 'rxjs';
+import {Observable, catchError, from, map, of, switchMap} from 'rxjs';
 import {Reactive} from '../utils/reactive';
 
 @Injectable({providedIn: 'root'})
 export class DropboxService {
-  files = new Reactive<files.ListFolderResult>();
+  files = new Reactive<files.ListFolderResult | undefined>();
 
   constructor(private serviceUtils: UtilsService) {
     this.listFiles().subscribe(f => this.files.set(f));
@@ -23,16 +23,25 @@ export class DropboxService {
     return DropboxConstant.DROPBOX_FOLDER + fileName;
   }
 
-  private listFiles(): Observable<files.ListFolderResult> {
+  private listFiles(): Observable<files.ListFolderResult | undefined> {
     return from(
       DropboxService.getDbx().filesListFolder({
         path: DropboxConstant.DROPBOX_FOLDER,
       })
     ).pipe(
       map(response => response.result),
-      catchError(err =>
-        this.serviceUtils.handleError(err, 'Error when listing files')
-      )
+      catchError((err: unknown) => {
+        if (
+          (err instanceof DropboxResponseError &&
+            [0, 504].includes(err.status)) ||
+          err instanceof TypeError
+        ) {
+          // No internet connection
+          return of(undefined);
+        } else {
+          return this.serviceUtils.handleError(err, 'Error when listing files');
+        }
+      })
     );
   }
 
