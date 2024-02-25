@@ -10,7 +10,14 @@ import {
 } from '@angular/forms';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
-import {Composition, Fichier, Field, Sort} from '@utils/model';
+import {
+  Composition,
+  Fichier,
+  Field,
+  Sort,
+  isComposition,
+  isFichier,
+} from '@utils/model';
 import {Utils} from '@utils/utils';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
@@ -151,8 +158,12 @@ export class ListCompositionComponent
     super.ngOnInit();
     this.navigationService.composition.obs$.subscribe(c => {
       this.filters.reset();
-      this.filters.controls.artist.setValue(c.artist);
-      this.filters.controls.title.setValue(c.title);
+      if (c.artist) {
+        this.filters.controls.artist.setValue(c.artist);
+      }
+      if (c.title) {
+        this.filters.controls.title.setValue(c.title);
+      }
     });
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
@@ -289,10 +300,12 @@ export class ListCompositionComponent
     }
   }
 
-  switchTab(fichier: Fichier, column: string): void {
-    if (column === 'name') {
+  switchTab<T extends Composition | Fichier>(data: T, column: Field<T>): void {
+    if (column === 'name' && isFichier(data)) {
       this.navigationService.setTab('Fichier');
-      this.navigationService.fichier.set(fichier);
+      this.navigationService.fichier.set(data);
+    } else if (column === 'artist' && isComposition(data)) {
+      this.navigationService.composition.set({artist: data.artist});
     }
   }
 

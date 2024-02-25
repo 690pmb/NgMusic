@@ -97,6 +97,9 @@ export class File {
 export const isComposition = (c: Composition | Fichier): c is Composition =>
   'artist' in c;
 
+export const isFichier = (f: Composition | Fichier): f is Fichier =>
+  'name' in f;
+
 export type Field<T> = `${string & keyof T}`;
 
 export type Sort<T> = {active: Field<T>; direction: SortDirection};

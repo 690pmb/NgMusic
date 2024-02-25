@@ -1,6 +1,7 @@
 @use 'list.component' as *;
 
 @include link('title');
+@include link('artist');
 
 .mat-mdc-cell.mat-column-sorted {
   @include color('purple');

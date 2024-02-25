@@ -93,7 +93,11 @@
       <span class="mat-text">Artiste</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      {{ compo.artist }}
+      <div
+        (click)="switchTab(compo, 'artist'); $event.stopImmediatePropagation()"
+      >
+        {{ compo.artist }}
+      </div>
     </mat-cell>
   </ng-container>
 

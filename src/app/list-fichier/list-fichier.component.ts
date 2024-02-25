@@ -299,10 +299,13 @@ export class ListFichierComponent
     );
   }
 
-  switchTab(compo: Composition, column: string): void {
+  switchTab(compo: Composition, column: Field<Composition>): void {
     if (column === 'title') {
       this.navigationService.setTab('Composition');
       this.navigationService.composition.set(compo);
+    } else if (column === 'artist') {
+      this.navigationService.setTab('Composition');
+      this.navigationService.composition.set({artist: compo.artist});
     }
   }
 
