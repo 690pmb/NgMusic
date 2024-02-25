@@ -24,6 +24,7 @@ jobs:
       - uses: 69pmb/deploy/workflow/ts-pnpm-quality@main
         with:
           pnpm-version: 8
+          node-version: 18.19.1
   deploy:
     if: github.ref_name == 'main'
     needs: quality
