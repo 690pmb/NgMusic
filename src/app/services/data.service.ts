@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {
-  BehaviorSubject,
   Observable,
   catchError,
   filter,
@@ -30,8 +29,6 @@ import {DateTime} from 'luxon';
 export class DataService<T extends Composition | Fichier> {
   private static readonly dateFormat = 'y-MM-dd HH-mm';
 
-  done$ = new BehaviorSubject(false);
-
   constructor(
     private dropboxService: DropboxService,
     private serviceUtils: UtilsService,
@@ -42,48 +39,50 @@ export class DataService<T extends Composition | Fichier> {
     table: Table<T>,
     fileTable: Table<File>,
     dropboxFile: string
-  ): void {
-    forkJoin([
+  ): Observable<boolean> {
+    return forkJoin([
       from(fileTable.get(1)),
       this.dropboxService.files.obs$.pipe(take(1)),
-    ]).subscribe(([storedName, filesList]) => {
-      const fileNameToDownload = DataService.findsFileNameToDownload(
-        dropboxFile,
-        filesList
-      );
-      if (!fileNameToDownload && !storedName?.filename) {
-        this.toast.open('No file to download or loaded');
-        this.done$.next(true);
-      } else if (fileNameToDownload && !storedName?.filename) {
-        this.downloadsList(
-          table,
-          fileTable,
-          fileNameToDownload,
-          `Download ${dropboxFile}`
-        ).subscribe();
-      } else if (!fileNameToDownload && storedName) {
-        this.toast.open('Already loaded');
-        this.done$.next(true);
-      } else {
-        if (
-          DataService.extractDateFromFilename(fileNameToDownload ?? '') >
-          DataService.extractDateFromFilename(storedName?.filename ?? '')
-        ) {
-          this.downloadsList(
+    ]).pipe(
+      switchMap(([storedName, filesList]) => {
+        const fileNameToDownload = DataService.findsFileNameToDownload(
+          dropboxFile,
+          filesList
+        );
+        if (!fileNameToDownload && !storedName?.filename) {
+          this.toast.open('No file to download or loaded');
+          return of(true);
+        } else if (fileNameToDownload && !storedName?.filename) {
+          return this.downloadsList(
             table,
             fileTable,
-            fileNameToDownload ?? '',
-            `Update ${dropboxFile}`
-          ).subscribe();
-        } else {
+            fileNameToDownload,
+            `Download ${dropboxFile}`
+          ).pipe(map(() => true));
+        } else if (!fileNameToDownload && storedName) {
           this.toast.open('Already loaded');
-          this.done$.next(true);
+          return of(true);
+        } else {
+          if (
+            DataService.extractDateFromFilename(fileNameToDownload ?? '') >
+            DataService.extractDateFromFilename(storedName?.filename ?? '')
+          ) {
+            return this.downloadsList(
+              table,
+              fileTable,
+              fileNameToDownload ?? '',
+              `Update ${dropboxFile}`
+            ).pipe(map(() => true));
+          } else {
+            this.toast.open('Already loaded');
+            return of(true);
+          }
         }
-      }
-    });
+      })
+    );
   }
 
-  downloadsList(
+  private downloadsList(
     table: Table<T>,
     fileTable: Table<File>,
     fileName: string,
@@ -118,8 +117,7 @@ export class DataService<T extends Composition | Fichier> {
       ),
       map(() => {
         this.toast.open(resultMessage);
-        this.done$.next(true);
-        of(null);
+        return of(null);
       }),
       catchError(err =>
         this.serviceUtils.handleError(err, `Error when downloading ${fileName}`)
@@ -147,7 +145,7 @@ export class DataService<T extends Composition | Fichier> {
     );
   }
 
-  parse(xmlFile: string): T[] {
+  private parse(xmlFile: string): T[] {
     let list: T[] = [];
     new xml2js.Parser().parseString(xmlFile, (err, result: unknown) => {
       if (err) {

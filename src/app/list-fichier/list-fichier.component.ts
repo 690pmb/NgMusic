@@ -168,13 +168,13 @@ export class ListFichierComponent
       this.paginator.firstPage();
       this.onSearch();
     });
-    this.myFichiersService.loadsList(
-      this.dexieService.fichierTable,
-      this.dexieService.fileFichier,
-      Dropbox.DROPBOX_FICHIER_FILE
-    );
     this.sort = {active: 'size', direction: 'desc'};
-    this.myFichiersService.done$
+    this.myFichiersService
+      .loadsList(
+        this.dexieService.fichierTable,
+        this.dexieService.fileFichier,
+        Dropbox.DROPBOX_FICHIER_FILE
+      )
       .pipe(
         skipWhile(done => done !== undefined && !done),
         switchMap(() => this.dexieService.fichierTable.getAll()),

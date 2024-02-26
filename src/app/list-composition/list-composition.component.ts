@@ -169,13 +169,13 @@ export class ListCompositionComponent
       this.paginator.firstPage();
       this.onSearch();
     });
-    this.myCompositionsService.loadsList(
-      this.dexieService.compositionTable,
-      this.dexieService.fileComposition,
-      Dropbox.DROPBOX_COMPOSITION_FILE
-    );
     this.sort = {active: 'score', direction: 'desc'};
-    this.myCompositionsService.done$
+    this.myCompositionsService
+      .loadsList(
+        this.dexieService.compositionTable,
+        this.dexieService.fileComposition,
+        Dropbox.DROPBOX_COMPOSITION_FILE
+      )
       .pipe(
         skipWhile(done => done !== undefined && !done),
         switchMap(() => this.dexieService.compositionTable.getAll()),
