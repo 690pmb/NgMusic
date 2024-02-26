@@ -9,7 +9,15 @@ import {
 } from '@angular/material/paginator';
 
 import {ListDirective} from '../list/list.component';
-import {Fichier, Composition, Sort, Field, Dropdown} from '@utils/model';
+import {
+  Fichier,
+  Composition,
+  Sort,
+  Field,
+  Dropdown,
+  isComposition,
+  isFichier,
+} from '@utils/model';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
 import {DexieService} from '@services/dexie.service';
@@ -156,14 +164,7 @@ export class ListFichierComponent
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.navigationService.fichier.obs$.subscribe(f => {
-      this.filters.reset();
-      const parsed = DataService.parseName(f.name);
-      this.filters.controls.name.setValue(parsed.name);
-      this.filters.controls.author.setValue(parsed.author);
-      this.filters.controls.begin.setValue(+parsed.publish);
-      this.filters.controls.end.setValue(+parsed.publish);
-    });
+    this.listenNavigation();
     this.filters.valueChanges.subscribe(() => {
       this.paginator.firstPage();
       this.onSearch();
@@ -203,6 +204,26 @@ export class ListFichierComponent
           this.page
         );
       });
+  }
+
+  private listenNavigation(): void {
+    this.navigationService.fichier.obs$.subscribe(f => {
+      this.filters.reset();
+      if (f.name) {
+        const parsed = DataService.parseName(f.name);
+        this.filters.controls.name.setValue(parsed.name);
+        this.filters.controls.author.setValue(parsed.author);
+        this.filters.controls.begin.setValue(+parsed.publish);
+        this.filters.controls.end.setValue(+parsed.publish);
+      }
+      if (f.publish) {
+        this.filters.controls.begin.setValue(+f.publish);
+        this.filters.controls.end.setValue(+f.publish);
+      }
+      if (f.category) {
+        this.filters.controls.category.setValue([f.category]);
+      }
+    });
   }
 
   filter(list: Fichier[]): Fichier[] {
@@ -299,13 +320,24 @@ export class ListFichierComponent
     );
   }
 
-  switchTab(compo: Composition, column: Field<Composition> | 'menu'): void {
-    if (column === 'title') {
+  switchTab<T extends Composition | Fichier>(
+    data: T,
+    column: Field<T> | 'menu'
+  ): void {
+    if (isComposition(data)) {
       this.navigationService.setTab('Composition');
-      this.navigationService.composition.set(compo);
-    } else if (column === 'artist') {
-      this.navigationService.setTab('Composition');
-      this.navigationService.composition.set({artist: compo.artist});
+      if (column === 'title') {
+        this.navigationService.composition.set(data);
+      } else if (column === 'artist') {
+        this.navigationService.composition.set({artist: data.artist});
+      }
+    } else if (isFichier(data)) {
+      this.navigationService.setTab('Fichier');
+      if (column === 'category') {
+        this.navigationService.fichier.set({category: data.category});
+      } else if (column === 'publish') {
+        this.navigationService.fichier.set({publish: data.publish});
+      }
     }
   }
 

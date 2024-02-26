@@ -122,7 +122,13 @@
       <span class="mat-text">Categorie</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let fichier">
-      {{ fichier.category | title: true }}
+      <div
+        (click)="
+          switchTab(fichier, 'category'); $event.stopImmediatePropagation()
+        "
+      >
+        {{ fichier.category | title: true }}
+      </div>
     </mat-cell>
   </ng-container>
 
@@ -142,7 +148,13 @@
       <span class="mat-text">Publication</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let fichier">
-      {{ fichier.publish }}
+      <div
+        (click)="
+          switchTab(fichier, 'publish'); $event.stopImmediatePropagation()
+        "
+      >
+        {{ fichier.publish }}
+      </div>
     </mat-cell>
   </ng-container>
 

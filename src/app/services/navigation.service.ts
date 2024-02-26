@@ -11,7 +11,7 @@ export type Tab = 'Composition' | 'Fichier';
 export class NavigationService {
   public tab = new Reactive<Tab>();
   public composition = new Reactive<Partial<Composition>>();
-  public fichier = new Reactive<Fichier>();
+  public fichier = new Reactive<Partial<Fichier>>();
   private scroll = inject(ViewportScroller);
 
   setTab(tab: Tab): void {

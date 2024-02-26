@@ -2,6 +2,8 @@
 
 @include link('title');
 @include link('artist');
+@include link('category');
+@include link('publish');
 
 .mat-mdc-cell.mat-column-sorted {
   @include color('purple');
