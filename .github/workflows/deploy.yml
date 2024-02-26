@@ -15,3 +15,5 @@ jobs:
       - uses: 69pmb/deploy/workflow/deploy@main
         with:
           url: ${{ secrets.DEPLOY_URL }}
+          args: 'DROPBOX_TOKEN,${{ secrets.DROPBOX_TOKEN }}'
+          confFile: '/usr/share/nginx/html/assets/configuration.json'

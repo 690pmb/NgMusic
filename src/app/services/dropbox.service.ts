@@ -4,18 +4,22 @@ import {UtilsService} from './utils.service';
 import {Dropbox as DropboxConstant} from '@utils/dropbox';
 import {Observable, catchError, from, map, of, switchMap} from 'rxjs';
 import {Reactive} from '../utils/reactive';
+import {ConfigurationService} from './configuration.service';
 
 @Injectable({providedIn: 'root'})
 export class DropboxService {
   files = new Reactive<files.ListFolderResult | undefined>();
 
-  constructor(private serviceUtils: UtilsService) {
+  constructor(
+    private serviceUtils: UtilsService,
+    private configurationService: ConfigurationService
+  ) {
     this.listFiles().subscribe(f => this.files.set(f));
   }
 
-  static getDbx(): Dropbox {
+  getDbx(): Dropbox {
     return new Dropbox({
-      accessToken: DropboxConstant.DROPBOX_TOKEN,
+      accessToken: this.configurationService.get().token,
     });
   }
 
@@ -25,7 +29,7 @@ export class DropboxService {
 
   private listFiles(): Observable<files.ListFolderResult | undefined> {
     return from(
-      DropboxService.getDbx().filesListFolder({
+      this.getDbx().filesListFolder({
         path: DropboxConstant.DROPBOX_FOLDER,
       })
     ).pipe(
@@ -47,7 +51,7 @@ export class DropboxService {
 
   downloadFile(fileName: string): Observable<string> {
     return from(
-      DropboxService.getDbx().filesDownload({
+      this.getDbx().filesDownload({
         path: DropboxService.getPath(fileName),
       })
     ).pipe(

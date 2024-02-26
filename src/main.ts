@@ -1,4 +1,9 @@
-import {enableProdMode, isDevMode, importProvidersFrom} from '@angular/core';
+import {
+  enableProdMode,
+  isDevMode,
+  importProvidersFrom,
+  APP_INITIALIZER,
+} from '@angular/core';
 import {environment} from './environments/environment';
 import {AppComponent} from './app/app.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
@@ -28,6 +33,11 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import {BrowserModule, bootstrapApplication} from '@angular/platform-browser';
 import {provideAnimations} from '@angular/platform-browser/animations';
+import {
+  Configuration,
+  ConfigurationService,
+} from '@services/configuration.service';
+import {Observable} from 'rxjs';
 
 if (environment.production) {
   enableProdMode();
@@ -76,6 +86,15 @@ bootstrapApplication(AppComponent, {
           e(page, pageSize, length).replace('of', 'sur');
         return int;
       },
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory:
+        (conf: ConfigurationService): (() => Observable<Configuration>) =>
+        () =>
+          conf.load(),
+      deps: [ConfigurationService],
+      multi: true,
     },
     provideAnimations(),
     provideHttpClient(withInterceptorsFromDi()),
