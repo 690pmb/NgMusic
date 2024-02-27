@@ -184,7 +184,7 @@
         <ng-container *ngIf="fichier === expandedElement">
           <mat-paginator
             #paginatorComposition
-            [length]="expandedElement?.displayedCompoList?.length"
+            [length]="expandedCompositions.length"
             [pageIndex]="0"
             [pageSize]="50"
             [showFirstLastButtons]="true"

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {BehaviorSubject, switchMap} from 'rxjs';
+import {switchMap} from 'rxjs';
 import {catchError, skipWhile} from 'rxjs/operators';
 import {
   MatPaginator,
@@ -122,7 +122,7 @@ export class ListFichierComponent
 
   override displayedColumnsComposition = [...this.compositionColumns];
   expandedCompositions: Composition[] = [];
-  displayedCompositions = new BehaviorSubject<Composition[]>([]);
+  displayedCompositions: Composition[] = [];
   pageComposition!: PageEvent;
   sortComposition?: Sort<Composition>;
   faCheck = faCheck;
@@ -303,20 +303,19 @@ export class ListFichierComponent
       this.pageComposition = this.initPagination();
       this.sortComposition = sort;
       this.expandedElement = this.filterComposition([this.expandedElement])[0];
-      this.displayedCompositions.next(
-        Utils.sort(
-          this.expandedElement?.displayedCompoList ?? [],
-          sort.active,
-          sort.direction
-        )
+      this.expandedCompositions =
+        this.expandedElement?.displayedCompoList ?? [];
+      this.displayedCompositions = Utils.paginate(
+        Utils.sort(this.expandedCompositions, sort.active, sort.direction),
+        this.pageComposition
       );
-      this.expandedCompositions = this.displayedCompositions.getValue();
     }
   }
 
   onPaginateCompositionChange(): void {
-    this.displayedCompositions.next(
-      Utils.paginate(this.expandedCompositions, this.pageComposition)
+    this.displayedCompositions = Utils.paginate(
+      this.expandedCompositions,
+      this.pageComposition
     );
   }
 
