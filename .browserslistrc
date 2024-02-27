@@ -3,9 +3,6 @@
 # https://github.com/browserslist/browserslist#queries
 
 # You can see what browsers were selected by your queries by running:
-#   npx browserslist
+# pm dlx browserslist
 
-> 4%
-last 2 versions
-Firefox ESR
-not IE 9-11 # For IE 9-11 support, remove 'not'.
+defaults and fully supports es6-module and last 2 versions
