@@ -1,0 +1,26 @@
+@use 'imports' as *;
+
+:host.bottom {
+  padding-bottom: 90px;
+  display: block;
+}
+
+.paginator {
+  top: 0;
+  display: flex !important;
+  justify-content: center;
+
+  ::ng-deep.mat-mdc-paginator-container {
+    justify-content: center !important;
+    padding: 0 !important;
+
+    .mat-mdc-paginator-page-size-select {
+      padding: 6px 0;
+    }
+  }
+
+  &,
+  .mat-mdc-paginator {
+    width: 100%;
+  }
+}

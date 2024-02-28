@@ -14,3 +14,7 @@
     max-width: 20px;
   }
 }
+
+::ng-deep.mat-mdc-paginator-container {
+  justify-content: center !important;
+}

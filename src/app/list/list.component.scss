@@ -33,11 +33,6 @@
   gap: 10px;
 }
 
-.paginator {
-  top: 0;
-}
-
-.paginator,
 .filters {
   display: flex !important;
   justify-content: center;
@@ -60,10 +55,6 @@
   padding-bottom: 15px;
 }
 
-::ng-deep.mat-mdc-paginator-container {
-  justify-content: center !important;
-}
-
 .filter-checkbox {
   display: flex;
   align-items: center;
@@ -74,13 +65,8 @@
   }
 }
 
-.mat-mdc-table,
-.mat-mdc-paginator,
-.paginator {
-  width: 100vw;
-}
-
 .mat-mdc-table {
+  width: 100%;
   hyphens: auto;
 }
 
@@ -121,6 +107,7 @@
 
 .example-element-detail {
   overflow: hidden;
+  width: 100vw;
 
   .mat-mdc-row {
     border-bottom: solid 2px #0000001f;
@@ -162,9 +149,7 @@
     padding: 0 !important;
   }
 
-  .mat-mdc-table,
-  .mat-mdc-paginator,
-  .paginator {
+  .mat-mdc-table {
     width: 100vw;
   }
 

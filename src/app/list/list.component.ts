@@ -1,16 +1,13 @@
 import {OnInit, Directive} from '@angular/core';
-import {PageEvent} from '@angular/material/paginator';
 import {Dropdown, Sort, Field, Composition} from '@utils/model';
 import {Utils} from '@utils/utils';
 import {UtilsService} from '@services/utils.service';
+import {PaginatorService} from '@services/paginator.service';
 
 @Directive()
 export abstract class ListDirective<T> implements OnInit {
   dataList: T[] = [];
-  length?: number;
   displayedData: T[] = [];
-  pageSizeOptions = [25, 50, 100, 200];
-  page!: PageEvent;
   sort?: Sort<T>;
   compositionColumns!: (Field<Composition> | 'menu')[];
   displayedColumnsComposition!: (Field<Composition> | 'menu')[];
@@ -32,10 +29,12 @@ export abstract class ListDirective<T> implements OnInit {
     {label: 'Divers', code: 'MISCELLANEOUS'},
   ];
 
-  constructor(protected utilsService: UtilsService) {}
+  constructor(
+    protected utilsService: UtilsService,
+    protected paginatorService: PaginatorService
+  ) {}
 
   ngOnInit(): void {
-    this.page = this.initPagination();
     this.utilsService.isDesktop().subscribe(isDesktop => {
       this.isDesktop = isDesktop;
       if (isDesktop) {
@@ -46,40 +45,30 @@ export abstract class ListDirective<T> implements OnInit {
     });
   }
 
-  abstract filter(list: T[]): T[];
+  abstract filter(list: T[], firstPage: boolean): T[];
 
   abstract sortList(list: T[]): T[];
 
-  initPagination(): PageEvent {
-    const page = new PageEvent();
-    page.pageIndex = 0;
-    page.pageSize = 50;
-    return page;
-  }
-
   onSort(): void {
-    this.page = this.initPagination();
-    this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(
-      this.sortList(this.filter(this.dataList)),
-      this.page
-    );
+    this.updateList(true);
   }
 
   onSearch(): void {
-    this.initPagination();
-    this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(
-      this.sortList(this.filter(this.dataList)),
-      this.page
-    );
+    this.updateList(true);
   }
 
   onPaginateChange(): void {
+    this.updateList(false);
+  }
+
+  private updateList(firstPage: boolean): void {
     this.expandedElement = undefined;
-    this.displayedData = Utils.paginate(
-      this.sortList(this.filter(this.dataList)),
-      this.page
+    this.paginatorService.page.subscribe(
+      p =>
+        (this.displayedData = Utils.paginate(
+          this.sortList(this.filter(this.dataList, firstPage)),
+          p
+        ))
     );
   }
 }
