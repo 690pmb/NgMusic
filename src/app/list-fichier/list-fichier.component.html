@@ -63,19 +63,7 @@
     (click)="filters.reset()"
   ></fa-icon>
 </div>
-<div class="paginator mat-elevation-z4">
-  <!-- Paginator -->
-  <mat-paginator
-    #paginator
-    [length]="length"
-    [pageIndex]="0"
-    [pageSize]="50"
-    [pageSizeOptions]="pageSizeOptions"
-    [showFirstLastButtons]="true"
-    (page)="page = $event; onPaginateChange()"
-  >
-  </mat-paginator>
-</div>
+<app-paginator (changed)="onPaginateChange()" />
 <!-- Table -->
 <mat-table
   class="mat-elevation-z4"
@@ -84,7 +72,7 @@
   [dataSource]="displayedData"
   [matSortActive]="'size'"
   [matSortDirection]="'desc'"
-  (matSortChange)="paginator.firstPage(); sort = $any($event); onSort()"
+  (matSortChange)="sort = $any($event); onSort()"
 >
   <!-- AUTHOR -->
   <ng-container matColumnDef="author">
@@ -262,5 +250,6 @@
     [ngClass]="{even: i % 2 === 0, odd: i % 2 === 1}"
   ></mat-row>
 </mat-table>
+<app-paginator class="bottom" (changed)="onPaginateChange()" />
 
 <app-go-to-top></app-go-to-top>

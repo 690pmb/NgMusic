@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {catchError, skipWhile} from 'rxjs/operators';
+import {Component, OnInit} from '@angular/core';
+import {catchError, skipWhile, tap} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
 import {
@@ -8,7 +8,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 
 import {
   Composition,
@@ -40,12 +39,14 @@ import {FilterYearComponent} from '../filter-year/filter-year.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FilterSelectComponent} from '../filter-select/filter-select.component';
 import {FilterInputComponent} from '../filter-input/filter-input.component';
+import {PaginatorService} from '@services/paginator.service';
+import {PaginatorComponent} from '../paginator/paginator.component';
 
 @Component({
   selector: 'app-list-composition',
   templateUrl: './list-composition.component.html',
   styleUrls: ['./list-composition.component.scss'],
-  providers: [{provide: DataService, useClass: DataService}],
+  providers: [DataService, PaginatorService],
   animations: [
     trigger('detailExpand', [
       state(
@@ -64,13 +65,13 @@ import {FilterInputComponent} from '../filter-input/filter-input.component';
     FilterInputComponent,
     FilterSelectComponent,
     MatCheckboxModule,
+    PaginatorComponent,
     FormsModule,
     ReactiveFormsModule,
     FilterYearComponent,
     NgIf,
     FontAwesomeModule,
     MatRippleModule,
-    MatPaginatorModule,
     MatTableModule,
     MatSortModule,
     RowMenuComponent,
@@ -87,9 +88,6 @@ export class ListCompositionComponent
   extends ListDirective<Composition>
   implements OnInit
 {
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
-
   override compositionColumns: Field<Composition>[] = [
     'artist',
     'title',
@@ -149,9 +147,10 @@ export class ListCompositionComponent
     private myCompositionsService: DataService<Composition>,
     private dexieService: DexieService,
     protected serviceUtils: UtilsService,
-    private navigationService: NavigationService
+    private navigationService: NavigationService,
+    protected override paginatorService: PaginatorService
   ) {
-    super(serviceUtils);
+    super(serviceUtils, paginatorService);
   }
 
   override ngOnInit(): void {
@@ -165,10 +164,7 @@ export class ListCompositionComponent
         this.filters.controls.title.setValue(c.title);
       }
     });
-    this.filters.valueChanges.subscribe(() => {
-      this.paginator.firstPage();
-      this.onSearch();
-    });
+    this.filters.valueChanges.subscribe(() => this.onSearch());
     this.sort = {active: 'score', direction: 'desc'};
     this.myCompositionsService
       .loadsList(
@@ -184,25 +180,34 @@ export class ListCompositionComponent
             err,
             'Error when reading compositions table'
           )
+        ),
+        tap(list => (this.dataList = list)),
+        switchMap(() => this.paginatorService.page),
+        tap(
+          p =>
+            (this.displayedData = Utils.paginate(
+              this.sortList(this.filter(this.dataList, true)),
+              p
+            ))
         )
       )
-      .subscribe(list => {
-        this.dataList = list;
-        this.length = list.length;
-        this.displayedData = Utils.paginate(
-          this.sortList(this.filter(this.dataList)),
-          this.page
-        );
-      });
+      .subscribe(() =>
+        this.paginatorService.updatePage({
+          length: this.dataList.length,
+        })
+      );
   }
 
-  filter(list: Composition[]): Composition[] {
+  filter(list: Composition[], firstPage: boolean): Composition[] {
     // Composition filters
     let result = this.filterOnComposition(list);
     // Fichier filters
     result = this.filterOnFichier(result);
-    this.length = result.length;
     this.onSortFichier(this.sortFichier);
+    this.paginatorService.updatePage({
+      length: result.length,
+      pageIndex: firstPage ? 0 : undefined,
+    });
     return result;
   }
 
