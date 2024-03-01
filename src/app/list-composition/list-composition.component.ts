@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {catchError, skipWhile, tap} from 'rxjs/operators';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {BehaviorSubject, switchMap} from 'rxjs';
@@ -41,12 +41,19 @@ import {FilterSelectComponent} from '../filter-select/filter-select.component';
 import {FilterInputComponent} from '../filter-input/filter-input.component';
 import {PaginatorService} from '@services/paginator.service';
 import {PaginatorComponent} from '../paginator/paginator.component';
+import {PAGINATOR} from '@utils/paginator.token';
 
 @Component({
   selector: 'app-list-composition',
   templateUrl: './list-composition.component.html',
   styleUrls: ['./list-composition.component.scss'],
-  providers: [DataService, PaginatorService],
+  providers: [
+    DataService,
+    {
+      provide: PAGINATOR,
+      useFactory: () => new PaginatorService('list'),
+    },
+  ],
   animations: [
     trigger('detailExpand', [
       state(
@@ -148,7 +155,7 @@ export class ListCompositionComponent
     private dexieService: DexieService,
     protected serviceUtils: UtilsService,
     private navigationService: NavigationService,
-    protected override paginatorService: PaginatorService
+    @Inject(PAGINATOR) paginatorService: PaginatorService
   ) {
     super(serviceUtils, paginatorService);
   }

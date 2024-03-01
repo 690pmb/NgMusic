@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {switchMap} from 'rxjs';
+import {of, switchMap} from 'rxjs';
 import {catchError, skipWhile, tap} from 'rxjs/operators';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 
@@ -50,12 +50,25 @@ import {FilterInputComponent} from '../filter-input/filter-input.component';
 import {FilterSelectComponent} from '../filter-select/filter-select.component';
 import {PaginatorComponent} from '../paginator/paginator.component';
 import {PaginatorService} from '@services/paginator.service';
+import {PAGINATOR} from '@utils/paginator.token';
 
 @Component({
   selector: 'app-list-fichier',
   templateUrl: './list-fichier.component.html',
   styleUrls: ['./list-fichier.component.scss'],
-  providers: [DataService, PaginatorService],
+  providers: [
+    DataService,
+    {
+      provide: PAGINATOR,
+      useFactory: () => new PaginatorService('fichier'),
+      multi: true,
+    },
+    {
+      provide: PAGINATOR,
+      useFactory: () => new PaginatorService('composition'),
+      multi: true,
+    },
+  ],
   animations: [
     trigger('compositionExpand', [
       state(
@@ -119,7 +132,6 @@ export class ListFichierComponent
   override displayedColumnsComposition = [...this.compositionColumns];
   expandedCompositions: Composition[] = [];
   displayedCompositions: Composition[] = [];
-  pageComposition!: PageEvent;
   sortComposition?: Sort<Composition>;
   faCheck = faCheck;
   expandedColumn = 'compositions';
@@ -148,15 +160,25 @@ export class ListFichierComponent
     {validators: yearsValidator}
   );
 
+  fichierPaginator?: PaginatorService;
+  compositionPaginator?: PaginatorService;
+
   constructor(
     private myFichiersService: DataService<Fichier>,
     private dexieService: DexieService,
     protected serviceUtils: UtilsService,
     private navigationService: NavigationService,
     private fb: NonNullableFormBuilder,
-    protected override paginatorService: PaginatorService
+    @Inject(PAGINATOR) paginatorService: PaginatorService[]
   ) {
-    super(serviceUtils, paginatorService);
+    super(
+      serviceUtils,
+      paginatorService.find(p => p.id === 'fichier') ?? new PaginatorService('')
+    );
+    this.fichierPaginator = paginatorService.find(p => p.id === 'fichier');
+    this.compositionPaginator = paginatorService.find(
+      p => p.id === 'composition'
+    );
   }
 
   override ngOnInit(): void {
@@ -192,7 +214,7 @@ export class ListFichierComponent
             .sort()
             .map(l => ({label: l, code: l}));
         }),
-        switchMap(() => this.paginatorService.page),
+        switchMap(() => this.fichierPaginator?.page ?? of(new PageEvent())),
         tap(
           p =>
             (this.displayedData = Utils.paginate(
@@ -201,10 +223,11 @@ export class ListFichierComponent
             ))
         )
       )
-      .subscribe(() =>
-        this.paginatorService.updatePage({
-          length: this.dataList.length,
-        })
+      .subscribe(
+        () =>
+          this.fichierPaginator?.updatePage({
+            length: this.dataList.length,
+          })
       );
   }
 
@@ -256,7 +279,7 @@ export class ListFichierComponent
       );
     }
     result = this.filterComposition(result);
-    this.paginatorService.updatePage({
+    this.fichierPaginator?.updatePage({
       length: result.length,
       pageIndex: firstPage ? 0 : undefined,
     });
@@ -306,21 +329,30 @@ export class ListFichierComponent
   onSortComposition(sort: Sort<Composition>): void {
     if (this.expandedElement) {
       this.sortComposition = sort;
-      this.pageComposition = PaginatorService.initPagination();
       this.expandedElement = this.filterComposition([this.expandedElement])[0];
       this.expandedCompositions =
         this.expandedElement?.displayedCompoList ?? [];
-      this.displayedCompositions = Utils.paginate(
-        Utils.sort(this.expandedCompositions, sort.active, sort.direction),
-        this.pageComposition
+      this.compositionPaginator?.updatePage({
+        length: this.expandedCompositions.length,
+        pageIndex: 0,
+      });
+      this.compositionPaginator?.page.subscribe(
+        p =>
+          (this.displayedCompositions = Utils.paginate(
+            Utils.sort(this.expandedCompositions, sort.active, sort.direction),
+            p
+          ))
       );
     }
   }
 
   onPaginateCompositionChange(): void {
-    this.displayedCompositions = Utils.paginate(
-      this.expandedCompositions,
-      this.pageComposition
+    this.compositionPaginator?.page.subscribe(
+      p =>
+        (this.displayedCompositions = Utils.paginate(
+          this.expandedCompositions,
+          p
+        ))
     );
   }
 
