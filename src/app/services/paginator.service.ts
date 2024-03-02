@@ -1,16 +1,13 @@
-import {Injectable} from '@angular/core';
 import {PageEvent} from '@angular/material/paginator';
 import {Reactive} from '../utils/reactive';
 import {take, Observable, map} from 'rxjs';
-import {Field} from '@utils/model';
 
-@Injectable({
-  providedIn: 'root',
-})
 export class PaginatorService {
+  id!: string;
   page$ = new Reactive<PageEvent>();
 
-  constructor() {
+  constructor(id: string) {
+    this.id = id;
     this.page$.set(PaginatorService.initPagination());
   }
 
@@ -25,17 +22,15 @@ export class PaginatorService {
   public updatePage(update: Partial<PageEvent>): void {
     this.page
       .pipe(
-        map(p => {
-          if (update.pageSize !== p.pageSize) {
-            update.pageIndex = 0;
-          }
-          (Object.keys(update) as Field<PageEvent>[]).forEach(k => {
-            if (update[k] !== undefined) {
-              p[k] = update[k]!;
-            }
-          });
-          return p;
-        })
+        map(
+          p =>
+            ({
+              length: update.length ?? 0,
+              pageIndex: update.pageIndex ?? p.pageIndex,
+              pageSize: update.pageSize ?? p.pageSize,
+              previousPageIndex: p.previousPageIndex,
+            }) satisfies PageEvent
+        )
       )
       .subscribe(p => this.page$.set(p));
   }

@@ -63,7 +63,7 @@
     (click)="filters.reset()"
   ></fa-icon>
 </div>
-<app-paginator (changed)="onPaginateChange()" />
+<app-paginator id="fichier" (changed)="onPaginateChange()" />
 <!-- Table -->
 <mat-table
   class="mat-elevation-z4"
@@ -170,24 +170,17 @@
     >
       <div class="example-element-detail">
         <ng-container *ngIf="fichier === expandedElement">
-          <mat-paginator
-            #paginatorComposition
-            [length]="expandedCompositions.length"
-            [pageIndex]="0"
-            [pageSize]="50"
-            [showFirstLastButtons]="true"
-            (page)="pageComposition = $event; onPaginateCompositionChange()"
-          >
-          </mat-paginator>
+          <app-paginator
+            id="composition"
+            (changed)="onPaginateCompositionChange()"
+          />
           <!-- eslint-disable @angular-eslint/template/no-any -->
           <mat-table
             matSort
             [dataSource]="displayedCompositions"
             [matSortActive]="fichier.sorted ? 'rank' : 'score'"
             [matSortDirection]="fichier.sorted ? 'asc' : 'desc'"
-            (matSortChange)="
-              paginatorComposition.firstPage(); onSortComposition($any($event))
-            "
+            (matSortChange)="onSortComposition($any($event))"
           >
             <!-- eslint-enable @angular-eslint/template/no-any -->
             <div
@@ -230,6 +223,10 @@
             >
             </mat-row>
           </mat-table>
+          <app-paginator
+            id="composition"
+            (changed)="onPaginateCompositionChange()"
+          />
         </ng-container>
       </div>
     </td>
@@ -250,6 +247,6 @@
     [ngClass]="{even: i % 2 === 0, odd: i % 2 === 1}"
   ></mat-row>
 </mat-table>
-<app-paginator class="bottom" (changed)="onPaginateChange()" />
+<app-paginator id="fichier" class="bottom" (changed)="onPaginateChange()" />
 
 <app-go-to-top></app-go-to-top>

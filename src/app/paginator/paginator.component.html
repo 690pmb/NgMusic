@@ -8,7 +8,7 @@
     [pageSize]="page.pageSize"
     [pageSizeOptions]="pageSizeOptions"
     [showFirstLastButtons]="true"
-    (page)="paginatorService.page$.set($event); changed.emit()"
+    (page)="onPage($event)"
   >
   </mat-paginator>
 </div>
