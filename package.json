@@ -23,7 +23,7 @@
   },
   "engines": {
     "pnpm": ">=8",
-    "node": ">=18.18 <20.0.0"
+    "node": ">=18.18 <21.0.0"
   },
   "private": true,
   "dependencies": {
@@ -67,7 +67,7 @@
     "@angular/compiler-cli": "~16.2.12",
     "@angular/language-service": "~16.2.12",
     "@types/luxon": "~3.4.2",
-    "@types/node": "~16.18.83",
+    "@types/node": "~20.17.0",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "~7.0.2",
     "@typescript-eslint/parser": "~7.0.2",
