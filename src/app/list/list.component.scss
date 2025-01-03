@@ -1,17 +1,17 @@
 @use 'sass:list';
 @use 'imports' as *;
+
 @forward 'imports';
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
 /* stylelint-disable selector-class-pattern */
 
-@for $i from 1 through length($decile) {
+@for $i from 1 through list.length($decile) {
   .decile-#{$i} {
     background-color: list.nth($decile, $i);
     border-radius: 10px;
     margin-bottom: 5px;
     margin-left: 3px;
-
     @if $i > 5 {
       @include color('white');
     } @else {

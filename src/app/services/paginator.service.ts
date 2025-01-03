@@ -29,8 +29,8 @@ export class PaginatorService {
               pageIndex: update.pageIndex ?? p.pageIndex,
               pageSize: update.pageSize ?? p.pageSize,
               previousPageIndex: p.previousPageIndex,
-            }) satisfies PageEvent
-        )
+            }) satisfies PageEvent,
+        ),
       )
       .subscribe(p => this.page$.set(p));
   }

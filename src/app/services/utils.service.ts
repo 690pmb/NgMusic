@@ -15,7 +15,7 @@ export class UtilsService {
   constructor(
     private http: HttpClient,
     private toast: ToastService,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
   ) {}
 
   static getErrorMessage(error: unknown): string {
@@ -57,7 +57,7 @@ export class UtilsService {
   static encodeQueryUrl(query: string): string {
     return encodeURIComponent(query).replace(
       /[!'()*]/g,
-      c => `%${c.charCodeAt(0).toString(16)}`
+      c => `%${c.charCodeAt(0).toString(16)}`,
     );
   }
 
@@ -83,7 +83,7 @@ export class UtilsService {
       .pipe(
         debounceTime(200),
         map(b => b.matches),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
   }
 }

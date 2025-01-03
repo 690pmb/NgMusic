@@ -24,7 +24,7 @@ export class Fichier {
     rank: string,
     size: string,
     sorted: string,
-    type: string
+    type: string,
   ) {
     this.category = category;
     this.creation = creation;
@@ -65,7 +65,7 @@ export class Composition {
     score: string,
     size: string,
     decile: string,
-    rank: string
+    rank: string,
   ) {
     this.id = id;
     this.artist = artist;

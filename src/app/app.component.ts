@@ -24,7 +24,7 @@ import {
 export class AppComponent implements OnInit {
   constructor(
     protected navigationService: NavigationService,
-    library: FaIconLibrary
+    library: FaIconLibrary,
   ) {
     registerLocaleData(localeFr);
     library.addIcons(
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
       faRotateRight,
       faEllipsisVertical,
       faCheck,
-      faGoogle
+      faGoogle,
     );
   }
 

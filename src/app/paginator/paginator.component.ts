@@ -33,7 +33,7 @@ export class PaginatorComponent implements OnInit {
   constructor(
     @SkipSelf()
     @Inject(PAGINATOR)
-    private ps: PaginatorService | PaginatorService[]
+    private ps: PaginatorService | PaginatorService[],
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +53,7 @@ export class PaginatorComponent implements OnInit {
           ...{
             pageIndex: page.pageSize !== p.pageSize ? 0 : page.pageIndex,
           },
-        }))
+        })),
       )
       .subscribe(p => this.paginatorService.page$.set(p));
     this.changed.emit();

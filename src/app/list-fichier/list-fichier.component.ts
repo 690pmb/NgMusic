@@ -67,12 +67,12 @@ import {PAGINATOR} from '@utils/paginator.token';
     trigger('compositionExpand', [
       state(
         'collapsed',
-        style({height: '0px', minHeight: '0', display: 'none'})
+        style({height: '0px', minHeight: '0', display: 'none'}),
       ),
       state('expanded', style({height: '*'})),
       transition(
         'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
       ),
     ]),
   ],
@@ -149,7 +149,7 @@ export class ListFichierComponent
       begin: this.fb.control(undefined),
       end: this.fb.control(undefined),
     },
-    {validators: yearsValidator}
+    {validators: yearsValidator},
   );
 
   fichierPaginator?: PaginatorService;
@@ -161,15 +161,16 @@ export class ListFichierComponent
     protected serviceUtils: UtilsService,
     private navigationService: NavigationService,
     private fb: NonNullableFormBuilder,
-    @Inject(PAGINATOR) paginatorService: PaginatorService[]
+    @Inject(PAGINATOR) paginatorService: PaginatorService[],
   ) {
     super(
       serviceUtils,
-      paginatorService.find(p => p.id === 'fichier') ?? new PaginatorService('')
+      paginatorService.find(p => p.id === 'fichier') ??
+        new PaginatorService(''),
     );
     this.fichierPaginator = paginatorService.find(p => p.id === 'fichier');
     this.compositionPaginator = paginatorService.find(
-      p => p.id === 'composition'
+      p => p.id === 'composition',
     );
   }
 
@@ -182,7 +183,7 @@ export class ListFichierComponent
       .loadsList(
         this.dexieService.fichierTable,
         this.dexieService.fileFichier,
-        Dropbox.DROPBOX_FICHIER_FILE
+        Dropbox.DROPBOX_FICHIER_FILE,
       )
       .pipe(
         skipWhile(done => done !== undefined && !done),
@@ -190,8 +191,8 @@ export class ListFichierComponent
         catchError(err =>
           this.utilsService.handleError(
             err,
-            'Error when reading fichiers table'
-          )
+            'Error when reading fichiers table',
+          ),
         ),
         tap(list => {
           this.dataList = list;
@@ -211,14 +212,14 @@ export class ListFichierComponent
           p =>
             (this.displayedData = Utils.paginate(
               this.sortList(this.filter(this.dataList, true)),
-              p
-            ))
-        )
+              p,
+            )),
+        ),
       )
       .subscribe(() =>
         this.fichierPaginator?.updatePage({
           length: this.dataList.length,
-        })
+        }),
       );
   }
 
@@ -256,17 +257,17 @@ export class ListFichierComponent
     }
     if (controls.begin.value) {
       result = result.filter(
-        f => (f.publish ?? 0) >= (controls.begin.value ?? 0)
+        f => (f.publish ?? 0) >= (controls.begin.value ?? 0),
       );
     }
     if (controls.end.value) {
       result = result.filter(
-        f => (f.publish ?? 0) <= (controls.end.value ?? 0)
+        f => (f.publish ?? 0) <= (controls.end.value ?? 0),
       );
     }
     if (controls.category.value.length > 0) {
       result = result.filter(f =>
-        controls.category.value?.includes(f.category)
+        controls.category.value?.includes(f.category),
       );
     }
     result = this.filterComposition(result);
@@ -284,7 +285,7 @@ export class ListFichierComponent
     if (!controls.deleted.value) {
       result.forEach(
         f =>
-          (f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted))
+          (f.displayedCompoList = f.displayedCompoList.filter(c => !c.deleted)),
       );
     }
     if (controls.top.value) {
@@ -295,7 +296,7 @@ export class ListFichierComponent
       });
     }
     return result.filter(
-      f => f.displayedCompoList && f.displayedCompoList.length > 0
+      f => f.displayedCompoList && f.displayedCompoList.length > 0,
     );
   }
 
@@ -331,8 +332,8 @@ export class ListFichierComponent
         p =>
           (this.displayedCompositions = Utils.paginate(
             Utils.sort(this.expandedCompositions, sort.active, sort.direction),
-            p
-          ))
+            p,
+          )),
       );
     }
   }
@@ -342,14 +343,14 @@ export class ListFichierComponent
       p =>
         (this.displayedCompositions = Utils.paginate(
           this.expandedCompositions,
-          p
-        ))
+          p,
+        )),
     );
   }
 
   switchTab<T extends Composition | Fichier>(
     data: T,
-    column: Field<T> | 'menu'
+    column: Field<T> | 'menu',
   ): void {
     if (isComposition(data)) {
       this.navigationService.setTab('Composition');

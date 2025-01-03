@@ -58,12 +58,12 @@ import {PAGINATOR} from '@utils/paginator.token';
     trigger('detailExpand', [
       state(
         'collapsed',
-        style({height: '0px', minHeight: '0', display: 'none'})
+        style({height: '0px', minHeight: '0', display: 'none'}),
       ),
       state('expanded', style({height: '*'})),
       transition(
         'expanded <=> collapsed',
-        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')
+        animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'),
       ),
     ]),
   ],
@@ -145,7 +145,7 @@ export class ListCompositionComponent
       }),
       end: new FormControl<number | undefined>(undefined, {nonNullable: true}),
     },
-    {validators: yearsValidator}
+    {validators: yearsValidator},
   );
 
   constructor(
@@ -153,7 +153,7 @@ export class ListCompositionComponent
     private dexieService: DexieService,
     protected serviceUtils: UtilsService,
     private navigationService: NavigationService,
-    @Inject(PAGINATOR) paginatorService: PaginatorService
+    @Inject(PAGINATOR) paginatorService: PaginatorService,
   ) {
     super(serviceUtils, paginatorService);
   }
@@ -175,7 +175,7 @@ export class ListCompositionComponent
       .loadsList(
         this.dexieService.compositionTable,
         this.dexieService.fileComposition,
-        Dropbox.DROPBOX_COMPOSITION_FILE
+        Dropbox.DROPBOX_COMPOSITION_FILE,
       )
       .pipe(
         skipWhile(done => done !== undefined && !done),
@@ -183,8 +183,8 @@ export class ListCompositionComponent
         catchError((err: unknown) =>
           this.utilsService.handleError(
             err,
-            'Error when reading compositions table'
-          )
+            'Error when reading compositions table',
+          ),
         ),
         tap(list => (this.dataList = list)),
         switchMap(() => this.paginatorService.page),
@@ -192,14 +192,14 @@ export class ListCompositionComponent
           p =>
             (this.displayedData = Utils.paginate(
               this.sortList(this.filter(this.dataList, true)),
-              p
-            ))
-        )
+              p,
+            )),
+        ),
       )
       .subscribe(() =>
         this.paginatorService.updatePage({
           length: this.dataList.length,
-        })
+        }),
       );
   }
 
@@ -242,8 +242,8 @@ export class ListCompositionComponent
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(f =>
-            controls.category.value.includes(f.category)
-          ))
+            controls.category.value.includes(f.category),
+          )),
       );
     }
     if (controls.filename.value) {
@@ -252,28 +252,28 @@ export class ListCompositionComponent
           (c.displayedFileList = c.displayedFileList.filter(f =>
             f.name
               .toLowerCase()
-              .includes(controls.filename.value.toLowerCase() ?? '')
-          ))
+              .includes(controls.filename.value.toLowerCase() ?? ''),
+          )),
       );
     }
     if (controls.begin.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeBegin >= (controls.begin?.value ?? 0)
-          ))
+            f => f.rangeBegin >= (controls.begin?.value ?? 0),
+          )),
       );
     }
     if (controls.end.value) {
       result.forEach(
         c =>
           (c.displayedFileList = c.displayedFileList.filter(
-            f => f.rangeEnd <= (controls.end?.value ?? 0)
-          ))
+            f => f.rangeEnd <= (controls.end?.value ?? 0),
+          )),
       );
     }
     return result.filter(
-      c => c.displayedFileList && c.displayedFileList.length > 0
+      c => c.displayedFileList && c.displayedFileList.length > 0,
     );
   }
 
@@ -290,8 +290,8 @@ export class ListCompositionComponent
         Utils.sort(
           this.expandedElement.displayedFileList,
           this.sortFichier.active,
-          this.sortFichier.direction
-        )
+          this.sortFichier.direction,
+        ),
       );
     }
   }
@@ -304,8 +304,8 @@ export class ListCompositionComponent
         Utils.sort(
           this.expandedElement?.displayedFileList ?? [],
           sort?.active,
-          sort?.direction
-        )
+          sort?.direction,
+        ),
       );
     }
   }

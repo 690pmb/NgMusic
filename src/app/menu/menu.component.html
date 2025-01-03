@@ -1,9 +1,9 @@
 @if (menuService.wiki.obs$ | async) {
   @for (btn of buttons; track btn.$implicit.text) {
     @if (isButton) {
-      <ng-container *ngTemplateOutlet="button; context: btn"> </ng-container>
+      <ng-container *ngTemplateOutlet="button; context: btn" />
     } @else {
-      <ng-container *ngTemplateOutlet="menu; context: btn"> </ng-container>
+      <ng-container *ngTemplateOutlet="menu; context: btn" />
     }
   }
 }
@@ -11,7 +11,7 @@
 <ng-template #menu let-data>
   <button mat-menu-item type="button">
     <div (click)="data.click()">
-      <fa-icon [icon]="data.icon"></fa-icon>
+      <fa-icon [icon]="data.icon" />
       <span>{{ data.text }}</span>
     </div>
   </button></ng-template
@@ -19,7 +19,7 @@
 <ng-template #button let-data>
   <button mat-button mat-dialog-close type="button">
     <div (click)="data.click()">
-      <fa-icon [icon]="data.icon"></fa-icon>
+      <fa-icon [icon]="data.icon" />
       <span>{{ data.text }}</span>
     </div>
   </button></ng-template

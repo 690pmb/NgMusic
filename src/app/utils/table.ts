@@ -1,4 +1,4 @@
-import Dexie, {BulkError} from 'dexie';
+import {Dexie, BulkError} from 'dexie';
 import {Observable, from} from 'rxjs';
 
 export class Table<T> {
@@ -39,9 +39,9 @@ export class Table<T> {
           console.error(
             `Some items did not succeed. However, ${
               data.length - e.failures.length
-            } items was added successfully`
+            } items was added successfully`,
           );
-        })
+        }),
     );
   }
 }

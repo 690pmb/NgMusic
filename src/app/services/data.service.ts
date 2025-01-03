@@ -32,13 +32,13 @@ export class DataService<T extends Composition | Fichier> {
   constructor(
     private dropboxService: DropboxService,
     private serviceUtils: UtilsService,
-    private toast: ToastService
+    private toast: ToastService,
   ) {}
 
   loadsList(
     table: Table<T>,
     fileTable: Table<File>,
-    dropboxFile: string
+    dropboxFile: string,
   ): Observable<boolean> {
     return forkJoin([
       from(fileTable.get(1)),
@@ -47,7 +47,7 @@ export class DataService<T extends Composition | Fichier> {
       switchMap(([storedName, filesList]) => {
         const fileNameToDownload = DataService.findsFileNameToDownload(
           dropboxFile,
-          filesList
+          filesList,
         );
         if (!fileNameToDownload && !storedName?.filename) {
           this.toast.open('No file to download or loaded');
@@ -57,7 +57,7 @@ export class DataService<T extends Composition | Fichier> {
             table,
             fileTable,
             fileNameToDownload,
-            `Download ${dropboxFile}`
+            `Download ${dropboxFile}`,
           ).pipe(map(() => true));
         } else if (!fileNameToDownload && storedName) {
           this.toast.open('Already loaded');
@@ -71,14 +71,14 @@ export class DataService<T extends Composition | Fichier> {
               table,
               fileTable,
               fileNameToDownload ?? '',
-              `Update ${dropboxFile}`
+              `Update ${dropboxFile}`,
             ).pipe(map(() => true));
           } else {
             this.toast.open('Already loaded');
             return of(true);
           }
         }
-      })
+      }),
     );
   }
 
@@ -86,7 +86,7 @@ export class DataService<T extends Composition | Fichier> {
     table: Table<T>,
     fileTable: Table<File>,
     fileName: string,
-    resultMessage: string
+    resultMessage: string,
   ): Observable<unknown> {
     // download file
     const t0 = performance.now();
@@ -113,15 +113,18 @@ export class DataService<T extends Composition | Fichier> {
         }
       }),
       switchMap(dataList =>
-        this.updateTables(fileTable, fileName, table, dataList)
+        this.updateTables(fileTable, fileName, table, dataList),
       ),
       map(() => {
         this.toast.open(resultMessage);
         return of(null);
       }),
       catchError(err =>
-        this.serviceUtils.handleError(err, `Error when downloading ${fileName}`)
-      )
+        this.serviceUtils.handleError(
+          err,
+          `Error when downloading ${fileName}`,
+        ),
+      ),
     );
   }
 
@@ -129,7 +132,7 @@ export class DataService<T extends Composition | Fichier> {
     fileTable: Table<File>,
     fileName: string,
     table: Table<T>,
-    dataList: T[]
+    dataList: T[],
   ): Observable<void> {
     this.toast.open('Data parsed');
     return fileTable.get(1).pipe(
@@ -141,7 +144,7 @@ export class DataService<T extends Composition | Fichier> {
         }
       }),
       switchMap(() => table.clear()),
-      switchMap(() => table.addAll(dataList))
+      switchMap(() => table.addAll(dataList)),
     );
   }
 
@@ -155,7 +158,7 @@ export class DataService<T extends Composition | Fichier> {
         list = result.Fichiers.F.map(el => {
           const f = DataService.parseFichier(el, true);
           f.compoList = el.C.map(elCompo =>
-            DataService.parseComposition(elCompo)
+            DataService.parseComposition(elCompo),
           );
           return f;
         }) as T[];
@@ -163,7 +166,7 @@ export class DataService<T extends Composition | Fichier> {
         list = result.Compositions.C.map(el => {
           const c = DataService.parseComposition(el);
           c.fileList = el.F.map(elFile =>
-            DataService.parseFichier(elFile, false)
+            DataService.parseFichier(elFile, false),
           );
           return c;
         }) as T[];
@@ -173,7 +176,7 @@ export class DataService<T extends Composition | Fichier> {
   }
 
   private static parseComposition(
-    compoXml: XWrapper<XComposition>
+    compoXml: XWrapper<XComposition>,
   ): Composition {
     return new Composition(
       compoXml.$.id,
@@ -186,13 +189,13 @@ export class DataService<T extends Composition | Fichier> {
       compoXml.$.score,
       compoXml.$.size,
       compoXml.$.decile,
-      compoXml.$.rank
+      compoXml.$.rank,
     );
   }
 
   private static parseFichier(
     fichierXml: XWrapper<XFichier>,
-    splitName: boolean
+    splitName: boolean,
   ): Fichier {
     const name: string = fichierXml.$.name;
     const f = new Fichier(
@@ -204,7 +207,7 @@ export class DataService<T extends Composition | Fichier> {
       fichierXml.$.rank,
       fichierXml.$.size,
       fichierXml.$.sorted,
-      fichierXml.$.type
+      fichierXml.$.type,
     );
     if (splitName && !fichierXml.$.author) {
       const parsed = DataService.parseName(name);
@@ -219,7 +222,7 @@ export class DataService<T extends Composition | Fichier> {
   }
 
   public static parseName(
-    name: string
+    name: string,
   ): Record<'author' | 'name' | 'publish', string> {
     return {
       name: name.substring(name.indexOf('-') + 1, name.lastIndexOf('-')).trim(),
@@ -230,7 +233,7 @@ export class DataService<T extends Composition | Fichier> {
 
   private static findsFileNameToDownload(
     dropboxFile: string,
-    filesList?: files.ListFolderResult
+    filesList?: files.ListFolderResult,
   ): string | undefined {
     const names =
       filesList?.entries
@@ -242,11 +245,11 @@ export class DataService<T extends Composition | Fichier> {
       return names[0];
     } else {
       const dateArray = names.map(name =>
-        DataService.extractDateFromFilename(name)
+        DataService.extractDateFromFilename(name),
       );
       const lastDate = dateArray.reduce((d1, d2) => (d1 > d2 ? d1 : d2));
       return names.find(name =>
-        name.includes(lastDate.toFormat(DataService.dateFormat))
+        name.includes(lastDate.toFormat(DataService.dateFormat)),
       );
     }
   }
@@ -256,7 +259,7 @@ export class DataService<T extends Composition | Fichier> {
     const isXml = filename.indexOf(Dropbox.DROPBOX_EXTENTION);
     return DateTime.fromFormat(
       filename.substring(isComma + 1, isXml),
-      DataService.dateFormat
+      DataService.dateFormat,
     );
   }
 

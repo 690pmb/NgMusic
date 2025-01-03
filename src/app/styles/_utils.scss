@@ -24,11 +24,9 @@
     #{$key}: #{$value} #{$imp};
   }
 }
-
 @mixin bg-color($color, $important: false) {
   @include important(('background-color', get-color($color), $important));
 }
-
 @mixin color($color, $important: false) {
   @include important(('color', get-color($color), $important));
 }

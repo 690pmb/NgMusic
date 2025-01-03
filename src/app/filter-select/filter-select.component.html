@@ -5,7 +5,7 @@
     [multiple]="multiple ? '' : null"
   >
     @if (!multiple) {
-      <mat-option [value]="undefined"></mat-option>
+      <mat-option [value]="undefined" />
     }
     @for (option of options; track option.code) {
       <mat-option [value]="option.code">{{ option.label }}</mat-option>

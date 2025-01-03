@@ -6,7 +6,7 @@ export class Utils {
   static sort<T extends Composition | Fichier, K extends string & keyof T>(
     list: T[],
     active?: K,
-    direction?: SortDirection
+    direction?: SortDirection,
   ): T[] {
     if (list.length > 0 && active && direction !== undefined) {
       const isAsc: boolean = direction === 'asc';
@@ -49,7 +49,7 @@ export class Utils {
   static filterByFields<T>(
     items: T[],
     field: string & keyof T,
-    value: string
+    value: string,
   ): T[] {
     if (!items || items === undefined) {
       return [] as T[];
@@ -83,7 +83,7 @@ export class Utils {
   static paginate<T>(list: T[], page: PageEvent): T[] {
     return list.slice(
       page.pageIndex * page.pageSize,
-      (page.pageIndex + 1) * page.pageSize
+      (page.pageIndex + 1) * page.pageSize,
     );
   }
 }

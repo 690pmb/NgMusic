@@ -13,10 +13,12 @@ export class ConfigurationService {
   load(): Observable<Configuration> {
     return this.configuration
       ? of(this.configuration)
-      : from(fetch('./assets/configuration.json').then(res => res.json())).pipe(
+      : from(
+          window.fetch('./assets/configuration.json').then(res => res.json()),
+        ).pipe(
           tap((configuration: Configuration) => {
             this.configuration = configuration;
-          })
+          }),
         );
   }
 

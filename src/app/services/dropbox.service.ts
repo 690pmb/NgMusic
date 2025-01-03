@@ -12,7 +12,7 @@ export class DropboxService {
 
   constructor(
     private serviceUtils: UtilsService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
   ) {
     this.listFiles().subscribe(f => this.files.set(f));
   }
@@ -31,7 +31,7 @@ export class DropboxService {
     return from(
       this.getDbx().filesListFolder({
         path: DropboxConstant.DROPBOX_FOLDER,
-      })
+      }),
     ).pipe(
       map(response => response.result),
       catchError((err: unknown) => {
@@ -45,7 +45,7 @@ export class DropboxService {
         } else {
           return this.serviceUtils.handleError(err, 'Error when listing files');
         }
-      })
+      }),
     );
   }
 
@@ -53,7 +53,7 @@ export class DropboxService {
     return from(
       this.getDbx().filesDownload({
         path: DropboxService.getPath(fileName),
-      })
+      }),
     ).pipe(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
       switchMap((response: any) => {
@@ -73,9 +73,9 @@ export class DropboxService {
       catchError(err =>
         this.serviceUtils.handleError(
           err,
-          `Error when downloading file ${fileName}`
-        )
-      )
+          `Error when downloading file ${fileName}`,
+        ),
+      ),
     );
   }
 }

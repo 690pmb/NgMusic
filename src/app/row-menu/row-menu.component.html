@@ -5,11 +5,11 @@
   [matMenuTriggerData]="{composition}"
   (click)="$event.stopImmediatePropagation()"
 >
-  <fa-icon [icon]="['fas', 'ellipsis-vertical']"></fa-icon>
+  <fa-icon [icon]="['fas', 'ellipsis-vertical']" />
 </button>
 
 <mat-menu #menu="matMenu">
   <ng-template let-composition="composition" matMenuContent>
-    <app-menu [composition]="composition"></app-menu>
+    <app-menu [composition]="composition" />
   </ng-template>
 </mat-menu>

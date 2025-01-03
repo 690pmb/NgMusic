@@ -5,20 +5,20 @@
         placeholder="Chercher un auteur"
         [control]="filters.controls.author"
         [options]="authors"
-      ></app-filter-select>
+      />
       <app-filter-input
         placeholder="Chercher un nom"
         [control]="filters.controls.name"
-      ></app-filter-input>
+      />
       <app-filter-select
         placeholder="Type"
         [control]="filters.controls.type"
         [options]="types"
-      ></app-filter-select>
+      />
       <!-- Delete filter -->
       <span class="filter-checkbox">
         <div>Supprimé:</div>
-        <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
+        <mat-checkbox [formControl]="filters.controls.deleted" />
       </span>
     </div>
     <div class="filters">
@@ -27,15 +27,15 @@
         [control]="filters.controls.category"
         [options]="catList"
         [multiple]="true"
-      ></app-filter-select>
+      />
       <app-filter-year
         placeholder="Année de début"
         [control]="filters.controls.begin"
-      ></app-filter-year>
+      />
       <app-filter-year
         placeholder="Année de fin"
         [control]="filters.controls.end"
-      ></app-filter-year>
+      />
       @if (
         filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
       ) {
@@ -46,7 +46,7 @@
       <!-- TOP 10 filter -->
       <span class="filter-checkbox filter-top">
         <div>Top 10:</div>
-        <mat-checkbox [formControl]="filters.controls.top"> </mat-checkbox>
+        <mat-checkbox [formControl]="filters.controls.top" />
       </span>
     </div>
   </div>
@@ -60,7 +60,7 @@
     [matRippleCentered]="true"
     [matRippleUnbounded]="true"
     (click)="filters.reset()"
-  ></fa-icon>
+  />
 </div>
 <app-paginator id="fichier" (changed)="onPaginateChange()" />
 <!-- Table -->
@@ -153,7 +153,7 @@
     <mat-cell *matCellDef="let fichier">
       @if (fichier.sorted) {
         <div>
-          <fa-icon [icon]="faCheck"></fa-icon>
+          <fa-icon [icon]="faCheck" />
         </div>
       }
     </mat-cell>
@@ -204,22 +204,19 @@
                       </div>
                     }
                     @if (column === 'menu') {
-                      <app-row-menu [composition]="compo"></app-row-menu>
+                      <app-row-menu [composition]="compo" />
                     }
                   </mat-cell>
                 </ng-container>
               </div>
             }
-            <mat-header-row
-              *matHeaderRowDef="displayedColumnsComposition"
-            ></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumnsComposition" />
             <mat-row
               *matRowDef="let compoRow; columns: displayedColumnsComposition"
               [appRowAction]="compoRow"
               [isMobile]="!isDesktop"
               [ngClass]="{deleted: compoRow.deleted === 1}"
-            >
-            </mat-row>
+            />
           </mat-table>
           <app-paginator
             id="composition"
@@ -230,21 +227,20 @@
     </td>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-header-row *matHeaderRowDef="displayedColumns" />
   <mat-row
     *matRowDef="let element; let i = dataIndex; columns: displayedColumns"
     class="example-element-row"
     [ngClass]="{even: i % 2 === 0, odd: i % 2 === 1}"
     [class.example-expanded-row]="expandedElement === element"
     (click)="expand(element)"
-  >
-  </mat-row>
+  />
   <mat-row
     *matRowDef="let row; let i = dataIndex; columns: [expandedColumn]"
     class="example-detail-row"
     [ngClass]="{even: i % 2 === 0, odd: i % 2 === 1}"
-  ></mat-row>
+  />
 </mat-table>
 <app-paginator id="fichier" class="bottom" (changed)="onPaginateChange()" />
 
-<app-go-to-top></app-go-to-top>
+<app-go-to-top />

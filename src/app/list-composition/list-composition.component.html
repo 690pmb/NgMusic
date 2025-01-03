@@ -5,20 +5,20 @@
       <app-filter-input
         placeholder="Chercher un artiste"
         [control]="filters.controls.artist"
-      ></app-filter-input>
+      />
       <app-filter-input
         placeholder="Chercher un titre"
         [control]="filters.controls.title"
-      ></app-filter-input>
+      />
       <app-filter-select
         placeholder="Type"
         [control]="filters.controls.type"
         [options]="types"
-      ></app-filter-select>
+      />
       <!-- Delete filter -->
       <span class="filter-checkbox">
         <div>Supprimé:</div>
-        <mat-checkbox [formControl]="filters.controls.deleted"> </mat-checkbox>
+        <mat-checkbox [formControl]="filters.controls.deleted" />
       </span>
     </div>
     <!-- Fichier Filters -->
@@ -26,21 +26,21 @@
       <app-filter-input
         placeholder="Chercher un fichier"
         [control]="filters.controls.filename"
-      ></app-filter-input>
+      />
       <app-filter-select
         placeholder="Catégorie"
         [control]="filters.controls.category"
         [options]="catList"
         [multiple]="true"
-      ></app-filter-select>
+      />
       <app-filter-year
         placeholder="Année de début"
         [control]="filters.controls.begin"
-      ></app-filter-year>
+      />
       <app-filter-year
         placeholder="Année de fin"
         [control]="filters.controls.end"
-      ></app-filter-year>
+      />
     </div>
     @if (
       filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
@@ -60,7 +60,7 @@
     [matRippleCentered]="true"
     [matRippleUnbounded]="true"
     (click)="filters.reset()"
-  ></fa-icon>
+  />
 </div>
 <app-paginator (changed)="onPaginateChange()" />
 
@@ -135,7 +135,7 @@
       <span class="mat-text">Menu</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let compo">
-      <app-row-menu [composition]="compo"></app-row-menu>
+      <app-row-menu [composition]="compo" />
     </mat-cell>
   </ng-container>
 
@@ -173,23 +173,18 @@
                 </ng-container>
               </div>
             }
-            <mat-header-row
-              *matHeaderRowDef="displayedColumnsFichier"
-            ></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumnsFichier" />
             <mat-row
               *matRowDef="let fileRow; columns: displayedColumnsFichier"
               [ngClass]="{sorted: fileRow.sorted === 1}"
-            >
-            </mat-row>
+            />
           </mat-table>
         }
       </div>
     </td>
   </ng-container>
 
-  <mat-header-row
-    *matHeaderRowDef="displayedColumnsComposition"
-  ></mat-header-row>
+  <mat-header-row *matHeaderRowDef="displayedColumnsComposition" />
   <mat-row
     *matRowDef="
       let element;
@@ -202,22 +197,21 @@
     [ngClass]="{
       deleted: element.deleted === 1,
       even: i % 2 === 0,
-      odd: i % 2 === 1
+      odd: i % 2 === 1,
     }"
     [class.example-expanded-row]="expandedElement === element"
     (click)="expand(element)"
-  >
-  </mat-row>
+  />
   <mat-row
     *matRowDef="let row; let i = dataIndex; columns: [expandedColumn]"
     class="example-detail-row"
     [ngClass]="{
       deleted: row.deleted === 1,
       even: i % 2 === 0,
-      odd: i % 2 === 1
+      odd: i % 2 === 1,
     }"
-  ></mat-row>
+  />
 </mat-table>
 <app-paginator class="bottom" (changed)="onPaginateChange()" />
 
-<app-go-to-top></app-go-to-top>
+<app-go-to-top />
