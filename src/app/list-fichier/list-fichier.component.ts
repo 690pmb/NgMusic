@@ -37,13 +37,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatRippleModule} from '@angular/material/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {
-  NgIf,
-  NgFor,
-  NgClass,
-  DecimalPipe,
-  TitleCasePipe,
-} from '@angular/common';
+import {NgClass, DecimalPipe, TitleCasePipe} from '@angular/common';
 import {FilterYearComponent} from '../filter-year/filter-year.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FilterInputComponent} from '../filter-input/filter-input.component';
@@ -90,13 +84,11 @@ import {PAGINATOR} from '@utils/paginator.token';
     FormsModule,
     ReactiveFormsModule,
     FilterYearComponent,
-    NgIf,
     MatPaginatorModule,
     FontAwesomeModule,
     MatRippleModule,
     MatTableModule,
     MatSortModule,
-    NgFor,
     PaginatorComponent,
     RowMenuComponent,
     RowActionDirective,
@@ -223,11 +215,10 @@ export class ListFichierComponent
             ))
         )
       )
-      .subscribe(
-        () =>
-          this.fichierPaginator?.updatePage({
-            length: this.dataList.length,
-          })
+      .subscribe(() =>
+        this.fichierPaginator?.updatePage({
+          length: this.dataList.length,
+        })
       );
   }
 
@@ -274,8 +265,8 @@ export class ListFichierComponent
       );
     }
     if (controls.category.value.length > 0) {
-      result = result.filter(
-        f => controls.category.value?.includes(f.category)
+      result = result.filter(f =>
+        controls.category.value?.includes(f.category)
       );
     }
     result = this.filterComposition(result);
@@ -375,10 +366,5 @@ export class ListFichierComponent
         this.navigationService.fichier.set({publish: data.publish});
       }
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  trackByFn(_index: number, item: string): string {
-    return item;
   }
 }

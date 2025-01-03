@@ -1,13 +1,12 @@
-<ng-container *ngIf="menuService.wiki.obs$ | async">
-  <ng-container *ngFor="let btn of buttons; trackBy: trackByFn">
-    <ng-container *ngIf="isButton; else isMenu">
+@if (menuService.wiki.obs$ | async) {
+  @for (btn of buttons; track btn.$implicit.text) {
+    @if (isButton) {
       <ng-container *ngTemplateOutlet="button; context: btn"> </ng-container>
-    </ng-container>
-    <ng-template #isMenu>
+    } @else {
       <ng-container *ngTemplateOutlet="menu; context: btn"> </ng-container>
-    </ng-template>
-  </ng-container>
-</ng-container>
+    }
+  }
+}
 
 <ng-template #menu let-data>
   <button mat-menu-item type="button">

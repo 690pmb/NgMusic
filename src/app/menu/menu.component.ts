@@ -5,7 +5,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {MatMenuModule} from '@angular/material/menu';
-import {NgIf, NgFor, NgTemplateOutlet, AsyncPipe} from '@angular/common';
+import {NgTemplateOutlet, AsyncPipe} from '@angular/common';
 
 export type MenuButton = Record<
   '$implicit',
@@ -18,8 +18,6 @@ export type MenuButton = Record<
   styleUrls: ['./menu.component.scss'],
   standalone: true,
   imports: [
-    NgIf,
-    NgFor,
     NgTemplateOutlet,
     MatMenuModule,
     FontAwesomeModule,
@@ -67,10 +65,5 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.menuService.wiki.set('');
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  trackByFn(_index: number, button: MenuButton): string {
-    return button.$implicit.text;
   }
 }

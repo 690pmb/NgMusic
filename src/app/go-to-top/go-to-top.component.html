@@ -1,12 +1,13 @@
-<fa-icon
-  *ngIf="!hide"
-  matRipple
-  matRippleColor="var(--purple)"
-  size="6x"
-  class="go-top pointer"
-  [matRippleRadius]="46"
-  [matRippleCentered]="true"
-  [matRippleUnbounded]="true"
-  [icon]="['fas', 'angle-up']"
-  (click)="goTop()"
-></fa-icon>
+@if (!hide) {
+  <fa-icon
+    matRipple
+    matRippleColor="var(--purple)"
+    size="6x"
+    class="go-top pointer"
+    [matRippleRadius]="46"
+    [matRippleCentered]="true"
+    [matRippleUnbounded]="true"
+    [icon]="['fas', 'angle-up']"
+    (click)="goTop()"
+  ></fa-icon>
+}

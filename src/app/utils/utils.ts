@@ -16,10 +16,10 @@ export class Utils {
             (a.decile < b.decile
               ? -1
               : a.decile > b.decile
-              ? 1
-              : a.score < b.score
-              ? -1
-              : 1) * (isAsc ? 1 : -1)
+                ? 1
+                : a.score < b.score
+                  ? -1
+                  : 1) * (isAsc ? 1 : -1)
           );
         } else {
           return Utils.sortFields<T, K>(a, active, b, isAsc);

@@ -1,4 +1,4 @@
-import {AsyncPipe, NgIf} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -18,7 +18,7 @@ import {map} from 'rxjs';
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss'],
   standalone: true,
-  imports: [MatPaginatorModule, NgIf, AsyncPipe],
+  imports: [MatPaginatorModule, AsyncPipe],
 })
 export class PaginatorComponent implements OnInit {
   @Input()

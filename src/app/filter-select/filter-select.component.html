@@ -4,11 +4,11 @@
     [formControl]="control"
     [multiple]="multiple ? '' : null"
   >
-    <mat-option *ngIf="!multiple" [value]="undefined"></mat-option>
-    <mat-option
-      *ngFor="let option of options; trackBy: trackByFn"
-      [value]="option.code"
-      >{{ option.label }}</mat-option
-    >
+    @if (!multiple) {
+      <mat-option [value]="undefined"></mat-option>
+    }
+    @for (option of options; track option.code) {
+      <mat-option [value]="option.code">{{ option.label }}</mat-option>
+    }
   </mat-select>
 </mat-form-field>

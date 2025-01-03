@@ -1,4 +1,4 @@
-<ng-container *ngIf="navigationService.tab.obs$ | async as tab">
+@if (navigationService.tab.obs$ | async; as tab) {
   <div class="tab">
     <button
       type="button"
@@ -22,4 +22,4 @@
   <div class="tabcontent" [ngClass]="{active: tab === 'Fichier'}">
     <app-list-fichier></app-list-fichier>
   </div>
-</ng-container>
+}

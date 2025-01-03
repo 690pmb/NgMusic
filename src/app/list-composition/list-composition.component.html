@@ -42,14 +42,13 @@
         [control]="filters.controls.end"
       ></app-filter-year>
     </div>
-    <div
-      *ngIf="
-        filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
-      "
-      class="mat-mdc-form-field-error years-error"
-    >
-      L'année de fin doit être supérieure à l'année de début
-    </div>
+    @if (
+      filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
+    ) {
+      <div class="mat-mdc-form-field-error years-error">
+        L'année de fin doit être supérieure à l'année de début
+      </div>
+    }
   </div>
   <fa-icon
     class="reset-btn pointer"
@@ -150,39 +149,40 @@
     >
       <div class="example-element-detail">
         <!-- eslint-disable @angular-eslint/template/no-any -->
-        <mat-table
-          *ngIf="compo === expandedElement"
-          matSort
-          [dataSource]="displayedFichier"
-          [matSortActive]="'rank'"
-          [matSortDirection]="'desc'"
-          (matSortChange)="onSortFichier($any($event))"
-        >
-          <!-- eslint-enable @angular-eslint/template/no-any -->
-          <div
-            *ngFor="let column of displayedColumnsFichier; trackBy: trackByFn"
+        @if (compo === expandedElement) {
+          <mat-table
+            matSort
+            [dataSource]="displayedFichier"
+            [matSortActive]="'rank'"
+            [matSortDirection]="'desc'"
+            (matSortChange)="onSortFichier($any($event))"
           >
-            <ng-container [matColumnDef]="column">
-              <mat-header-cell *matHeaderCellDef mat-sort-header>
-                <span class="mat-text">{{ column | upperFirst }}</span>
-              </mat-header-cell>
-              <mat-cell
-                *matCellDef="let fichier"
-                (click)="switchTab(fichier, column)"
-              >
-                {{ fichier[column] | title: true }}
-              </mat-cell>
-            </ng-container>
-          </div>
-          <mat-header-row
-            *matHeaderRowDef="displayedColumnsFichier"
-          ></mat-header-row>
-          <mat-row
-            *matRowDef="let fileRow; columns: displayedColumnsFichier"
-            [ngClass]="{sorted: fileRow.sorted === 1}"
-          >
-          </mat-row>
-        </mat-table>
+            <!-- eslint-enable @angular-eslint/template/no-any -->
+            @for (column of displayedColumnsFichier; track column) {
+              <div>
+                <ng-container [matColumnDef]="column">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span class="mat-text">{{ column | upperFirst }}</span>
+                  </mat-header-cell>
+                  <mat-cell
+                    *matCellDef="let fichier"
+                    (click)="switchTab(fichier, column)"
+                  >
+                    {{ fichier[column] | title: true }}
+                  </mat-cell>
+                </ng-container>
+              </div>
+            }
+            <mat-header-row
+              *matHeaderRowDef="displayedColumnsFichier"
+            ></mat-header-row>
+            <mat-row
+              *matRowDef="let fileRow; columns: displayedColumnsFichier"
+              [ngClass]="{sorted: fileRow.sorted === 1}"
+            >
+            </mat-row>
+          </mat-table>
+        }
       </div>
     </td>
   </ng-container>

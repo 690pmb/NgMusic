@@ -36,14 +36,13 @@
         placeholder="Année de fin"
         [control]="filters.controls.end"
       ></app-filter-year>
-      <div
-        *ngIf="
-          filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
-        "
-        class="mat-mdc-form-field-error years-error"
-      >
-        L'année de fin doit être supérieure à l'année de début
-      </div>
+      @if (
+        filters.errors?.['invalidYears'] && (filters.touched || filters.dirty)
+      ) {
+        <div class="mat-mdc-form-field-error years-error">
+          L'année de fin doit être supérieure à l'année de début
+        </div>
+      }
       <!-- TOP 10 filter -->
       <span class="filter-checkbox filter-top">
         <div>Top 10:</div>
@@ -152,9 +151,11 @@
       <span class="mat-text">Trié</span>
     </mat-header-cell>
     <mat-cell *matCellDef="let fichier">
-      <div *ngIf="fichier.sorted">
-        <fa-icon [icon]="faCheck"></fa-icon>
-      </div>
+      @if (fichier.sorted) {
+        <div>
+          <fa-icon [icon]="faCheck"></fa-icon>
+        </div>
+      }
     </mat-cell>
   </ng-container>
 
@@ -169,7 +170,7 @@
       "
     >
       <div class="example-element-detail">
-        <ng-container *ngIf="fichier === expandedElement">
+        @if (fichier === expandedElement) {
           <app-paginator
             id="composition"
             (changed)="onPaginateCompositionChange()"
@@ -183,35 +184,32 @@
             (matSortChange)="onSortComposition($any($event))"
           >
             <!-- eslint-enable @angular-eslint/template/no-any -->
-            <div
-              *ngFor="
-                let column of displayedColumnsComposition;
-                trackBy: trackByFn
-              "
-            >
-              <ng-container [matColumnDef]="column">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>
-                  <span class="mat-text">{{ column | titlecase }}</span>
-                </mat-header-cell>
-                <mat-cell
-                  *matCellDef="let compo"
-                  (click)="switchTab(compo, column)"
-                >
-                  <ng-container *ngIf="!['score', 'menu'].includes(column)">
-                    {{ compo[column] }}
-                  </ng-container>
-                  <ng-container *ngIf="column === 'score'"
-                    >{{ compo.score | number: '1.0-0' : 'fr' }}
-                    <div [class]="'decile-' + compo.decile">
-                      ({{ compo.decile }})
-                    </div>
-                  </ng-container>
-                  <ng-container *ngIf="column === 'menu'">
-                    <app-row-menu [composition]="compo"></app-row-menu>
-                  </ng-container>
-                </mat-cell>
-              </ng-container>
-            </div>
+            @for (column of displayedColumnsComposition; track column) {
+              <div>
+                <ng-container [matColumnDef]="column">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <span class="mat-text">{{ column | titlecase }}</span>
+                  </mat-header-cell>
+                  <mat-cell
+                    *matCellDef="let compo"
+                    (click)="switchTab(compo, column)"
+                  >
+                    @if (!['score', 'menu'].includes(column)) {
+                      {{ compo[column] }}
+                    }
+                    @if (column === 'score') {
+                      {{ compo.score | number: '1.0-0' : 'fr' }}
+                      <div [class]="'decile-' + compo.decile">
+                        ({{ compo.decile }})
+                      </div>
+                    }
+                    @if (column === 'menu') {
+                      <app-row-menu [composition]="compo"></app-row-menu>
+                    }
+                  </mat-cell>
+                </ng-container>
+              </div>
+            }
             <mat-header-row
               *matHeaderRowDef="displayedColumnsComposition"
             ></mat-header-row>
@@ -227,7 +225,7 @@
             id="composition"
             (changed)="onPaginateCompositionChange()"
           />
-        </ng-container>
+        }
       </div>
     </td>
   </ng-container>

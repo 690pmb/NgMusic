@@ -34,7 +34,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatRippleModule} from '@angular/material/core';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import {NgIf, NgFor, NgClass, DecimalPipe} from '@angular/common';
+import {NgClass, DecimalPipe} from '@angular/common';
 import {FilterYearComponent} from '../filter-year/filter-year.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FilterSelectComponent} from '../filter-select/filter-select.component';
@@ -76,13 +76,11 @@ import {PAGINATOR} from '@utils/paginator.token';
     FormsModule,
     ReactiveFormsModule,
     FilterYearComponent,
-    NgIf,
     FontAwesomeModule,
     MatRippleModule,
     MatTableModule,
     MatSortModule,
     RowMenuComponent,
-    NgFor,
     NgClass,
     RowActionDirective,
     GoToTopComponent,
@@ -319,10 +317,5 @@ export class ListCompositionComponent
     } else if (column === 'artist' && isComposition(data)) {
       this.navigationService.composition.set({artist: data.artist});
     }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  trackByFn(_index: number, item: string): string {
-    return item;
   }
 }

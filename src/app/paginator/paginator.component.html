@@ -1,14 +1,13 @@
-<div
-  *ngIf="paginatorService.page$.obs$ | async as page"
-  class="paginator mat-elevation-z4"
->
-  <mat-paginator
-    [length]="page.length"
-    [pageIndex]="page.pageIndex"
-    [pageSize]="page.pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    [showFirstLastButtons]="true"
-    (page)="onPage($event)"
-  >
-  </mat-paginator>
-</div>
+@if (paginatorService.page$.obs$ | async; as page) {
+  <div class="paginator mat-elevation-z4">
+    <mat-paginator
+      [length]="page.length"
+      [pageIndex]="page.pageIndex"
+      [pageSize]="page.pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true"
+      (page)="onPage($event)"
+    >
+    </mat-paginator>
+  </div>
+}
