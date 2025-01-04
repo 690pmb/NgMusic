@@ -21,7 +21,7 @@ import {
 import {Utils} from '@utils/utils';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
-import {ListDirective} from '../list/list.component';
+import {ListDirective} from '../list/list.directive';
 import {DexieService} from '@services/dexie.service';
 import {Dropbox} from '@utils/dropbox';
 import {yearsValidator} from '@utils/year.validator';

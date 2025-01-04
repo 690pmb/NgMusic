@@ -1,4 +1,4 @@
-@use 'list.component' as *;
+@use 'list.directive' as *;
 
 @include link('title');
 @include link('artist');

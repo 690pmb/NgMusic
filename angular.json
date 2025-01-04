@@ -17,6 +17,7 @@
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
             "allowedCommonJsDependencies": ["xml2js", "dropbox", "jszip"],
+            "externalDependencies": ["crypto"],
             "assets": [
               "src/assets",
               "src/favicon.png",

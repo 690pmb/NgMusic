@@ -92,6 +92,5 @@
     "*.{ts, html}": "eslint --max-warnings 0 --fix",
     "*": "prettier --ignore-unknown --write",
     "*.scss": "stylelint --fix"
-  },
-  "packageManager": "pnpm@9.15.2"
+  }
 }

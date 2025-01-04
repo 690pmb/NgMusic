@@ -4,7 +4,7 @@ import {of, switchMap} from 'rxjs';
 import {catchError, skipWhile, tap} from 'rxjs/operators';
 import {MatPaginatorModule, PageEvent} from '@angular/material/paginator';
 
-import {ListDirective} from '../list/list.component';
+import {ListDirective} from '../list/list.directive';
 import {
   Fichier,
   Composition,
