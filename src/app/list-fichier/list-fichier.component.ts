@@ -13,6 +13,7 @@ import {
   Dropdown,
   isComposition,
   isFichier,
+  CompositionLight,
 } from '@utils/model';
 import {DataService} from '@services/data.service';
 import {UtilsService} from '@services/utils.service';
@@ -122,9 +123,9 @@ export class ListFichierComponent
   ];
 
   override displayedColumnsComposition = [...this.compositionColumns];
-  expandedCompositions: Composition[] = [];
-  displayedCompositions: Composition[] = [];
-  sortComposition?: Sort<Composition>;
+  expandedCompositions: CompositionLight[] = [];
+  displayedCompositions: CompositionLight[] = [];
+  sortComposition?: Sort<CompositionLight>;
   faCheck = faCheck;
   expandedColumn = 'compositions';
   authors!: Dropdown[];
@@ -318,7 +319,7 @@ export class ListFichierComponent
     }
   }
 
-  onSortComposition(sort: Sort<Composition>): void {
+  onSortComposition(sort: Sort<CompositionLight>): void {
     if (this.expandedElement) {
       this.sortComposition = sort;
       this.expandedElement = this.filterComposition([this.expandedElement])[0];

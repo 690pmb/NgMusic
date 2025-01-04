@@ -64,6 +64,7 @@ export class DropboxService {
             observer.error(new DOMException('Problem parsing input file.'));
           };
           fileReader.onload = () =>
+            // eslint-disable-next-line @typescript-eslint/no-base-to-string
             observer.next(fileReader?.result?.toString() ?? '');
           fileReader.onloadend = () => observer.complete();
           // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

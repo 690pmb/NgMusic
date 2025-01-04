@@ -1,4 +1,4 @@
-import {Dexie, BulkError} from 'dexie';
+import {Dexie, BulkError, UpdateSpec} from 'dexie';
 import {Observable, from} from 'rxjs';
 
 export class Table<T> {
@@ -20,7 +20,7 @@ export class Table<T> {
     return from(this.dexie.get(key));
   }
 
-  update(key: number, changes: Record<string, string>): Observable<number> {
+  update(key: number, changes: UpdateSpec<T>): Observable<number> {
     return from(this.dexie.update(key, changes));
   }
 

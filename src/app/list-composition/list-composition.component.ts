@@ -12,6 +12,7 @@ import {
 import {
   Composition,
   Fichier,
+  FichierLight,
   Field,
   Sort,
   isComposition,
@@ -102,7 +103,7 @@ export class ListCompositionComponent
   ];
 
   override displayedColumnsComposition = [...this.compositionColumns];
-  displayedColumnsFichier: Field<Fichier>[] = [
+  displayedColumnsFichier: Field<FichierLight>[] = [
     'name',
     'category',
     'rangeBegin',
@@ -111,8 +112,8 @@ export class ListCompositionComponent
     'size',
   ];
 
-  displayedFichier = new BehaviorSubject<Fichier[]>([]);
-  sortFichier?: Sort<Fichier>;
+  displayedFichier = new BehaviorSubject<FichierLight[]>([]);
+  sortFichier?: Sort<FichierLight>;
   expandedColumn = 'details';
   // Filters
   filters = new FormGroup<{
@@ -296,7 +297,7 @@ export class ListCompositionComponent
     }
   }
 
-  onSortFichier(sort?: Sort<Fichier>): void {
+  onSortFichier(sort?: Sort<FichierLight>): void {
     if (this.expandedElement) {
       this.sortFichier = sort;
       this.expandedElement = this.filterOnFichier([this.expandedElement])[0];

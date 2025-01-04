@@ -1,9 +1,9 @@
 import {PageEvent} from '@angular/material/paginator';
 import {SortDirection} from '@angular/material/sort';
-import {Composition, Fichier, isComposition} from './model';
+import {All, isComposition} from './model';
 
 export class Utils {
-  static sort<T extends Composition | Fichier, K extends string & keyof T>(
+  static sort<T extends All, K extends string & keyof T>(
     list: T[],
     active?: K,
     direction?: SortDirection,
@@ -30,10 +30,12 @@ export class Utils {
     }
   }
 
-  private static sortFields<
-    T extends Composition | Fichier,
-    K extends string & keyof T,
-  >(a: T, active: K, b: T, isAsc: boolean): number {
+  private static sortFields<T extends All, K extends string & keyof T>(
+    a: T,
+    active: K,
+    b: T,
+    isAsc: boolean,
+  ): number {
     let A;
     let B;
     if (typeof a[active] === 'string') {

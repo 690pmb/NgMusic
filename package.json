@@ -46,7 +46,7 @@
     "@fortawesome/free-solid-svg-icons": "~6.7.2",
     "core-js": "3.39.0",
     "crypto-browserify": "^3.12.1",
-    "dexie": "~3.2.7",
+    "dexie": "~4.0.10",
     "dropbox": "10.34.0",
     "jszip": "3.10.1",
     "luxon": "~3.5.0",
