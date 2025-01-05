@@ -57,7 +57,7 @@
     "util": "^0.12.5",
     "xml2js": "0.6.2",
     "xmlbuilder": "15.1.1",
-    "zone.js": "0.14.10"
+    "zone.js": "0.15.0"
   },
   "devDependencies": {
     "@angular-eslint/eslint-plugin": "~17.5.3",
