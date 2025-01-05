@@ -42,8 +42,8 @@ importers:
         specifier: ~17.3.12
         version: 17.3.12(@angular/common@17.3.12(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
       '@fortawesome/angular-fontawesome':
-        specifier: ~0.14.1
-        version: 0.14.1(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@fortawesome/fontawesome-svg-core@6.7.2)
+        specifier: ~0.15.0
+        version: 0.15.0(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))
       '@fortawesome/fontawesome-common-types':
         specifier: ~6.7.2
         version: 6.7.2
@@ -1324,11 +1324,10 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-  '@fortawesome/angular-fontawesome@0.14.1':
-    resolution: {integrity: sha512-Yb5HLiEOAxjSLEcaOM51CKIrzdfvoDafXVJERm9vufxfZkVZPZJgrZRgqwLVpejgq4/Ez6TqHZ6SqmJwdtRF6g==}
+  '@fortawesome/angular-fontawesome@0.15.0':
+    resolution: {integrity: sha512-oxmJDYGNSym5ycFR0LX4ZOPAU+wWmMAznYpkm5DNAtWWkhMLcrZl15eZQmVIEE+qruQ7JiVrg3tpo8bEkFlDgw==}
     peerDependencies:
-      '@angular/core': ^17.0.0
-      '@fortawesome/fontawesome-svg-core': ~1.2.27 || ~1.3.0-beta2 || ^6.1.0
+      '@angular/core': ^18.0.0
 
   '@fortawesome/fontawesome-common-types@6.7.2':
     resolution: {integrity: sha512-Zs+YeHUC5fkt7Mg1l6XTniei3k4bwG/yo3iFUtZWd/pMx9g3fdvkSK9E0FOC+++phXOka78uJcYb8JaFkW52Xg==}
@@ -7152,7 +7151,7 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@fortawesome/angular-fontawesome@0.14.1(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))(@fortawesome/fontawesome-svg-core@6.7.2)':
+  '@fortawesome/angular-fontawesome@0.15.0(@angular/core@17.3.12(rxjs@7.8.1)(zone.js@0.14.10))':
     dependencies:
       '@angular/core': 17.3.12(rxjs@7.8.1)(zone.js@0.14.10)
       '@fortawesome/fontawesome-svg-core': 6.7.2
