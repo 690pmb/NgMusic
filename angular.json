@@ -16,7 +16,7 @@
             "main": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "polyfills": "src/polyfills.ts",
-            "allowedCommonJsDependencies": ["xml2js"],
+            "allowedCommonJsDependencies": ["xml2js", "dropbox", "jszip"],
             "externalDependencies": ["crypto"],
             "assets": [
               "src/assets",
@@ -76,18 +76,12 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-music:build"
+            "buildTarget": "ng-music:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-music:build:production"
+              "buildTarget": "ng-music:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ng-music:build"
           }
         }
       }

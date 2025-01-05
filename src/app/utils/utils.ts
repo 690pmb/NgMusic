@@ -1,12 +1,12 @@
 import {PageEvent} from '@angular/material/paginator';
 import {SortDirection} from '@angular/material/sort';
-import {Composition, Fichier, isComposition} from './model';
+import {All, isComposition} from './model';
 
 export class Utils {
-  static sort<T extends Composition | Fichier, K extends string & keyof T>(
+  static sort<T extends All, K extends string & keyof T>(
     list: T[],
     active?: K,
-    direction?: SortDirection
+    direction?: SortDirection,
   ): T[] {
     if (list.length > 0 && active && direction !== undefined) {
       const isAsc: boolean = direction === 'asc';
@@ -16,10 +16,10 @@ export class Utils {
             (a.decile < b.decile
               ? -1
               : a.decile > b.decile
-              ? 1
-              : a.score < b.score
-              ? -1
-              : 1) * (isAsc ? 1 : -1)
+                ? 1
+                : a.score < b.score
+                  ? -1
+                  : 1) * (isAsc ? 1 : -1)
           );
         } else {
           return Utils.sortFields<T, K>(a, active, b, isAsc);
@@ -30,10 +30,12 @@ export class Utils {
     }
   }
 
-  private static sortFields<
-    T extends Composition | Fichier,
-    K extends string & keyof T,
-  >(a: T, active: K, b: T, isAsc: boolean): number {
+  private static sortFields<T extends All, K extends string & keyof T>(
+    a: T,
+    active: K,
+    b: T,
+    isAsc: boolean,
+  ): number {
     let A;
     let B;
     if (typeof a[active] === 'string') {
@@ -49,7 +51,7 @@ export class Utils {
   static filterByFields<T>(
     items: T[],
     field: string & keyof T,
-    value: string
+    value: string,
   ): T[] {
     if (!items || items === undefined) {
       return [] as T[];
@@ -83,7 +85,7 @@ export class Utils {
   static paginate<T>(list: T[], page: PageEvent): T[] {
     return list.slice(
       page.pageIndex * page.pageSize,
-      (page.pageIndex + 1) * page.pageSize
+      (page.pageIndex + 1) * page.pageSize,
     );
   }
 }

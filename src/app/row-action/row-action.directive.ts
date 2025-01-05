@@ -22,39 +22,39 @@ export class RowActionDirective implements AfterViewInit {
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,
-    private dialog: MatDialog
+    private dialog: MatDialog,
   ) {}
 
   ngAfterViewInit(): void {
     let out = true;
     const touchStart$ = fromEvent<TouchEvent>(
       this.elementRef.nativeElement,
-      'touchstart'
+      'touchstart',
     ).pipe(
       tap(() => (out = true)),
       debounceTime(this.threshold),
-      map(() => true)
+      map(() => true),
     );
     const touchEnd$ = fromEvent<TouchEvent>(
       this.elementRef.nativeElement,
-      'touchend'
+      'touchend',
     ).pipe(map(() => false));
     const touchLeave$ = fromEvent<TouchEvent>(
       this.elementRef.nativeElement,
-      'touchleave'
+      'touchleave',
     ).pipe(map(() => false));
 
     merge(touchStart$, touchLeave$, touchEnd$)
       .pipe(
         tap(v => (out = out && v)),
-        filter(() => out && this.isMobile)
+        filter(() => out && this.isMobile),
       )
       .subscribe(() => {
         this.dialog.open<MenuDialogComponent, MenuDialogData>(
           MenuDialogComponent,
           {
             data: {composition: this.appRowAction},
-          }
+          },
         );
       });
   }

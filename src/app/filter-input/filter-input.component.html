@@ -7,11 +7,9 @@
       [formControl]="control"
     />
   </mat-form-field>
-  <span
-    *ngIf="!!control.value"
-    class="pointer clear-btn"
-    (click)="control.setValue('')"
-  >
-    <fa-icon [icon]="['far', 'times-circle']"></fa-icon>
-  </span>
+  @if (!!control.value) {
+    <span class="pointer clear-btn" (click)="control.setValue('')">
+      <fa-icon [icon]="['far', 'times-circle']" />
+    </span>
+  }
 </div>

@@ -4,7 +4,7 @@ import {Utils} from '@utils/utils';
 import {UtilsService} from '@services/utils.service';
 import {PaginatorService} from '@services/paginator.service';
 
-@Directive()
+@Directive({standalone: true})
 export abstract class ListDirective<T> implements OnInit {
   dataList: T[] = [];
   displayedData: T[] = [];
@@ -31,7 +31,7 @@ export abstract class ListDirective<T> implements OnInit {
 
   constructor(
     protected utilsService: UtilsService,
-    protected paginatorService: PaginatorService
+    protected paginatorService: PaginatorService,
   ) {}
 
   ngOnInit(): void {
@@ -67,8 +67,8 @@ export abstract class ListDirective<T> implements OnInit {
       p =>
         (this.displayedData = Utils.paginate(
           this.sortList(this.filter(this.dataList, firstPage)),
-          p
-        ))
+          p,
+        )),
     );
   }
 }

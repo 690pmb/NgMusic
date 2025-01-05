@@ -2,7 +2,8 @@
   "extends": [
     "stylelint-config-standard",
     "stylelint-config-sass-guidelines",
-    "stylelint-config-standard-scss"
+    "stylelint-config-standard-scss",
+    "@stylistic/stylelint-config"
   ],
   "ignoreFiles": ["./src/app/styles/font-awesome.min.scss"],
   "rules": {
@@ -17,9 +18,16 @@
     ],
     "color-hex-length": "short",
     "max-nesting-depth": 2,
+    "@stylistic/string-quotes": "single",
     "no-empty-source": null,
-    "at-rule-empty-line-before": null,
-    "at-rule-no-unknown": null,
+    "at-rule-empty-line-before": [
+      "always",
+      {"except": ["after-same-name", "inside-block"]}
+    ],
+    "@stylistic/block-closing-brace-newline-after": [
+      "always",
+      {"ignoreAtRules": ["if", "else"]}
+    ],
     "selector-pseudo-element-no-unknown": [
       true,
       {"ignorePseudoElements": ["ng-deep"]}

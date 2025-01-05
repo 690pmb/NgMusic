@@ -12,8 +12,8 @@ export class Fichier {
   author?: string;
   publish?: number;
   sorted: number; // 0: false, 1: true
-  compoList: Composition[] = [];
-  displayedCompoList: Composition[];
+  compoList: CompositionLight[] = [];
+  displayedCompoList: CompositionLight[];
 
   constructor(
     category: string,
@@ -24,7 +24,7 @@ export class Fichier {
     rank: string,
     size: string,
     sorted: string,
-    type: string
+    type: string,
   ) {
     this.category = category;
     this.creation = creation;
@@ -51,8 +51,8 @@ export class Composition {
   type: string;
   deleted: number; // 0: false, 1: true
   rank: number;
-  fileList: Fichier[] = [];
-  displayedFileList: Fichier[];
+  fileList: FichierLight[] = [];
+  displayedFileList: FichierLight[];
 
   constructor(
     id: number,
@@ -65,7 +65,7 @@ export class Composition {
     score: string,
     size: string,
     decile: string,
-    rank: string
+    rank: string,
   ) {
     this.id = id;
     this.artist = artist;
@@ -82,15 +82,21 @@ export class Composition {
   }
 }
 
+export type All = Composition | CompositionLight | Fichier | FichierLight;
+
+export type FichierLight = Omit<Fichier, 'compoList' | 'displayedCompoList'>;
+export type CompositionLight = Omit<
+  Composition,
+  'displayedFileList' | 'fileList'
+>;
+
 export type Dropdown = Record<'code' | 'label', string>;
 
 export type File = Partial<Record<'filename' | 'id', string>>;
 
-export const isComposition = (c: Composition | Fichier): c is Composition =>
-  'artist' in c;
+export const isComposition = (c: All): c is Composition => 'artist' in c;
 
-export const isFichier = (f: Composition | Fichier): f is Fichier =>
-  'name' in f;
+export const isFichier = (f: All): f is Fichier => 'name' in f;
 
 export type Field<T> = `${string & keyof T}`;
 

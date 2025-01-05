@@ -6,5 +6,7 @@
     [placeholder]="placeholder"
     [formControl]="control"
   />
-  <mat-error *ngIf="control.errors"> {{ placeholder }} invalide </mat-error>
+  @if (control.errors) {
+    <mat-error> {{ placeholder }} invalide </mat-error>
+  }
 </mat-form-field>

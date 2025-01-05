@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import Dexie from 'dexie';
+import {Dexie} from 'dexie';
 import {Composition, Fichier, File} from '@utils/model';
 import {Table} from '../utils/table';
 

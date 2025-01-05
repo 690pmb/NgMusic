@@ -5,4 +5,4 @@
 # You can see what browsers were selected by your queries by running:
 # pm dlx browserslist
 
-defaults and fully supports es6-module and last 2 versions
+defaults and supports es6-module and last 2 versions

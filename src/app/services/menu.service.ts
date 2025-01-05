@@ -18,7 +18,7 @@ export class MenuService {
     protected utilsService: UtilsService,
     private http: HttpClient,
     private clipboard: Clipboard,
-    private toast: ToastService
+    private toast: ToastService,
   ) {}
 
   getWikiUrl(composition: Composition): void {
@@ -31,7 +31,7 @@ export class MenuService {
     this.http
       .jsonp<string>(
         `https://en.wikipedia.org/w/api.php?${params.toString()}`,
-        'callback'
+        'callback',
       )
       .pipe(
         map(response => response[3]?.[0]),
@@ -39,9 +39,9 @@ export class MenuService {
         catchError(err =>
           this.utilsService.handleError(
             err,
-            'Error when searching wikipedia url'
-          )
-        )
+            'Error when searching wikipedia url',
+          ),
+        ),
       )
       .subscribe(u => this.wiki.set(u));
   }
@@ -52,7 +52,7 @@ export class MenuService {
 
   openGoogle(): void {
     window.open(
-      `https://www.google.com/search?q=${this.composition?.artist}%20${this.composition?.title}`
+      `https://www.google.com/search?q=${this.composition?.artist}%20${this.composition?.title}`,
     );
   }
 

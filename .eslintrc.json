@@ -16,7 +16,9 @@
         "@angular-eslint/template/no-any": "error",
         "@angular-eslint/template/no-distracting-elements": "error",
         "@angular-eslint/template/no-interpolation-in-attributes": "error",
-        "@angular-eslint/template/no-positive-tabindex": "error"
+        "@angular-eslint/template/no-positive-tabindex": "error",
+        "@angular-eslint/template/prefer-self-closing-tags": "error",
+        "@angular-eslint/template/prefer-control-flow": "error"
       }
     },
     {
@@ -26,6 +28,7 @@
         "plugin:import/recommended",
         "plugin:import/typescript",
         "eslint:recommended",
+        "plugin:n/recommended",
         "plugin:@angular-eslint/recommended",
         "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:@typescript-eslint/stylistic-type-checked"
@@ -39,14 +42,15 @@
       },
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
-        "project": true,
+        "projectService": true,
         "tsconfigRootDir": "."
       },
       "plugins": [
         "import",
         "eslint-plugin-prefer-arrow",
         "@angular-eslint",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "n"
       ],
       "rules": {
         "prefer-arrow/prefer-arrow-functions": [
@@ -57,7 +61,7 @@
             "classPropertiesAllowed": false
           }
         ],
-        "node/no-unpublished-import": ["error"],
+        "n/no-unpublished-import": ["error"],
         "@typescript-eslint/member-ordering": [
           "error",
           {
@@ -83,6 +87,7 @@
         ],
         "no-console": ["error", {"allow": ["warn", "error"]}],
         "no-unused-vars": "off",
+        "n/no-missing-import": "off",
         "@typescript-eslint/no-unused-vars": ["error", {"args": "all"}],
         "max-lines-per-function": ["error", {"skipBlankLines": true}],
         "lines-between-class-members": [
@@ -92,7 +97,6 @@
         ],
         "prefer-template": ["error"],
         "@typescript-eslint/sort-type-constituents": "error",
-        "@typescript-eslint/type-annotation-spacing": "error",
         "no-useless-concat": ["error"],
         "no-duplicate-imports": ["error"],
         "import/no-unresolved": [
@@ -110,9 +114,21 @@
         "@typescript-eslint/prefer-optional-chain": "error",
         "@typescript-eslint/prefer-nullish-coalescing": "error",
         "@typescript-eslint/restrict-plus-operands": "error",
-        "@angular-eslint/prefer-standalone-component": ["error"],
+        "@typescript-eslint/no-unnecessary-template-expression": "error",
+        "@angular-eslint/use-injectable-provided-in": ["error"],
+        "@angular-eslint/use-component-selector": ["error"],
+        "@angular-eslint/no-conflicting-lifecycle": ["error"],
         "@angular-eslint/sort-lifecycle-methods": ["error"],
-        "@angular-eslint/component-max-inline-declarations": ["error"],
+        "@angular-eslint/no-duplicates-in-metadata-arrays": ["error"],
+        "@angular-eslint/use-lifecycle-interface": ["error"],
+        "@angular-eslint/component-max-inline-declarations": [
+          "error",
+          {
+            "template": 0,
+            "styles": 0,
+            "animations": 15
+          }
+        ],
         "@angular-eslint/contextual-decorator": ["error"],
         "@angular-eslint/no-pipe-impure": ["error"],
         "@angular-eslint/relative-url-prefix": ["error"]

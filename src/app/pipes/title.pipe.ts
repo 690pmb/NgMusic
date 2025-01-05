@@ -23,7 +23,7 @@ export class TitlePipe implements PipeTransform {
     }
     return result.replace(
       unicodeWordMatch,
-      txt => txt[0]?.toUpperCase() + txt.substr(1).toLowerCase()
+      txt => txt[0]?.toUpperCase() + txt.substr(1).toLowerCase(),
     );
   }
 }
